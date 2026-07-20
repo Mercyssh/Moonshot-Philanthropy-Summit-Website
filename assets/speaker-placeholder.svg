@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380" width="400" height="380" role="img" aria-label="Speaker photo placeholder">
+  <defs>
+    <linearGradient id="sp-edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DF5830"/>
+      <stop offset="0.48" stop-color="#AE1E50"/>
+      <stop offset="1" stop-color="#511C49"/>
+    </linearGradient>
+    <clipPath id="sp-clip">
+      <path d="M0 0 H340 L400 380 H60 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- fill + slanted frame, matching the lockup the real photos will carry -->
+  <g clip-path="url(#sp-clip)">
+    <rect width="400" height="380" fill="#FFFFFF"/>
+    <g fill="#E7DFE2">
+      <circle cx="200" cy="158" r="52"/>
+      <path d="M200 226c-58 0-104 38-113 88h226c-9-50-55-88-113-88Z"/>
+    </g>
+  </g>
+  <path d="M0 0 H340 L400 380 H60 Z" fill="none" stroke="url(#sp-edge)" stroke-width="5"/>
+</svg>

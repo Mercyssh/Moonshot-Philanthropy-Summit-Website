@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Moonshot Philanthropy Summit — CSBC, Ashoka University</title>
+  <meta name="description"
+    content="Behavioral Science x Artificial Intelligence = Impact @ Scale. The Moonshot Philanthropy Summit by the Centre for Social and Behaviour Change, Ashoka University.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    /* Must run before the browser applies scroll restoration. A reload would
+       otherwise return to the previous offset — and because the page uses
+       scroll-behavior: smooth, that restoration plays as a visible scroll
+       over the top of the hero's entrance animation. */
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  </script>
+</head>
+
+<body>
+
+  <!-- Icon sprite: one definition, reused in the nav and in each section header -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-speakers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="8" r="3.3" />
+      <path d="M3.8 19v-1.4a3.7 3.7 0 0 1 3.7-3.7h4a3.7 3.7 0 0 1 3.7 3.7V19" />
+      <path d="M16.4 5.2a3 3 0 0 1 0 5.8" />
+      <path d="M17.6 14.2a3.5 3.5 0 0 1 2.6 3.4V19" />
+    </symbol>
+    <symbol id="icon-agenda" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.4" y="5" width="17.2" height="15.4" rx="2.6" />
+      <path d="M3.4 9.8h17.2M8.2 3.4v3.2M15.8 3.4v3.2" />
+      <path d="M7.4 13.4h4M7.4 16.8h7.2" />
+    </symbol>
+    <symbol id="icon-about" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.7" />
+      <path d="M12 11.2v5.4" />
+      <path d="M12 7.7h.01" />
+    </symbol>
+    <symbol id="icon-envelope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path
+        d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z" />
+      <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10" />
+    </symbol>
+  </svg>
+
+  <!-- NAV -->
+  <header class="nav" id="siteNav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand" aria-label="The Moonshot Philanthropy Summit — home">
+        <span class="brand-logo" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
+      </a>
+      <nav class="nav__links">
+        <a href="#speakers"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</a>
+        <a href="#agenda"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Agenda</a>
+        <a href="#about"><svg class="icon" aria-hidden="true">
+            <use href="#icon-about" />
+          </svg>About</a>
+      </nav>
+      <a href="#invite" class="btn btn--nav">Request Invite</a>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav__mobile" id="navMobile">
+    <div class="nav__mobile-inner">
+      <a href="#speakers"><svg class="icon" aria-hidden="true">
+          <use href="#icon-speakers" />
+        </svg>Speakers</a>
+      <a href="#agenda"><svg class="icon" aria-hidden="true">
+          <use href="#icon-agenda" />
+        </svg>Agenda</a>
+      <a href="#about"><svg class="icon" aria-hidden="true">
+          <use href="#icon-about" />
+        </svg>About</a>
+      <a href="#invite" class="btn btn--primary">Request Invite</a>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <!-- before .hero__arc so the arc clips them at the section's foot -->
+      <img class="line-motif line-motif--1" src="assets/gradient-line-motif-1.svg" alt="" aria-hidden="true" width="321"
+        height="882">
+      <img class="line-motif line-motif--2" src="assets/gradient-line-motif-2.svg" alt="" aria-hidden="true" width="270"
+        height="707">
+
+      <div class="hero__arc" aria-hidden="true"></div>
+      <div class="hero__stars" id="heroStars" aria-hidden="true"></div>
+
+      <span class="corner-motif corner-motif--tl" aria-hidden="true">
+        <img src="assets/top-left-corner-motif.svg" alt="" width="45" height="45">
+      </span>
+      <span class="corner-motif corner-motif--tr" aria-hidden="true">
+        <img src="assets/top-right-corner-motif.svg" alt="" width="45" height="45">
+      </span>
+
+      <div class="hero__content">
+        <!-- <p class="eyebrow eyebrow--light">CSBC × Ashoka University present</p> -->
+
+        <h1 class="hero__title sr-only">The Moonshot Philanthropy Summit</h1>
+        <img class="hero__logo" src="assets/Logo Vertical (White).svg" alt="The Moonshot Philanthropy Summit"
+          width="319" height="264">
+
+        <p class="hero__tagline">Behavioral Science <span class="x">×</span> Artificial Intelligence <span
+            class="eq">=</span> Impact @ Scale</p>
+
+        <div class="hero__meta">
+          <div class="hero__meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2" />
+              <path d="M3 10h18M8 3v4M16 3v4" />
+            </svg>
+            <span>26th August · 11:00 – 15:00</span>
+          </div>
+          <div class="hero__meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M12 21s-7-6.2-7-11.4A7 7 0 0 1 19 9.6C19 14.8 12 21 12 21z" />
+              <circle cx="12" cy="9.5" r="2.4" />
+            </svg>
+            <span>IFBE Centre, Mumbai</span>
+          </div>
+        </div>
+
+        <div class="hero__cta">
+          <a href="#invite" class="btn btn--primary">Request an Invite</a>
+          <a href="#agenda" class="btn btn--ghost">View the agenda</a>
+        </div>
+
+        <div class="hero__powered">
+          <span class="eyebrow eyebrow--light">Powered & Presented by</span>
+          <img class="powered-lockup" src="assets/powered by logos_white.png"
+            alt="Ashoka University · Centre for Social and Behaviour Change" width="1622" height="266" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SPEAKERS ============ -->
+    <section class="section" id="speakers">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Mission Crew</p>
+        <h2 class="section__title">Speakers &amp; Facilitators</h2>
+        <p class="section__lede">A working group of behavioural scientists, technologists and philanthropy leaders
+          convening to turn evidence into scaled impact. Lineup is updated on a rolling basis as sessions are confirmed.
+        </p>
+
+        <div class="speakers-grid" id="speakersGrid"><!-- added by code in script.js --></div>
+      </div>
+    </section>
+
+    <!-- ============ AGENDA ============ -->
+    <section class="section section--tint" id="agenda">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Flight Plan</p>
+        <h2 class="section__title">Why this Summit exists</h2>
+        <p class="section__lede">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. The Moonshot Philanthropy Summit brings
+          together behavioural science and applied AI to ask one question: what does it take to move
+          social impact interventions from promising pilots to population-level scale? Ut enim ad minim
+          veniam, quis nostrud exercitation ullamco laboris.
+        </p>
+
+        <div class="agenda-list" id="agendaList"><!-- injected by script.js --></div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-about" />
+          </svg>About</p>
+        <h2 class="section__title">The Summit &amp; the people behind it</h2>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>About the Summit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Curated for funders, founders and policymakers, the Summit is a
+              closed-room working session rather than a broadcast conference — small enough for candid
+              debate, focused enough to leave with a shared playbook.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur.</p>
+          </div>
+          <div class="about-card">
+            <h3>Organising Committee</h3>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+              anim id est laborum. The Summit is convened by a joint committee from CSBC and the Ashoka
+              University Centre for Impact and Policy, with advisory input from a rotating council of
+              practitioners.</p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+              laudantium, totam rem aperiam.</p>
+          </div>
+          <div class="about-card about-card--org">
+            <h3>Centre for Social and Behaviour Change</h3>
+            <p>CSBC, Ashoka University is dedicated to embedding behavioural science into the design and
+              delivery of social programmes across health, finance, governance and climate — partnering with
+              governments, NGOs and the private sector to test what actually changes behaviour at scale.</p>
+            <div class="org-logos">
+              <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
+                alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
+                loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INVITE FORM ============ -->
+    <section class="invite" id="invite">
+      <div class="invite__arc" aria-hidden="true"></div>
+
+      <!-- same artwork as the hero, flipped vertically in CSS -->
+      <span class="corner-motif corner-motif--bl" data-reveal-mode="scale" aria-hidden="true">
+        <img src="assets/top-left-corner-motif.svg" alt="" width="45" height="45">
+      </span>
+      <span class="corner-motif corner-motif--br" data-reveal-mode="scale" aria-hidden="true">
+        <img src="assets/top-right-corner-motif.svg" alt="" width="45" height="45">
+      </span>
+      <div class="container invite__container">
+        <div class="invite__intro">
+          <p class="eyebrow eyebrow--light">Request an Invite</p>
+          <h2 class="section__title section__title--light"><svg class="icon icon--inline" aria-hidden="true">
+              <use href="#icon-envelope" />
+            </svg>Reserve your seat</h2>
+          <p class="section__lede section__lede--light">Seats are limited to keep the room working. Share your
+            details below and the organising committee will follow up with a confirmation and the full agenda.</p>
+          <ul class="invite__facts">
+            <li><strong>Date</strong><span>26th August, 11:00 – 15:00</span></li>
+            <li><strong>Venue</strong><span>IFBE Centre, Mumbai</span></li>
+            <li><strong>Format</strong><span>In-person, invite only</span></li>
+          </ul>
+        </div>
+
+        <form class="invite__form" id="inviteForm" novalidate>
+          <div class="invite__fields" id="inviteFields">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="organization">Organisation</label>
+                <input type="text" id="organization" name="organization" autocomplete="organization">
+              </div>
+              <div class="field">
+                <label for="role">Role / Title</label>
+                <input type="text" id="role" name="role">
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Anything you'd like the committee to know? <span
+                  class="optional">(optional)</span></label>
+              <textarea id="message" name="message" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block" id="inviteSubmit">
+              <span class="btn__label">Request an Invite</span>
+            </button>
+            <p class="invite__status" id="inviteStatus" role="status" aria-live="polite"></p>
+            <p class="invite__fineprint">By submitting, you agree to be contacted by the CSBC team regarding this event.
+            </p>
+          </div><!-- /.invite__fields -->
+
+          <!-- Swapped in for the fields once the request goes through -->
+          <div class="invite__success" id="inviteSuccess" role="status" tabindex="-1" hidden>
+            <span class="invite__success-mark" aria-hidden="true">
+              <svg viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="24" />
+                <path d="M15 27.5 22.5 35 37 20.5" />
+              </svg>
+            </span>
+            <p class="invite__success-title">Form Submitted</p>
+            <p class="invite__success-text">We'll be in touch by email.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <span class="brand-logo brand-logo--footer" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
+          <p class="footer__tagline">Behavioral Science × Artificial Intelligence = Impact @ Scale</p>
+        </div>
+        <div class="footer__powered">
+          <span class="eyebrow">Powered by</span>
+          <div class="org-logos org-logos--footer">
+            <img class="powered-lockup" src="assets/powered by logos.png"
+              alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332" loading="lazy">
+          </div>
+        </div>
+      </div>
+      <div class="container footer__legal">
+        <p>© 2026 Centre for Social and Behaviour Change, Ashoka University. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
