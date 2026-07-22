@@ -293,15 +293,6 @@ a {
    Two dimmers stack: the SVG fills now fade 0.55 -> 0 along their own
    length, and --motif-opacity scales the whole thing on top. Peak alpha
    on the page is roughly the product of the two (~0.19 and ~0.15). */
-/* HERO_PARALLAX gives the ribbons headroom above and below the hero so
-   that sliding them on scroll can never expose a gap at either end.
-   The visible slice inside the hero is unchanged. */
-.fx-parallax .line-motif {
-  top: -26%;
-  height: 155%;
-  transform: translate3d(0, var(--par-y, 0px), 0);
-}
-
 .line-motif--1 {
   --motif-opacity: 0.55;
   right: 9%;
@@ -1232,6 +1223,76 @@ a {
 }
 
 
+
+/* ============================================================
+   COIN CURTAIN
+
+   The transition between the hero and the speakers section.
+
+   This is a fixed overlay that adds NO height to the page — there is
+   no runway section to scroll through. The sequence is driven by the
+   hero's bottom edge crossing the viewport, so it plays over the one
+   screen of scrolling you were already doing to get from the hero to
+   the speakers. The layer is invisible outside that window.
+
+   Coins are anchored to that seam rather than to the page, so they
+   travel with it and stay clustered over it — which is what lets them
+   hide the join on their own, with no separate wipe panel.
+
+   ---- tuning ----------------------------------------------------
+   Coin count, size, artwork, travel and spread are all in script.js;
+   opacity and the drop shadow are on `.coin img` below.
+   ---------------------------------------------------------------- */
+.coin-curtain {
+  position: fixed;
+  inset: 0;
+  /* above page content, below the nav (z-index 50) */
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* JS only makes this visible while the seam is crossing the screen */
+.coin-curtain.is-active {
+  visibility: visible;
+}
+
+.coin-curtain__coins {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---- the coin ----------------------------------------------------
+   The artwork is a set of pre-rendered 3D coins, each already shot at
+   its own angle — from face-on through to edge-on. So there is no CSS
+   3D here: rotateX/rotateY would skew perspective that is already
+   baked into the pixels. Only an in-plane spin (rotate) is applied,
+   which reads as the coin turning as it rises and cannot fight the
+   render. */
+.coin {
+  position: absolute;
+  top: 0;
+  left: var(--cx, 50%);
+  width: var(--cs, 200px);
+  aspect-ratio: 1;
+  margin-left: calc(var(--cs, 200px) / -2);
+  opacity: var(--cfade, 0);
+  transform:
+    translate3d(var(--cdx, 0px), var(--cy, 120vh), 0)
+    rotate(var(--rz, 0deg));
+  will-change: transform, opacity;
+}
+
+.coin img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* slightly see-through, so overlapping coins layer rather than
+     stacking as opaque cut-outs */
+  opacity: var(--coin-alpha, 0.85);
+  filter: drop-shadow(0 22px 30px rgba(81, 28, 73, 0.32));
+}
 
 /* ============================================================
    SECTIONS (shared)
