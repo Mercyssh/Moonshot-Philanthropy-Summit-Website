@@ -58,6 +58,20 @@ const reducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
+/* Deterministic pseudo-random generator (mulberry32). Given the same
+   seed it always produces the same sequence, which is what lets a
+   scattered layout be pinned down once you like it. Returns a function
+   that behaves like Math.random(). */
+function seededRandom(seed) {
+  let t = seed >>> 0;
+  return function () {
+    t += 0x6d2b79f5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /* ============================================================
    SPEAKERS DATA
    Add/remove/edit speakers here — the grid updates automatically.
@@ -681,7 +695,14 @@ function initHeroGlow() {
    COIN_IMAGES                  the artwork set. Each render is a coin
                                 at its own angle, so picking randomly
                                 gives the scatter its variety.
+   COIN_SEED                    fixes the scatter. Every position, size,
+                                angle and image choice derives from this
+                                one number, so the same seed always
+                                gives the same arrangement. Change it to
+                                any other integer to roll a new layout;
+                                once you find one you like, leave it.
    ---------------------------------------------------------------- */
+const COIN_SEED = 20;
 const COIN_IMAGES = [
   "assets/Coin%201.png",
   "assets/Coin%202.png",
@@ -702,7 +723,7 @@ const COIN_MAX_SM = 240;
 const COIN_BAND_LO = -14;
 const COIN_BAND_HI = 52;
 const COIN_RISE_VH = 132;
-const COIN_SPIN = 26; // max degrees of in-plane turn across the window
+const COIN_SPIN = 480; // max degrees of in-plane turn across the window
 
 function initCoinCurtain() {
   if (!EFFECTS.COIN_CURTAIN) return;
@@ -726,9 +747,18 @@ function initCoinCurtain() {
   const coins = [];
   const frag = document.createDocumentFragment();
 
+  // Every random draw below comes from here, so the whole arrangement is
+  // reproducible from COIN_SEED alone.
+  const rand = seededRandom(COIN_SEED);
+
   // Shuffled pool, so a small count still draws distinct renders rather
-  // than repeating the same two or three by chance.
-  const pool = COIN_IMAGES.slice().sort(() => Math.random() - 0.5);
+  // than repeating the same two or three by chance. Fisher-Yates rather
+  // than sort(() => rand() - 0.5), which is a biased shuffle.
+  const pool = COIN_IMAGES.slice();
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
 
   for (let i = 0; i < count; i++) {
     const el = document.createElement("div");
@@ -743,12 +773,12 @@ function initCoinCurtain() {
     img.dataset.src = pool[i % pool.length];
     el.appendChild(img);
 
-    const size = minSize + Math.random() * (maxSize - minSize);
+    const size = minSize + rand() * (maxSize - minSize);
     el.style.setProperty("--cs", `${size.toFixed(0)}px`);
     // spread across the full width, and past both edges, so the band
     // has no gaps at the sides
-    el.style.setProperty("--cx", `${(-8 + Math.random() * 116).toFixed(1)}%`);
-    el.style.setProperty("--coin-alpha", (0.62 + Math.random() * 0.3).toFixed(2));
+    el.style.setProperty("--cx", `${(-8 + rand() * 116).toFixed(1)}%`);
+    el.style.setProperty("--coin-alpha", (0.62 + rand() * 0.3).toFixed(2));
     frag.appendChild(el);
 
     coins.push({
@@ -756,12 +786,12 @@ function initCoinCurtain() {
       img,
       // starting height relative to the seam, in vh; the spread of these
       // is what makes the cluster a band rather than a single line
-      band: COIN_BAND_LO + Math.random() * (COIN_BAND_HI - COIN_BAND_LO),
-      rise: COIN_RISE_VH * (0.82 + Math.random() * 0.36),
-      // a random resting angle plus a gentle turn as it climbs
-      tiltZ: Math.random() * 360,
-      spinZ: -COIN_SPIN + Math.random() * (COIN_SPIN * 2),
-      driftX: -26 + Math.random() * 52,
+      band: COIN_BAND_LO + rand() * (COIN_BAND_HI - COIN_BAND_LO),
+      rise: COIN_RISE_VH * (0.82 + rand() * 0.36),
+      // a fixed resting angle plus a gentle turn as it climbs
+      tiltZ: rand() * 360,
+      spinZ: -COIN_SPIN + rand() * (COIN_SPIN * 2),
+      driftX: -26 + rand() * 52,
     });
   }
   field.appendChild(frag);

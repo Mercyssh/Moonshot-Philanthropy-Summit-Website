@@ -1279,8 +1279,7 @@ a {
   margin-left: calc(var(--cs, 200px) / -2);
   opacity: var(--cfade, 0);
   transform:
-    translate3d(var(--cdx, 0px), var(--cy, 120vh), 0)
-    rotate(var(--rz, 0deg));
+    translate3d(var(--cdx, 0px), var(--cy, 120vh), 0) rotate(var(--rz, 0deg));
   will-change: transform, opacity;
 }
 
