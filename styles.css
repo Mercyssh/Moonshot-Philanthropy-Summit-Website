@@ -827,12 +827,24 @@ a {
   }
 }
 
+/* Full hero height. The canvas is square (1080x1080 buffer); height:100%
+   makes it as tall as the hero and the intrinsic ratio makes it equally
+   wide. The shape fills the frame vertically, so it spans top-to-bottom;
+   the transparent side padding harmlessly overlaps the empty right half.
+   --rotator-x centres it within that half. */
 .hero-rotator {
-  display: block;
-  width: 100%;
-  max-width: 480px;
-  aspect-ratio: 1;
-  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: auto;
+  left: var(--rotator-x, 74%);
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 939px) {
+  .hero-rotator { display: none; }
 }
 
 .hero__content {

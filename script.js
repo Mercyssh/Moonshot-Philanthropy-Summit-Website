@@ -888,9 +888,12 @@ function initCoinCurtain() {
    ------------------------------------------------------------------- */
 const ROTATOR_FRAME_COUNT = 59;
 const ROTATOR_HOLD_MS = 3000;
-const ROTATOR_TURN_MS = 200;
+const ROTATOR_TURN_MS = 300;
 const ROTATOR_STOPS = 4;
 const ROTATOR_CROSSFADE = true; // blend adjacent frames for sub-frame smoothness
+// The shape acts as a window onto this image. Spaces must be URL-encoded.
+const ROTATOR_MASK_IMAGE = "assets/image%20to%20mask.jpg";
+const ROTATOR_MASK_SHADING = 0.55; // 0 = flat image, 1 = full shape shading for depth
 
 function initHeroRotator() {
   if (!EFFECTS.HERO_ROTATOR) return;
@@ -908,29 +911,75 @@ function initHeroRotator() {
 
   const W = canvas.width, H = canvas.height;
 
-  function draw(index) {
-    const img = frames[index];
-    if (img && img.complete) {
-      ctx.clearRect(0, 0, W, H);
-      ctx.drawImage(img, 0, 0, W, H);
-    }
+  // The shape is built on an offscreen canvas first (so a crossfade has
+  // clean combined alpha), then used as the mask for the photo.
+  const shapeCanvas = document.createElement("canvas");
+  shapeCanvas.width = W;
+  shapeCanvas.height = H;
+  const sctx = shapeCanvas.getContext("2d");
+
+  const maskImg = new Image();
+  maskImg.decoding = "async";
+  let maskReady = false;
+  maskImg.onload = () => { maskReady = true; };
+  maskImg.src = ROTATOR_MASK_IMAGE;
+
+  // cover-fit: fill WxH, preserve aspect, crop the overflow
+  function drawCover(c, img) {
+    const ir = img.width / img.height, cr = W / H;
+    let dw, dh;
+    if (ir > cr) { dh = H; dw = H * ir; } else { dw = W; dh = W / ir; }
+    c.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
   }
 
-  // Crossfade two adjacent frames: base at full, next layered at `frac`.
-  // In the overlapping shape region this resolves to a true crossfade;
-  // the thin non-overlap sliver ghosts, which reads as motion blur and
-  // actually helps the low frame count feel smoother.
+  // Composite the current shape (already on shapeCanvas) as a window onto
+  // the photo. Before the photo loads, the shape is drawn plainly so the
+  // hero is never blank.
+  function composite() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+    if (!maskReady) {
+      ctx.drawImage(shapeCanvas, 0, 0);
+      return;
+    }
+    drawCover(ctx, maskImg);                    // photo fills the frame
+    ctx.globalCompositeOperation = "destination-in";
+    ctx.drawImage(shapeCanvas, 0, 0);           // clip photo to the shape's alpha
+    if (ROTATOR_MASK_SHADING > 0) {
+      ctx.globalCompositeOperation = "multiply"; // press the shape's shading back on
+      ctx.globalAlpha = ROTATOR_MASK_SHADING;
+      ctx.drawImage(shapeCanvas, 0, 0);
+      ctx.globalAlpha = 1;
+    }
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  function draw(index) {
+    const img = frames[index];
+    if (!img || !img.complete) return;
+    sctx.clearRect(0, 0, W, H);
+    sctx.globalAlpha = 1;
+    sctx.drawImage(img, 0, 0, W, H);
+    composite();
+  }
+
+  // Crossfade two adjacent frames onto the shape canvas: base at full,
+  // next layered at `frac`. In the overlapping shape region this resolves
+  // to a true crossfade; the thin non-overlap sliver ghosts, which reads
+  // as motion blur and helps the low frame count feel smoother.
   function blend(indexA, indexB, frac) {
     const a = frames[indexA], b = frames[indexB];
     if (!a || !a.complete) return;
-    ctx.clearRect(0, 0, W, H);
-    ctx.globalAlpha = 1;
-    ctx.drawImage(a, 0, 0, W, H);
+    sctx.clearRect(0, 0, W, H);
+    sctx.globalAlpha = 1;
+    sctx.drawImage(a, 0, 0, W, H);
     if (frac > 0 && b && b.complete) {
-      ctx.globalAlpha = frac;
-      ctx.drawImage(b, 0, 0, W, H);
-      ctx.globalAlpha = 1;
+      sctx.globalAlpha = frac;
+      sctx.drawImage(b, 0, 0, W, H);
+      sctx.globalAlpha = 1;
     }
+    composite();
   }
 
   // Frame 0 loads eagerly so the hero isn't blank; the rest load in
@@ -938,6 +987,8 @@ function initHeroRotator() {
   const first = new Image();
   first.onload = () => { frames[0] = first; draw(0); };
   first.src = src(0);
+  // repaint once the photo arrives, in case it lands after frame 0
+  maskImg.addEventListener("load", () => draw(0));
 
   // Reduced motion: first frame only, no timer, no further loads.
   if (reducedMotion()) return;
