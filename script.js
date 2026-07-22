@@ -6,6 +6,41 @@
 const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 /* ============================================================
+   INTERACTION EFFECTS — ON/OFF SWITCHES
+
+   Flip any of these to false to remove that effect completely.
+   Each one is gated behind an `fx-*` class that this file adds to
+   <html>, so switching it off disables the CSS as well as the JS —
+   nothing is left behind and nothing needs deleting.
+
+   MAGNETIC_BUTTONS  Buttons drift toward the cursor, snap back on
+                     leave. Desktop pointers only.
+   SPOTLIGHT_CARDS   Soft radial glow tracks the cursor across the
+                     agenda and about cards. On touch devices the
+                     glow follows scroll position instead.
+   SWEEP_BORDERS     A light streak travels around the card edge on
+                     hover (agenda + about cards).
+   SPEAKER_TILT      Speaker photos rotate slightly toward the
+                     cursor. On touch devices they sway gently.
+   SCRAMBLE_TEXT     The hero tagline resolves out of random glyphs
+                     the first time it comes into view.
+   ============================================================ */
+const EFFECTS = {
+  MAGNETIC_BUTTONS: true,
+  SPOTLIGHT_CARDS: true,
+  SWEEP_BORDERS: true,
+  SPEAKER_TILT: true,
+  SCRAMBLE_TEXT: true,
+};
+
+/* Shared helpers for the effects below. */
+const finePointer = () =>
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const reducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+/* ============================================================
    SPEAKERS DATA
    Add/remove/edit speakers here — the grid updates automatically.
    `photo` is optional; leave blank to show initials on a gradient.
@@ -389,6 +424,193 @@ function initScrollReveal() {
 }
 
 /* ============================================================
+   EFFECT: MAGNETIC_BUTTONS
+   ============================================================ */
+function initMagneticButtons() {
+  if (!EFFECTS.MAGNETIC_BUTTONS || reducedMotion() || !finePointer()) return;
+  document.documentElement.classList.add("fx-magnetic");
+
+  const PULL = 0.3;  // fraction of the cursor's offset from centre
+  const LIMIT = 9;   // px, so large buttons don't wander far
+
+  document.querySelectorAll(".btn").forEach((btn) => {
+    btn.addEventListener("pointermove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = clamp((e.clientX - (r.left + r.width / 2)) * PULL, -LIMIT, LIMIT);
+      const y = clamp((e.clientY - (r.top + r.height / 2)) * PULL, -LIMIT, LIMIT);
+      btn.style.setProperty("--mag-x", `${x.toFixed(2)}px`);
+      btn.style.setProperty("--mag-y", `${y.toFixed(2)}px`);
+    });
+    const release = () => {
+      btn.style.setProperty("--mag-x", "0px");
+      btn.style.setProperty("--mag-y", "0px");
+    };
+    btn.addEventListener("pointerleave", release);
+    btn.addEventListener("blur", release);
+  });
+}
+
+/* ============================================================
+   EFFECT: SPOTLIGHT_CARDS
+
+   The glow is a background-image on the card rather than a
+   pseudo-element: .agenda-item::before is already the timeline dot,
+   and a pseudo-element would need overflow:hidden to stay inside the
+   rounded corners — which would clip that dot away.
+   ============================================================ */
+const SPOTLIGHT_SELECTOR = ".agenda-item, .about-card";
+
+function initSpotlightCards() {
+  if (!EFFECTS.SPOTLIGHT_CARDS) return;
+  const cards = [...document.querySelectorAll(SPOTLIGHT_SELECTOR)];
+  if (!cards.length) return;
+  document.documentElement.classList.add("fx-spotlight");
+
+  if (finePointer()) {
+    cards.forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--spot-x", `${(((e.clientX - r.left) / r.width) * 100).toFixed(1)}%`);
+        card.style.setProperty("--spot-y", `${(((e.clientY - r.top) / r.height) * 100).toFixed(1)}%`);
+        card.style.setProperty("--spot-a", "1");
+      });
+      card.addEventListener("pointerleave", () => card.style.setProperty("--spot-a", "0"));
+    });
+    return;
+  }
+
+  // Touch: no cursor to follow, so the glow tracks the card's progress
+  // up the viewport and fades out as it leaves the middle band.
+  let last = 0;
+  function trackScroll() {
+    const now = Date.now();
+    if (now - last < 60) return; // cheap throttle; scroll fires hard on mobile
+    last = now;
+    const vh = window.innerHeight;
+    for (const card of cards) {
+      const r = card.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) continue;
+      const progress = clamp((vh - r.top) / (vh + r.height), 0, 1);
+      card.style.setProperty("--spot-x", "50%");
+      card.style.setProperty("--spot-y", `${(progress * 100).toFixed(1)}%`);
+      // brightest when the card is near the middle of the screen
+      const centre = 1 - Math.abs(progress - 0.5) * 2;
+      card.style.setProperty("--spot-a", clamp(centre * 1.4, 0, 1).toFixed(2));
+    }
+  }
+  window.addEventListener("scroll", trackScroll, { passive: true });
+  window.addEventListener("resize", trackScroll);
+  trackScroll();
+}
+
+/* ============================================================
+   EFFECT: SWEEP_BORDERS
+   Entirely CSS — this just opens the gate.
+   ============================================================ */
+function initSweepBorders() {
+  if (!EFFECTS.SWEEP_BORDERS || reducedMotion()) return;
+  document.documentElement.classList.add("fx-sweep");
+}
+
+/* ============================================================
+   EFFECT: SPEAKER_TILT
+   ============================================================ */
+function initSpeakerTilt() {
+  if (!EFFECTS.SPEAKER_TILT || reducedMotion()) return;
+  const cards = [...document.querySelectorAll(".speaker-card")];
+  if (!cards.length) return;
+  document.documentElement.classList.add("fx-tilt");
+
+  // Touch devices get the idle sway defined in CSS; nothing to wire up.
+  if (!finePointer()) {
+    document.documentElement.classList.add("fx-tilt-idle");
+    return;
+  }
+
+  const MAX = 8; // degrees
+
+  cards.forEach((card) => {
+    const photo = card.querySelector(".speaker-card__photo");
+    if (!photo) return;
+    card.addEventListener("pointermove", (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      photo.style.setProperty("--tilt-x", `${(-py * MAX).toFixed(2)}deg`);
+      photo.style.setProperty("--tilt-y", `${(px * MAX).toFixed(2)}deg`);
+    });
+    card.addEventListener("pointerleave", () => {
+      photo.style.setProperty("--tilt-x", "0deg");
+      photo.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
+
+/* ============================================================
+   EFFECT: SCRAMBLE_TEXT
+   ============================================================ */
+const SCRAMBLE_SELECTOR = ".hero__tagline";
+
+function initScrambleText() {
+  if (!EFFECTS.SCRAMBLE_TEXT || reducedMotion()) return;
+  const el = document.querySelector(SCRAMBLE_SELECTOR);
+  if (!el) return;
+  document.documentElement.classList.add("fx-scramble");
+
+  const GLYPHS = "!<>-_\\/[]{}=+*^?#01x";
+  const STEP_MS = 38;
+  const PER_STEP = 1.7; // characters resolved per frame
+
+  // The markup has <span>s around the × and =; snapshot the HTML so the
+  // real thing can be restored once the scramble finishes.
+  const originalHTML = el.innerHTML;
+  const text = el.textContent;
+  let started = false;
+
+  function run() {
+    if (started) return;
+    started = true;
+    // Substituted glyphs have different widths and could rewrap the line,
+    // shifting everything below it. Pin the height for the duration.
+    el.style.minHeight = `${el.getBoundingClientRect().height}px`;
+    let frame = 0;
+    const id = setInterval(() => {
+      frame += 1;
+      const resolved = Math.floor(frame * PER_STEP);
+      if (resolved >= text.length) {
+        clearInterval(id);
+        el.innerHTML = originalHTML; // restores the styled × and =
+        el.classList.remove("is-scrambling");
+        el.style.minHeight = "";
+        return;
+      }
+      let out = "";
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        out += i < resolved || ch === " "
+          ? ch
+          : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }
+      el.textContent = out;
+    }, STEP_MS);
+  }
+
+  el.classList.add("is-scrambling");
+
+  if (!("IntersectionObserver" in window)) { run(); return; }
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) { run(); io.disconnect(); }
+    }
+  }, { threshold: 0.2 });
+  io.observe(el);
+
+  // Failsafe: if the observer never delivers, don't leave the tagline
+  // sitting in its pre-scramble state forever.
+  setTimeout(run, 2500);
+}
+
+/* ============================================================
    INVITE FORM
    ============================================================ */
 function initInviteForm() {
@@ -490,4 +712,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroStars();
   initScrollReveal();
   initInviteForm();
+  initMagneticButtons();
+  initSpotlightCards();
+  initSweepBorders();
+  initSpeakerTilt();
+  initScrambleText();
 });
