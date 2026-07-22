@@ -31,6 +31,11 @@ const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
                      touch devices they drift with scroll velocity.
    GRADIENT_SHIFT    The brand ramp rotates hue slightly as you scroll
                      from the hero down to the invite section.
+   HERO_GLOW         A soft pool of light follows the cursor across the
+                     hero's gradient, with easing. Touch devices and
+                     reduced-motion get a slow automatic drift instead.
+   HERO_PARALLAX     The two ribbon motifs slide out of the hero at
+                     different rates as you scroll past it.
    ============================================================ */
 const EFFECTS = {
   MAGNETIC_BUTTONS: true,
@@ -38,9 +43,11 @@ const EFFECTS = {
   SWEEP_BORDERS: false,
   SPEAKER_TILT: true,
   SCRAMBLE_TEXT: true,
-  AMBIENT_GLOW: true,
+  AMBIENT_GLOW: false,
   CURSOR_SPECKS: true,
   GRADIENT_SHIFT: true,
+  HERO_GLOW: true,
+  HERO_PARALLAX: true,
 };
 
 /* Shared helpers for the effects below. */
@@ -593,6 +600,96 @@ function initGradientShift() {
 }
 
 /* ============================================================
+   EFFECT: HERO_GLOW
+   Entirely CSS — this just opens the gate.
+   ============================================================ */
+const HERO_GLOW_EASE = 0.075; // fraction of the remaining distance per frame
+
+function initHeroGlow() {
+  if (!EFFECTS.HERO_GLOW) return;
+  const hero = document.querySelector(".hero");
+  const glow = hero && hero.querySelector(".hero__glow");
+  if (!glow) return;
+
+  const root = document.documentElement;
+  root.classList.add("fx-heroglow");
+
+  // Touch devices and reduced-motion get the CSS drift instead; there is
+  // no cursor to follow and no per-frame work to do.
+  if (!finePointer() || reducedMotion()) {
+    root.classList.add("fx-heroglow-idle");
+    return;
+  }
+
+  const REST = { x: 30, y: 42 }; // where it parks when the pointer leaves
+  let tx = REST.x, ty = REST.y;  // target, in % of the hero box
+  let cx = REST.x, cy = REST.y;  // current, eased toward the target
+  let raf = null;
+
+  function step() {
+    cx += (tx - cx) * HERO_GLOW_EASE;
+    cy += (ty - cy) * HERO_GLOW_EASE;
+    glow.style.setProperty("--hgx", `${cx.toFixed(2)}%`);
+    glow.style.setProperty("--hgy", `${cy.toFixed(2)}%`);
+    // Stop once it has effectively arrived, so an idle page costs nothing.
+    if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) {
+      raf = requestAnimationFrame(step);
+    } else {
+      raf = null;
+    }
+  }
+  const start = () => { if (!raf) raf = requestAnimationFrame(step); };
+
+  hero.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    tx = ((e.clientX - r.left) / r.width) * 100;
+    ty = ((e.clientY - r.top) / r.height) * 100;
+    start();
+  }, { passive: true });
+
+  hero.addEventListener("pointerleave", () => {
+    tx = REST.x;
+    ty = REST.y;
+    start();
+  });
+
+  step();
+}
+
+/* ============================================================
+   EFFECT: HERO_PARALLAX
+
+   The ribbons lag behind the page as it scrolls, at two different
+   rates, so the hero peels apart on the way out instead of sliding
+   away as one flat plane. The CSS gate also gives them extra height,
+   which is what stops the slide exposing a gap at either end.
+   ============================================================ */
+const PARALLAX_RATES = [0.1, .5]; // motif-1 lags least, motif-2 most
+
+function initHeroParallax() {
+  if (!EFFECTS.HERO_PARALLAX || reducedMotion()) return;
+  const hero = document.querySelector(".hero");
+  const motifs = [...document.querySelectorAll(".line-motif")];
+  if (!hero || !motifs.length) return;
+  document.documentElement.classList.add("fx-parallax");
+
+  function apply() {
+    const h = hero.offsetHeight;
+    if (!h) return;
+    // 0 at the top of the page, 1 once the hero has fully scrolled by
+    const progress = clamp(window.scrollY / h, 0, 1);
+    motifs.forEach((m, i) => {
+      const rate = PARALLAX_RATES[i] ?? 0.15;
+      m.style.setProperty("--par-y", `${(progress * h * rate).toFixed(1)}px`);
+    });
+  }
+
+  window.addEventListener("scroll", apply, { passive: true });
+  window.addEventListener("resize", apply);
+  apply();
+}
+
+/* ============================================================
    EFFECT: SPOTLIGHT_CARDS
 
    The glow is a background-image on the card rather than a
@@ -886,6 +983,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initMagneticButtons();
   initAmbientGlow();
   initGradientShift();
+  initHeroGlow();
+  initHeroParallax();
   initSpotlightCards();
   initSweepBorders();
   initSpeakerTilt();

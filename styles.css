@@ -293,6 +293,15 @@ a {
    Two dimmers stack: the SVG fills now fade 0.55 -> 0 along their own
    length, and --motif-opacity scales the whole thing on top. Peak alpha
    on the page is roughly the product of the two (~0.19 and ~0.15). */
+/* HERO_PARALLAX gives the ribbons headroom above and below the hero so
+   that sliding them on scroll can never expose a gap at either end.
+   The visible slice inside the hero is unchanged. */
+.fx-parallax .line-motif {
+  top: -26%;
+  height: 155%;
+  transform: translate3d(0, var(--par-y, 0px), 0);
+}
+
 .line-motif--1 {
   --motif-opacity: 0.55;
   right: 9%;
@@ -711,6 +720,68 @@ a {
   z-index: 0;
 }
 
+/* ---- HERO_GLOW ----------------------------------------------------
+   A soft pool of warm light on the hero's gradient that follows the
+   cursor. Kept at z-index 0, below both .hero__content and
+   .hero__stage, so it lights the gradient only and never washes over
+   the hero graphic.
+
+   Softness comes from wide, low-alpha gradient stops rather than a
+   `filter: blur()` — blurring a near-viewport-sized layer on every
+   pointer move is far too expensive. */
+.fx-heroglow .hero__glow {
+  /* ------- TUNING KNOBS: everything about the glow's look is here -------
+     --hg-size     Radius of the pool, in px. `circle` keeps it a true
+                   1:1 circle at any viewport size — a percentage radius
+                   would stretch into an ellipse on a wide hero.
+     --hg-opacity  Master dimmer. 1 = as authored, 0.5 = half strength,
+                   1.5 = brighter. Scales all three stops together.
+     --hg-soft     How gradually it fades. 1 = as authored; higher pushes
+                   the colour stops outward for a softer, more diffuse
+                   edge; lower tightens it into a more defined disc.
+     Movement smoothing is not here — that is HERO_GLOW_EASE in script.js.
+     -------------------------------------------------------------------- */
+  --hg-size: 540px;
+  --hg-opacity: 1;
+  --hg-soft: 1.2;
+
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle var(--hg-size) at var(--hgx, 30%) var(--hgy, 42%),
+      rgba(255, 202, 156, calc(0.30 * var(--hg-opacity))) 0%,
+      rgba(255, 160, 150, calc(0.16 * var(--hg-opacity))) calc(34% * var(--hg-soft)),
+      rgba(255, 128, 176, calc(0.07 * var(--hg-opacity))) calc(58% * var(--hg-soft)),
+      transparent calc(82% * var(--hg-soft)));
+}
+
+/* No cursor to follow (touch, or reduced motion): fall back to two
+   fixed blobs drifting slowly, which keeps the gradient alive without
+   needing any pointer input or per-frame work in JS.
+   Same --hg-size / --hg-opacity knobs apply. */
+.fx-heroglow-idle .hero__glow {
+  background:
+    radial-gradient(circle var(--hg-size) at 26% 30%,
+      rgba(255, 196, 148, calc(0.28 * var(--hg-opacity))) 0%,
+      transparent calc(74% * var(--hg-soft))),
+    radial-gradient(circle calc(var(--hg-size) * 0.84) at 72% 62%,
+      rgba(255, 128, 176, calc(0.20 * var(--hg-opacity))) 0%,
+      transparent calc(76% * var(--hg-soft)));
+  animation: heroGlowDrift 22s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlowDrift {
+  from {
+    transform: translate3d(-2%, -1.5%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(3%, 2%, 0) scale(1.09);
+  }
+}
+
 .hero__stars {
   position: absolute;
   inset: 0;
@@ -729,15 +800,51 @@ a {
   will-change: transform;
 }
 
+/* Two columns from 940px up: all copy on the left, the right half left
+   empty for the hero graphic. Below that the stage collapses and the
+   content takes the full width — still left-aligned. */
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 940px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
+/* Reserved for the hero graphic. Sits above .hero__glow so whatever
+   goes in here is not tinted by the glow passing underneath. */
+.hero__stage {
+  position: relative;
+  z-index: 1;
+  display: none;
+}
+
+@media (min-width: 940px) {
+  .hero__stage {
+    display: block;
+    min-height: 420px;
+  }
+}
+
 .hero__content {
   position: relative;
   z-index: 1;
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
+  max-width: 620px;
+  margin: 0;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* ---- first-load entrance -------------------------------------
@@ -837,6 +944,7 @@ a {
 
 /* ---- event name plate: date + venue, the two facts that matter --- */
 .hero__event {
+  justify-content: flex-start;
   /* one scale drives both columns — see .hero__event-month below */
   --evt-main: clamp(17px, 2.2vw, 23px);
   --evt-sub: 0.62;
@@ -928,20 +1036,21 @@ a {
     width: 46px;
     height: 1px;
     min-height: 0;
-    align-self: center;
+    align-self: flex-start;
     flex: none;
   }
 
   .hero__event-place {
-    text-align: center;
-    align-items: center;
+    text-align: left;
+    align-items: flex-start;
   }
 }
 
 /* ---- countdown ---------------------------------------------------- */
 .hero__countdown {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: clamp(8px, 1.6vw, 16px);
   margin-bottom: 40px;
 }
@@ -1101,9 +1210,9 @@ a {
 .hero__cta {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 14px;
-  margin-bottom: 56px;
+  margin-bottom: 0;
 }
 
 .hero .btn--ghost {
@@ -1133,6 +1242,31 @@ a {
 
 .section--tint {
   background: var(--paper-2);
+}
+
+/* ------------------------------------------------------------
+   SECTION EDGES
+
+   Soft inset shadows along the top and bottom of the surfaces that
+   differ in tone from the page, so the joins between sections read
+   as deliberate seams rather than an abrupt colour change. Delete
+   this block to remove the effect — nothing else depends on it.
+   ------------------------------------------------------------ */
+.section--tint,
+.footer {
+  box-shadow:
+    inset 0 11px 22px -14px rgba(81, 28, 73, 0.30),
+    inset 0 -11px 22px -14px rgba(81, 28, 73, 0.30);
+}
+
+/* the footer only needs the top seam — nothing sits below it */
+.footer {
+  box-shadow: inset 0 11px 22px -14px rgba(81, 28, 73, 0.26);
+}
+
+/* the invite band is dark, so its seam reads better as a light lip */
+.invite {
+  box-shadow: inset 0 11px 24px -14px rgba(0, 0, 0, 0.38);
 }
 
 /* ============================================================
@@ -1711,30 +1845,39 @@ a {
    Fine pointers only — it is cursor-driven, and `background-attachment:
    fixed` is unreliable on mobile Safari. */
 .fx-ambient .section,
-.fx-ambient .footer {
-  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.085),
-      rgba(223, 88, 48, 0.05) 38%,
+.fx-ambient .footer,
+.fx-ambient .hero__arc {
+  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.17),
+      rgba(223, 88, 48, 0.10) 38%,
       transparent 72%);
   background-attachment: fixed;
+}
+
+/* .hero__arc is an opaque --paper curve sitting over the hero's foot.
+   Without its own copy of the glow the light simply vanished behind it
+   at the hero/speakers boundary. Painting the same viewport-anchored
+   gradient onto it lets the light carry straight across the seam. */
+.fx-ambient .hero__arc {
+  background-color: var(--paper);
 }
 
 /* the raised surfaces get a lighter dose so they still read as raised */
 .fx-ambient .agenda-item,
 .fx-ambient .about-card,
 .fx-ambient .invite__form {
-  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.07),
-      rgba(223, 88, 48, 0.04) 38%,
+  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.12),
+      rgba(223, 88, 48, 0.07) 38%,
       transparent 72%);
   background-attachment: fixed;
 }
 
 /* this card already carries the brand wash — layer, don't replace */
 .fx-ambient .about-card--org {
-  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.07),
-      rgba(223, 88, 48, 0.04) 38%,
+  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.12),
+      rgba(223, 88, 48, 0.07) 38%,
       transparent 72%),
     var(--grad-soft);
   background-attachment: fixed, scroll;
