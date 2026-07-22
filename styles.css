@@ -28,12 +28,12 @@
   --gutter: 32px;
   /* Single source of truth for the fixed nav height. The mobile drawer,
      hero offset and anchor scroll offset are all derived from it. */
-  --nav-h: 68px;
+  --nav-h: 78px;
 }
 
 @media (min-width: 860px) {
   :root {
-    --nav-h: 78px;
+    --nav-h: 92px;
   }
 }
 
@@ -246,19 +246,6 @@ a {
   color: var(--mid);
 }
 
-.btn--nav {
-  padding: 10px 20px;
-  font-size: 14px;
-  background: var(--grad);
-  color: #fff;
-  box-shadow: 0 10px 24px -10px rgba(174, 30, 80, 0.5);
-}
-
-.btn--nav:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 28px -10px rgba(174, 30, 80, 0.58);
-}
-
 .btn--block {
   width: 100%;
 }
@@ -272,12 +259,14 @@ a {
    --motif-opacity, top/right offsets and width below, plus the
    stop-opacity ramps inside the two SVGs themselves.
    ============================================================ */
-/* Sized by WIDTH, not height. The hero grows taller as it narrows, so
-   height-based sizing made the bands balloon across narrow viewports;
-   width keeps the composition identical at every breakpoint. */
+/* Width sets the horizontal footprint; height is pinned to the full
+   hero. <img> defaults to object-fit:fill, so giving both dimensions
+   stretches the ribbon vertically rather than cropping it — which is
+   what we want: the bands should run the whole height of the section. */
 .line-motif {
   position: absolute;
   z-index: 0;
+  top: 0;
   height: 100%;
   pointer-events: none;
   opacity: var(--motif-opacity);
@@ -292,14 +281,12 @@ a {
    on the page is roughly the product of the two (~0.19 and ~0.15). */
 .line-motif--1 {
   --motif-opacity: 0.55;
-  top: -8%;
   right: 9%;
   width: 22%;
 }
 
 .line-motif--2 {
   --motif-opacity: 1;
-  top: 0%;
   right: -4%;
   width: 19%;
 }
@@ -481,31 +468,68 @@ a {
   background: rgba(251, 249, 246, 0.92);
 }
 
+/* Brand and partners take equal flex space so the link group lands
+   optically centred without absolute positioning (which would let it
+   overlap the logos at awkward widths). */
 .nav__brand {
   display: flex;
   align-items: center;
-  flex: none;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .nav__brand .brand-logo {
-  height: 30px;
+  height: 34px;
 }
 
 @media (min-width: 860px) {
   .nav__brand .brand-logo {
-    height: 34px;
+    height: 40px;
+  }
+}
+
+/* Stays in the layout at every width even when the logos themselves are
+   hidden — it is the right-hand counterweight that keeps the link group
+   optically centred. Hiding the container instead let the links drift. */
+.nav__partners {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+}
+
+.nav__partners img {
+  display: none;
+  height: 24px;
+  width: auto;
+}
+
+/* shown as soon as the desktop link row appears; the smaller height
+   keeps it clear of the links in the tighter 860–1180 band */
+@media (min-width: 860px) {
+  .nav__partners img {
+    display: block;
+  }
+}
+
+@media (min-width: 1180px) {
+  .nav__partners img {
+    height: 30px;
   }
 }
 
 .nav__links {
   display: none;
-  gap: 32px;
-  font-size: 14.5px;
-  font-weight: 500;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 30px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .nav__links a {
-  color: var(--muted);
+  color: var(--ink);
   transition: color 0.2s ease;
   display: inline-flex;
   align-items: center;
@@ -513,11 +537,45 @@ a {
 }
 
 .nav__links a:hover {
-  color: var(--ink);
+  color: var(--mid);
 }
 
 .nav__links .icon {
   color: var(--mid);
+}
+
+/* Highlighted text rather than a button — gradient fill on the glyphs.
+   Selector must out-specify `.nav__links a`, which sets a solid colour. */
+.nav__links a.nav__cta {
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+}
+
+.nav__cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.24s ease;
+}
+
+.nav__cta:hover::after {
+  transform: scaleX(1);
+}
+
+/* the gradient-clipped text must keep its fill on hover */
+.nav__links a.nav__cta:hover {
+  color: transparent;
 }
 
 @media (min-width: 860px) {
@@ -546,16 +604,6 @@ a {
 @media (min-width: 860px) {
   .nav__burger {
     display: none;
-  }
-}
-
-.btn--nav {
-  display: none;
-}
-
-@media (min-width: 860px) {
-  .btn--nav {
-    display: inline-flex;
   }
 }
 
@@ -593,6 +641,19 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.nav__mobile-partners {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.nav__mobile-partners img {
+  height: 28px;
+  width: auto;
 }
 
 .nav__mobile a .icon {
@@ -720,16 +781,16 @@ a {
   animation-delay: 0.40s;
 }
 
-.hero__content>.hero__meta {
+.hero__content>.hero__event {
   animation-delay: 0.54s;
 }
 
-.hero__content>.hero__cta {
-  animation-delay: 0.66s;
+.hero__content>.hero__countdown {
+  animation-delay: 0.68s;
 }
 
-.hero__content>.hero__powered {
-  animation-delay: 0.80s;
+.hero__content>.hero__cta {
+  animation-delay: 0.82s;
 }
 
 .hero__arc {
@@ -760,27 +821,267 @@ a {
   padding: 0 2px;
 }
 
-.hero__meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px 28px;
-  margin-bottom: 38px;
-}
+/* ---- event name plate: date + venue, the two facts that matter --- */
+.hero__event {
+  /* one scale drives both columns — see .hero__event-month below */
+  --evt-main: clamp(17px, 2.2vw, 23px);
+  --evt-sub: 0.62;
+  --evt-lh: 1.05;
+  --evt-gap: 4px;
+  /* box height of the stacked month/year block: two line boxes + the gap */
+  --evt-stack: calc(var(--evt-main) * var(--evt-lh) * (1 + var(--evt-sub)) + var(--evt-gap));
+  /* Font size at which the "26" ink height equals the August-top to
+     2026-bottom ink span. Linear rather than a plain multiple because
+     --evt-gap is a fixed px value that does not scale with --evt-main.
+     Coefficients measured from Fira Sans metrics (digit ink = 0.716em). */
+  --evt-day-size: calc(var(--evt-main) * 2.129 + 5.59px);
 
-.hero__meta-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
-  font-weight: 500;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-bottom: 34px;
+  color: #fff;
 }
 
-.hero__meta-item svg {
-  width: 17px;
-  height: 17px;
-  flex: none;
+.hero__event-date {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+/* Sized so the digits' ink height matches the stacked month/year block
+   beside them. --evt-day-k converts the shared scale into a font-size
+   whose cap height ≈ --evt-stack; line-height pins the box to exactly
+   that stack height so the two columns centre against each other. */
+.hero__event-day {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--evt-day-size);
+  line-height: var(--evt-stack);
+  letter-spacing: -0.02em;
+}
+
+/* The date column and the venue column are built from one type scale so
+   the AUGUST/2026 gap and the VENUE/TIME gap are identical by
+   construction rather than by two hand-tuned numbers. */
+.hero__event-month,
+.hero__event-place {
+  display: flex;
+  flex-direction: column;
+  gap: var(--evt-gap);
+  margin: 0;
+  text-align: left;
+}
+
+.hero__event-monthname,
+.hero__event-venue {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--evt-main);
+  line-height: var(--evt-lh);
+}
+
+.hero__event-month small,
+.hero__event-time {
+  font-size: calc(var(--evt-main) * var(--evt-sub));
+  font-weight: 500;
+  line-height: var(--evt-lh);
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hero__event-time {
+  letter-spacing: 0.02em;
+}
+
+.hero__event-rule {
+  width: 1px;
+  align-self: stretch;
+  min-height: var(--evt-stack);
+  background: rgba(255, 255, 255, 0.32);
+}
+
+@media (max-width: 560px) {
+  .hero__event {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero__event-rule {
+    width: 46px;
+    height: 1px;
+    min-height: 0;
+    align-self: center;
+    flex: none;
+  }
+
+  .hero__event-place {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* ---- countdown ---------------------------------------------------- */
+.hero__countdown {
+  display: flex;
+  justify-content: center;
+  gap: clamp(8px, 1.6vw, 16px);
+  margin-bottom: 40px;
+}
+
+.cd__unit {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: clamp(58px, 8vw, 78px);
+  padding: 12px 8px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* fine horizontal scanlines — the static part of the "readout" look */
+.cd__unit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px);
+  opacity: 0.6;
+}
+
+/* a highlight that sweeps down the tile on each tick */
+.cd__unit::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -60%;
+  height: 60%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  opacity: 0;
+}
+
+.cd__unit.is-tick::after {
+  animation: cdSweep 0.5s ease-out;
+}
+
+@keyframes cdSweep {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(280%);
+  }
+}
+
+/* glitch/flicker on the digits themselves whenever the value changes */
+@keyframes cdFlicker {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  10% {
+    opacity: 0.25;
+    transform: translate3d(-1.5px, -1px, 0);
+    text-shadow: 2px 0 rgba(223, 88, 48, 0.9), -2px 0 rgba(120, 210, 255, 0.85);
+  }
+
+  22% {
+    opacity: 1;
+    transform: translate3d(1.5px, 1px, 0);
+    text-shadow: -2px 0 rgba(223, 88, 48, 0.8), 2px 0 rgba(120, 210, 255, 0.75);
+  }
+
+  36% {
+    opacity: 0.55;
+    transform: translate3d(-1px, 0, 0);
+    text-shadow: 1px 0 rgba(223, 88, 48, 0.6), -1px 0 rgba(120, 210, 255, 0.55);
+  }
+
+  52% {
+    opacity: 1;
+    transform: translate3d(0.5px, 0, 0);
+    text-shadow: none;
+  }
+
+  70% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    text-shadow: none;
+  }
+}
+
+.cd__num.is-tick {
+  animation: cdFlicker 0.42s linear;
+}
+
+.cd__num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd__label {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* once the date passes, script.js swaps in a single message tile */
+.hero__countdown.is-live .cd__unit {
+  min-width: 0;
+  padding: 14px 30px;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.cd__num--live {
+  font-size: clamp(18px, 2.6vw, 26px);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  animation: cdLivePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes cdLivePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
+  }
+
+  50% {
+    opacity: 0.85;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+  }
 }
 
 .hero__cta {
@@ -807,15 +1108,6 @@ a {
   box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.35);
 }
 
-.hero__powered {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hero__powered .eyebrow {
-  margin-bottom: 16px;
-}
 
 
 /* ============================================================
