@@ -69,8 +69,12 @@
         <a href="#about"><svg class="icon" aria-hidden="true">
             <use href="#icon-about" />
           </svg>About</a>
+        <a href="#invite" class="nav__cta">Request Invite</a>
       </nav>
-      <a href="#invite" class="btn btn--nav">Request Invite</a>
+      <div class="nav__partners">
+        <img src="assets/powered by logos.png" alt="Ashoka University · Centre for Social and Behaviour Change"
+          width="2025" height="332" decoding="async">
+      </div>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navMobile">
         <span></span><span></span><span></span>
       </button>
@@ -88,6 +92,10 @@
           <use href="#icon-about" />
         </svg>About</a>
       <a href="#invite" class="btn btn--primary">Request Invite</a>
+      <div class="nav__mobile-partners">
+        <img src="assets/powered by logos.png" alt="Ashoka University · Centre for Social and Behaviour Change"
+          width="2025" height="332" loading="lazy">
+      </div>
     </div>
   </div>
 
@@ -121,32 +129,32 @@
         <p class="hero__tagline">Behavioral Science <span class="x">×</span> Artificial Intelligence <span
             class="eq">=</span> Impact @ Scale</p>
 
-        <div class="hero__meta">
-          <div class="hero__meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <rect x="3" y="5" width="18" height="16" rx="2" />
-              <path d="M3 10h18M8 3v4M16 3v4" />
-            </svg>
-            <span>26th August · 11:00 – 15:00</span>
-          </div>
-          <div class="hero__meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M12 21s-7-6.2-7-11.4A7 7 0 0 1 19 9.6C19 14.8 12 21 12 21z" />
-              <circle cx="12" cy="9.5" r="2.4" />
-            </svg>
-            <span>IFBE Centre, Mumbai</span>
-          </div>
+        <div class="hero__event">
+          <p class="hero__event-date">
+            <span class="hero__event-day">26</span>
+            <span class="hero__event-month">
+              <span class="hero__event-monthname">August</span>
+              <small>2026</small>
+            </span>
+          </p>
+          <span class="hero__event-rule" aria-hidden="true"></span>
+          <p class="hero__event-place">
+            <span class="hero__event-venue">IFBE Centre, Mumbai</span>
+            <span class="hero__event-time">11:00 – 15:00 IST</span>
+          </p>
+        </div>
+
+        <!-- populated and unhidden by script.js; absent entirely without JS -->
+        <div class="hero__countdown" id="heroCountdown" hidden>
+          <div class="cd__unit"><span class="cd__num" data-cd="days">0</span><span class="cd__label">Days</span></div>
+          <div class="cd__unit"><span class="cd__num" data-cd="hours">0</span><span class="cd__label">Hrs</span></div>
+          <div class="cd__unit"><span class="cd__num" data-cd="minutes">0</span><span class="cd__label">Min</span></div>
+          <div class="cd__unit"><span class="cd__num" data-cd="seconds">0</span><span class="cd__label">Sec</span></div>
         </div>
 
         <div class="hero__cta">
           <a href="#invite" class="btn btn--primary">Request an Invite</a>
           <a href="#agenda" class="btn btn--ghost">View the agenda</a>
-        </div>
-
-        <div class="hero__powered">
-          <span class="eyebrow eyebrow--light">Powered & Presented by</span>
-          <img class="powered-lockup" src="assets/powered by logos_white.png"
-            alt="Ashoka University · Centre for Social and Behaviour Change" width="1622" height="266" decoding="async">
         </div>
       </div>
     </section>
