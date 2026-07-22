@@ -22,8 +22,15 @@ const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
                      hover (agenda + about cards).
    SPEAKER_TILT      Speaker photos rotate slightly toward the
                      cursor. On touch devices they sway gently.
-   SCRAMBLE_TEXT     The hero tagline resolves out of random glyphs
-                     the first time it comes into view.
+   SCRAMBLE_TEXT     Headings resolve out of random glyphs the first
+                     time each one comes into view.
+   AMBIENT_GLOW      One soft light follows the cursor across the whole
+                     page — sections and cards alike — instead of
+                     lighting each card on its own. Desktop only.
+   CURSOR_SPECKS     The hero specks scatter away from the cursor. On
+                     touch devices they drift with scroll velocity.
+   GRADIENT_SHIFT    The brand ramp rotates hue slightly as you scroll
+                     from the hero down to the invite section.
    ============================================================ */
 const EFFECTS = {
   MAGNETIC_BUTTONS: true,
@@ -31,6 +38,9 @@ const EFFECTS = {
   SWEEP_BORDERS: false,
   SPEAKER_TILT: true,
   SCRAMBLE_TEXT: true,
+  AMBIENT_GLOW: true,
+  CURSOR_SPECKS: true,
+  GRADIENT_SHIFT: true,
 };
 
 /* Shared helpers for the effects below. */
@@ -265,19 +275,33 @@ function initHeroStars() {
   const DAMPING = 0.98; // velocity decay
   const SPRING = 0.0008; // pull back toward the anchor point
 
+  /* EFFECT: CURSOR_SPECKS — repulsion constants.
+     A speck is pushed until it leaves the radius, so REPEL_R is roughly
+     how far one travels on a direct hit. MAX_SPEED is what stops it
+     rocketing far past that: without a cap the per-frame impulse
+     compounds and specks shoot hundreds of px off-screen. */
+  const REPEL_R = 130;    // px bubble the cursor clears around itself
+  const REPEL_F = 0.28;   // impulse at the centre of that bubble
+  const MAX_SPEED = 1.4;  // px/frame ceiling per axis
+  const SCROLL_F = 0.03;  // scroll delta -> impulse (touch devices)
+  const SCROLL_MAX = 1.2; // ceiling on that impulse
+
   const specks = [];
   const frag = document.createDocumentFragment();
 
   for (let i = 0; i < COUNT; i++) {
     const el = document.createElement("span");
     const size = 2 + Math.random() * 3;
-    el.style.top = `${Math.random() * 90}%`;
-    el.style.left = `${Math.random() * 100}%`;
+    const topPct = Math.random() * 90;
+    const leftPct = Math.random() * 100;
+    el.style.top = `${topPct}%`;
+    el.style.left = `${leftPct}%`;
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
     el.style.opacity = (0.2 + Math.random() * 0.5).toFixed(2);
     frag.appendChild(el);
-    specks.push({ el, dx: 0, dy: 0, vx: 0, vy: 0 });
+    // topPct/leftPct are kept so the anchor can be recomputed on resize
+    specks.push({ el, topPct, leftPct, ax: 0, ay: 0, dx: 0, dy: 0, vx: 0, vy: 0 });
   }
   field.appendChild(frag);
 
@@ -285,15 +309,75 @@ function initHeroStars() {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (reduced.matches) return;
 
+  const repelOn = EFFECTS.CURSOR_SPECKS;
+  const pointer = { x: 0, y: 0, active: false };
+  let scrollVel = 0;
+
+  // Anchor positions in viewport px, so cursor distance can be measured.
+  function measure() {
+    const r = field.getBoundingClientRect();
+    for (const s of specks) {
+      s.ax = r.left + (s.leftPct / 100) * r.width;
+      s.ay = r.top + (s.topPct / 100) * r.height;
+    }
+  }
+  measure();
+
+  if (repelOn) {
+    document.documentElement.classList.add("fx-specks");
+    if (finePointer()) {
+      field.closest(".hero").addEventListener("pointermove", (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        pointer.active = true;
+        measure(); // the hero can move under the cursor while scrolling
+      });
+      field.closest(".hero").addEventListener("pointerleave", () => {
+        pointer.active = false;
+      });
+    } else {
+      // No cursor: the specks get shoved by how fast the page is moving.
+      let lastY = window.scrollY;
+      window.addEventListener("scroll", () => {
+        const y = window.scrollY;
+        scrollVel = clamp((y - lastY) * SCROLL_F, -SCROLL_MAX, SCROLL_MAX);
+        lastY = y;
+      }, { passive: true });
+    }
+    window.addEventListener("resize", measure);
+  }
+
   let frame = null;
   function step() {
     for (const s of specks) {
       s.vx = (s.vx + (Math.random() - 0.5) * JITTER - s.dx * SPRING) * DAMPING;
       s.vy = (s.vy + (Math.random() - 0.5) * JITTER - s.dy * SPRING) * DAMPING;
+
+      if (repelOn && pointer.active) {
+        // Push directly away from the cursor, falling off to nothing at
+        // the edge of REPEL_R so there is no hard boundary.
+        const px = s.ax + s.dx - pointer.x;
+        const py = s.ay + s.dy - pointer.y;
+        const d2 = px * px + py * py;
+        if (d2 < REPEL_R * REPEL_R && d2 > 0.5) {
+          const d = Math.sqrt(d2);
+          const force = (1 - d / REPEL_R) * REPEL_F;
+          s.vx += (px / d) * force;
+          s.vy += (py / d) * force;
+        }
+      }
+
+      if (repelOn && scrollVel) s.vy += scrollVel;
+
+      s.vx = clamp(s.vx, -MAX_SPEED, MAX_SPEED);
+      s.vy = clamp(s.vy, -MAX_SPEED, MAX_SPEED);
+
       s.dx += s.vx;
       s.dy += s.vy;
       s.el.style.transform = `translate3d(${s.dx.toFixed(2)}px, ${s.dy.toFixed(2)}px, 0)`;
     }
+    scrollVel *= 0.86; // bleed the scroll impulse away over a few frames
+    if (Math.abs(scrollVel) < 0.01) scrollVel = 0;
     frame = requestAnimationFrame(step);
   }
   const start = () => { if (!frame) frame = requestAnimationFrame(step); };
@@ -448,6 +532,64 @@ function initMagneticButtons() {
     btn.addEventListener("pointerleave", release);
     btn.addEventListener("blur", release);
   });
+}
+
+/* ============================================================
+   EFFECT: AMBIENT_GLOW
+
+   Writes the cursor position to the root element; the CSS paints one
+   viewport-anchored radial gradient onto every surface, so the light
+   reads as a single sheet crossing the whole page rather than a
+   separate highlight per card.
+   ============================================================ */
+function initAmbientGlow() {
+  if (!EFFECTS.AMBIENT_GLOW || !finePointer()) return;
+  const root = document.documentElement;
+  root.classList.add("fx-ambient");
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight * 0.4;
+
+  function write() {
+    root.style.setProperty("--glow-x", `${x.toFixed(0)}px`);
+    root.style.setProperty("--glow-y", `${y.toFixed(0)}px`);
+  }
+
+  // Writing the variable only invalidates style; the browser still
+  // recalcs and paints once per frame, so no extra throttle is needed.
+  window.addEventListener("pointermove", (e) => {
+    x = e.clientX;
+    y = e.clientY;
+    write();
+  }, { passive: true });
+
+  write();
+}
+
+/* ============================================================
+   EFFECT: GRADIENT_SHIFT
+
+   Rotates the brand ramp's hue as the page scrolls. The tokens are
+   authored in HSL around --hue-shift, so setting this one variable
+   moves every gradient, button and accent together.
+   ============================================================ */
+const HUE_SHIFT_MAX = -20; // degrees by the time you reach the invite
+
+function initGradientShift() {
+  if (!EFFECTS.GRADIENT_SHIFT) return;
+  const root = document.documentElement;
+  root.classList.add("fx-huedrift");
+
+  function apply() {
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    const progress = scrollable > 0 ? clamp(window.scrollY / scrollable, 0, 1) : 0;
+    root.style.setProperty("--hue-shift", `${(progress * HUE_SHIFT_MAX).toFixed(2)}deg`);
+  }
+
+  window.addEventListener("scroll", apply, { passive: true });
+  window.addEventListener("resize", apply);
+  apply();
 }
 
 /* ============================================================
@@ -742,6 +884,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
   initInviteForm();
   initMagneticButtons();
+  initAmbientGlow();
+  initGradientShift();
   initSpotlightCards();
   initSweepBorders();
   initSpeakerTilt();
