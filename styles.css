@@ -1758,8 +1758,18 @@ a {
    Applied to the photo, not the card, so it composes with the card's
    own hover lift instead of fighting it. */
 .fx-tilt .speaker-card__photo {
-  transform: perspective(760px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.25s ease;
+  transform: perspective(var(--tilt-depth, 520px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--tilt-scale, 1));
+  /* the slow curve is for the snap-back only */
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.25s ease;
+  will-change: transform;
+}
+
+/* While the pointer is actually over the card the transition has to be
+   near-instant. At 0.55s every pointermove restarts the ease, so the
+   transform never reaches its target and the tilt reads as almost
+   nothing — which is why it looked like it wasn't working at all. */
+.fx-tilt .speaker-card.is-tilting .speaker-card__photo {
+  transition: transform 0.07s linear, filter 0.25s ease;
 }
 
 /* touch devices have no cursor to follow — a slow idle sway instead */
@@ -1788,9 +1798,11 @@ a {
 }
 
 /* ---- SCRAMBLE_TEXT ------------------------------------------------
-   Height is locked inline by script.js for the duration, so swapping
-   in wider/narrower glyphs cannot reflow the hero beneath it. */
-.fx-scramble .hero__tagline.is-scrambling {
+   Height is locked inline by script.js for the duration; overflow is
+   clipped so that if the substituted glyphs do wrap to an extra line
+   mid-flight, the page below still cannot shift. */
+.fx-scramble .is-scrambling {
+  overflow: hidden;
   font-variant-ligatures: none;
 }
 

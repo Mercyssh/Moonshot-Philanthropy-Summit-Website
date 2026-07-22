@@ -27,8 +27,8 @@ const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
    ============================================================ */
 const EFFECTS = {
   MAGNETIC_BUTTONS: true,
-  SPOTLIGHT_CARDS: true,
-  SWEEP_BORDERS: true,
+  SPOTLIGHT_CARDS: false,
+  SWEEP_BORDERS: false,
   SPEAKER_TILT: true,
   SCRAMBLE_TEXT: true,
 };
@@ -527,11 +527,17 @@ function initSpeakerTilt() {
     return;
   }
 
-  const MAX = 8; // degrees
+  const MAX = 13;      // degrees of rotation at the card's edge
+  const LIFT = 1.035;  // slight scale so the photo reads as coming forward
 
   cards.forEach((card) => {
     const photo = card.querySelector(".speaker-card__photo");
     if (!photo) return;
+
+    card.addEventListener("pointerenter", () => {
+      card.classList.add("is-tilting");
+      photo.style.setProperty("--tilt-scale", String(LIFT));
+    });
     card.addEventListener("pointermove", (e) => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
@@ -540,8 +546,10 @@ function initSpeakerTilt() {
       photo.style.setProperty("--tilt-y", `${(px * MAX).toFixed(2)}deg`);
     });
     card.addEventListener("pointerleave", () => {
+      card.classList.remove("is-tilting");
       photo.style.setProperty("--tilt-x", "0deg");
       photo.style.setProperty("--tilt-y", "0deg");
+      photo.style.setProperty("--tilt-scale", "1");
     });
   });
 }
@@ -549,65 +557,86 @@ function initSpeakerTilt() {
 /* ============================================================
    EFFECT: SCRAMBLE_TEXT
    ============================================================ */
-const SCRAMBLE_SELECTOR = ".hero__tagline";
+const SCRAMBLE_SELECTOR = ".hero__tagline, .section__title";
 
 function initScrambleText() {
   if (!EFFECTS.SCRAMBLE_TEXT || reducedMotion()) return;
-  const el = document.querySelector(SCRAMBLE_SELECTOR);
-  if (!el) return;
+  const targets = [...document.querySelectorAll(SCRAMBLE_SELECTOR)];
+  if (!targets.length) return;
   document.documentElement.classList.add("fx-scramble");
 
   const GLYPHS = "!<>-_\\/[]{}=+*^?#01x";
-  const STEP_MS = 38;
-  const PER_STEP = 1.7; // characters resolved per frame
+  const STEP_MS = 34;
+  const PER_STEP = 2.2; // characters resolved per frame
 
-  // The markup has <span>s around the × and =; snapshot the HTML so the
-  // real thing can be restored once the scramble finishes.
-  const originalHTML = el.innerHTML;
-  const text = el.textContent;
-  let started = false;
+  function scramble(el) {
+    if (el.dataset.scrambled) return;
+    el.dataset.scrambled = "1";
 
-  function run() {
-    if (started) return;
-    started = true;
-    // Substituted glyphs have different widths and could rewrap the line,
-    // shifting everything below it. Pin the height for the duration.
-    el.style.minHeight = `${el.getBoundingClientRect().height}px`;
+    // Walk text nodes rather than swapping innerHTML, so inline children
+    // survive: the styled × and = in the tagline, and the envelope icon
+    // in "Reserve your seat" would both be destroyed by a text swap.
+    const parts = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (n.nodeValue.trim()) parts.push({ node: n, text: n.nodeValue });
+    }
+    if (!parts.length) return;
+    const total = parts.reduce((sum, p) => sum + p.text.length, 0);
+
+    // Substituted glyphs have different widths and can rewrap a heading,
+    // shifting the page beneath it. Pin the box for the duration.
+    el.style.height = `${el.getBoundingClientRect().height}px`;
+    el.classList.add("is-scrambling");
+
     let frame = 0;
     const id = setInterval(() => {
       frame += 1;
       const resolved = Math.floor(frame * PER_STEP);
-      if (resolved >= text.length) {
+
+      if (resolved >= total) {
         clearInterval(id);
-        el.innerHTML = originalHTML; // restores the styled × and =
+        parts.forEach((p) => { p.node.nodeValue = p.text; });
         el.classList.remove("is-scrambling");
-        el.style.minHeight = "";
+        el.style.height = "";
         return;
       }
-      let out = "";
-      for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-        out += i < resolved || ch === " "
-          ? ch
-          : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+
+      let seen = 0;
+      for (const p of parts) {
+        let out = "";
+        for (let i = 0; i < p.text.length; i++, seen++) {
+          const ch = p.text[i];
+          out += seen < resolved || /\s/.test(ch)
+            ? ch
+            : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+        p.node.nodeValue = out;
       }
-      el.textContent = out;
     }, STEP_MS);
   }
 
-  el.classList.add("is-scrambling");
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(scramble);
+    return;
+  }
 
-  if (!("IntersectionObserver" in window)) { run(); return; }
+  let delivered = false;
   const io = new IntersectionObserver((entries) => {
+    delivered = true;
     for (const entry of entries) {
-      if (entry.isIntersecting) { run(); io.disconnect(); }
+      if (!entry.isIntersecting) continue;
+      scramble(entry.target);
+      io.unobserve(entry.target);
     }
-  }, { threshold: 0.2 });
-  io.observe(el);
+  }, { threshold: 0.25 });
+  targets.forEach((el) => io.observe(el));
 
-  // Failsafe: if the observer never delivers, don't leave the tagline
-  // sitting in its pre-scramble state forever.
-  setTimeout(run, 2500);
+  // Failsafe only if the observer never reports at all — otherwise this
+  // would resolve headings that are still far below the fold.
+  setTimeout(() => {
+    if (!delivered) targets.forEach(scramble);
+  }, 3000);
 }
 
 /* ============================================================
