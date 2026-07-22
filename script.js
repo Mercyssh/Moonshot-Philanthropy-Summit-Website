@@ -787,7 +787,7 @@ function initCoinCurtain() {
       // starting height relative to the seam, in vh; the spread of these
       // is what makes the cluster a band rather than a single line
       band: COIN_BAND_LO + rand() * (COIN_BAND_HI - COIN_BAND_LO),
-      rise: COIN_RISE_VH * (0.82 + rand() * 0.36),
+      rise: COIN_RISE_VH * (0.6 + rand() * 0.8),
       // a fixed resting angle plus a gentle turn as it climbs
       tiltZ: rand() * 360,
       spinZ: -COIN_SPIN + rand() * (COIN_SPIN * 2),
