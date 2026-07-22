@@ -109,6 +109,7 @@
       <img class="line-motif line-motif--2" src="assets/gradient-line-motif-2.svg" alt="" aria-hidden="true" width="270"
         height="707">
 
+      <div class="hero__glow" aria-hidden="true"></div>
       <div class="hero__arc" aria-hidden="true"></div>
       <div class="hero__stars" id="heroStars" aria-hidden="true"></div>
 
@@ -119,6 +120,7 @@
         <img src="assets/top-right-corner-motif.svg" alt="" width="45" height="45">
       </span>
 
+      <div class="hero__inner">
       <div class="hero__content">
         <!-- <p class="eyebrow eyebrow--light">CSBC × Ashoka University present</p> -->
 
@@ -156,6 +158,12 @@
           <a href="#invite" class="btn btn--primary">Request an Invite</a>
           <a href="#agenda" class="btn btn--ghost">View the agenda</a>
         </div>
+      </div>
+
+      <!-- Right half, deliberately empty: reserved for the hero graphic.
+           Anything dropped in here sits above .hero__glow, so the glow
+           will not wash over it. -->
+      <div class="hero__stage" aria-hidden="true"></div>
       </div>
     </section>
 
