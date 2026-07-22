@@ -222,6 +222,11 @@ a {
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
   white-space: nowrap;
+  /* Hover lift and magnetic drift are separate variables composed into a
+     single transform — if the lift were its own `transform` declaration
+     it would overwrite the drift (and vice versa). Both default to 0,
+     so this is an identity transform when no effect is running. */
+  transform: translate3d(var(--mag-x, 0px), calc(var(--mag-y, 0px) + var(--btn-lift, 0px)), 0);
 }
 
 .btn--primary {
@@ -231,7 +236,7 @@ a {
 }
 
 .btn--primary:hover {
-  transform: translateY(-2px);
+  --btn-lift: -2px;
   box-shadow: 0 16px 36px -10px rgba(174, 30, 80, 0.6);
 }
 
@@ -1649,6 +1654,144 @@ a {
   .js-reveal [data-reveal] {
     transform: none !important;
   }
+}
+
+/* ============================================================
+   INTERACTION EFFECTS
+
+   Every rule here is gated behind an `fx-*` class that script.js
+   adds to <html> only when the matching flag in its EFFECTS object
+   is true. Turning a flag off therefore switches off the styling
+   too — see the comment block at the top of script.js.
+
+   Custom properties are registered with @property so they can be
+   transitioned/animated; without it they still work, they just jump
+   instead of easing.
+   ============================================================ */
+@property --spot-a {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: false;
+}
+
+@property --sweep-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ---- MAGNETIC_BUTTONS --------------------------------------------
+   The transform itself lives on `.btn` (it composes the drift with the
+   hover lift). Nothing more is needed here beyond a slightly snappier
+   return once the pointer leaves. */
+.fx-magnetic .btn {
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+/* ---- SPOTLIGHT_CARDS ---------------------------------------------
+   Painted as a background-image, not a pseudo-element: ::before on
+   .agenda-item is the timeline dot and clipping a pseudo to the
+   rounded corners would need overflow:hidden, which would cut it off. */
+.fx-spotlight .agenda-item,
+.fx-spotlight .about-card {
+  background-image: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(174, 30, 80, calc(0.14 * var(--spot-a, 0))) 0%,
+      rgba(223, 88, 48, calc(0.07 * var(--spot-a, 0))) 34%,
+      transparent 62%);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, --spot-a 0.3s ease;
+}
+
+/* this card already carries the soft brand wash — layer, don't replace */
+.fx-spotlight .about-card--org {
+  background-image: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(174, 30, 80, calc(0.14 * var(--spot-a, 0))) 0%,
+      rgba(223, 88, 48, calc(0.07 * var(--spot-a, 0))) 34%,
+      transparent 62%),
+    var(--grad-soft);
+}
+
+/* ---- SWEEP_BORDERS ------------------------------------------------
+   A conic gradient rotated behind a two-layer mask that hides
+   everything except a 1.5px ring, so the streak rides the edge. */
+.fx-sweep .agenda-item,
+.fx-sweep .about-card {
+  position: relative;
+}
+
+.fx-sweep .agenda-item::after,
+.fx-sweep .about-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: conic-gradient(from var(--sweep-angle),
+      transparent 0turn 0.58turn,
+      rgba(255, 255, 255, 0.9) 0.74turn,
+      var(--bright) 0.8turn,
+      rgba(255, 255, 255, 0.9) 0.86turn,
+      transparent 0.95turn 1turn);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.fx-sweep .agenda-item:hover::after,
+.fx-sweep .about-card:hover::after {
+  opacity: 1;
+  animation: sweepTravel 1.5s linear infinite;
+}
+
+@keyframes sweepTravel {
+  to {
+    --sweep-angle: 360deg;
+  }
+}
+
+/* ---- SPEAKER_TILT -------------------------------------------------
+   Applied to the photo, not the card, so it composes with the card's
+   own hover lift instead of fighting it. */
+.fx-tilt .speaker-card__photo {
+  transform: perspective(760px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.25s ease;
+}
+
+/* touch devices have no cursor to follow — a slow idle sway instead */
+.fx-tilt-idle .speaker-card__photo {
+  animation: tiltSway 7s ease-in-out infinite;
+}
+
+.fx-tilt-idle .speaker-card:nth-child(3n+2) .speaker-card__photo {
+  animation-delay: -2.3s;
+}
+
+.fx-tilt-idle .speaker-card:nth-child(3n+3) .speaker-card__photo {
+  animation-delay: -4.6s;
+}
+
+@keyframes tiltSway {
+
+  0%,
+  100% {
+    transform: perspective(760px) rotateX(0deg) rotateY(-2.6deg);
+  }
+
+  50% {
+    transform: perspective(760px) rotateX(1.4deg) rotateY(2.6deg);
+  }
+}
+
+/* ---- SCRAMBLE_TEXT ------------------------------------------------
+   Height is locked inline by script.js for the duration, so swapping
+   in wider/narrower glyphs cannot reflow the hero beneath it. */
+.fx-scramble .hero__tagline.is-scrambling {
+  font-variant-ligatures: none;
 }
 
 /* focus visibility */
