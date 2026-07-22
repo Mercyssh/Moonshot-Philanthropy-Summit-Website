@@ -110,6 +110,14 @@
         height="707">
 
       <div class="hero__glow" aria-hidden="true"></div>
+
+      <!-- Full-height turntable, masking an image through the shape.
+           A direct child of .hero (not the grid cell) so it can span
+           the section top-to-bottom. Placed before .hero__arc so the
+           arc paints over it (both z-index:0, DOM order decides), and
+           below .hero__inner so the copy always stays on top. -->
+      <canvas class="hero-rotator" id="heroRotator" width="1080" height="1080" aria-hidden="true"></canvas>
+
       <div class="hero__arc" aria-hidden="true"></div>
       <div class="hero__stars" id="heroStars" aria-hidden="true"></div>
 
@@ -162,12 +170,10 @@
           </div>
         </div>
 
-        <!-- Right half, deliberately empty: reserved for the hero graphic.
-           Anything dropped in here sits above .hero__glow, so the glow
-           will not wash over it. -->
-        <div class="hero__stage" aria-hidden="true">
-          <canvas class="hero-rotator" id="heroRotator" width="1080" height="1080"></canvas>
-        </div>
+        <!-- Right half, deliberately empty: reserves the grid column so
+           the copy stays in the left half. The rotator itself is a
+           full-height layer positioned against .hero, not in here. -->
+        <div class="hero__stage" aria-hidden="true"></div>
       </div>
     </section>
 
