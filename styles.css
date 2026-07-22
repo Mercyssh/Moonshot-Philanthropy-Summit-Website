@@ -827,6 +827,14 @@ a {
   }
 }
 
+.hero-rotator {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
 .hero__content {
   position: relative;
   z-index: 1;
