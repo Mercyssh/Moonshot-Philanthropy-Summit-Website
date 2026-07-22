@@ -8,13 +8,21 @@
   --muted: #6B6070;
   --line: #E7DFE2;
 
-  /* Brand ramp — matches the gradient baked into the Summit wordmark */
-  --bright: #DF5830;
-  --mid: #AE1E50;
-  --dark: #511C49;
+  /* Brand ramp — matches the gradient baked into the Summit wordmark.
+     Written in HSL rather than hex so GRADIENT_SHIFT can rotate the whole
+     ramp from one variable. At --hue-shift: 0 these resolve to exactly
+     the original #DF5830 / #AE1E50 / #511C49. */
+  --hue-shift: 0deg;
+  --bright: hsl(calc(13.7deg + var(--hue-shift)) 73.2% 53.1%);
+  --mid: hsl(calc(339.2deg + var(--hue-shift)) 70.6% 40%);
+  --dark: hsl(calc(309deg + var(--hue-shift)) 48.6% 21.4%);
 
   --grad: linear-gradient(45deg, var(--bright) 0%, var(--mid) 48%, var(--dark) 100%);
   --grad-soft: linear-gradient(45deg, rgba(223, 88, 48, 0.09) 0%, rgba(174, 30, 80, 0.07) 48%, rgba(81, 28, 73, 0.07) 100%);
+
+  /* Fixed copy of the ramp for the wordmark and other brand furniture,
+     so the logo does not drift in hue as the page scrolls. */
+  --grad-brand: linear-gradient(45deg, #DF5830 0%, #AE1E50 48%, #511C49 100%);
 
   --success: #1C7C4D;
 
@@ -131,7 +139,8 @@ a {
 .brand-logo {
   display: block;
   aspect-ratio: 463 / 128;
-  background: var(--grad);
+  /* deliberately the fixed ramp — the mark should not shift with scroll */
+  background: var(--grad-brand);
   -webkit-mask: url("assets/Logo (White).svg") no-repeat center / contain;
   mask: url("assets/Logo (White).svg") no-repeat center / contain;
 }
@@ -1687,6 +1696,48 @@ a {
 .fx-magnetic .btn {
   transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+/* ---- AMBIENT_GLOW -------------------------------------------------
+   A single light that follows the cursor across the whole page rather
+   than lighting each card separately.
+
+   The trick is `background-attachment: fixed`: it anchors the gradient
+   to the viewport instead of to each element, so every surface samples
+   the same light at the same screen position. The result reads as one
+   continuous sheet passing under the sections and the cards alike,
+   which per-element glows cannot do.
+
+   Fine pointers only — it is cursor-driven, and `background-attachment:
+   fixed` is unreliable on mobile Safari. */
+.fx-ambient .section,
+.fx-ambient .footer {
+  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.085),
+      rgba(223, 88, 48, 0.05) 38%,
+      transparent 72%);
+  background-attachment: fixed;
+}
+
+/* the raised surfaces get a lighter dose so they still read as raised */
+.fx-ambient .agenda-item,
+.fx-ambient .about-card,
+.fx-ambient .invite__form {
+  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.07),
+      rgba(223, 88, 48, 0.04) 38%,
+      transparent 72%);
+  background-attachment: fixed;
+}
+
+/* this card already carries the brand wash — layer, don't replace */
+.fx-ambient .about-card--org {
+  background-image: radial-gradient(620px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
+      rgba(174, 30, 80, 0.07),
+      rgba(223, 88, 48, 0.04) 38%,
+      transparent 72%),
+    var(--grad-soft);
+  background-attachment: fixed, scroll;
 }
 
 /* ---- SPOTLIGHT_CARDS ---------------------------------------------
