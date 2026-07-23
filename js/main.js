@@ -23,6 +23,7 @@ import { initGradientShift } from "./gradient-shift.js";
 import { initHeroGlow } from "./hero-glow.js";
 import { initCoinCurtain } from "./coin-curtain.js";
 import { initHeroRotator } from "./hero-rotator.js";
+import { initHeroMarquee } from "./hero-marquee.js";
 import { initSpotlightCards } from "./spotlight-cards.js";
 import { initSweepBorders } from "./sweep-borders.js";
 import { initSpeakerTilt } from "./speaker-tilt.js";
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroGlow();
   initCoinCurtain();
   initHeroRotator();
+  initHeroMarquee();
   initSpotlightCards();
   initSweepBorders();
   initSpeakerTilt();

@@ -41,6 +41,10 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
                      stopping at four 90° positions with an eased
                      turn between them. Desktop only (.hero__stage
                      is hidden below 940px).
+   HERO_MARQUEE      Mobile only. A full-bleed ribbon of summit photos
+                     auto-scrolls across the top of the hero, tinted to
+                     the brand gradient and fading into it at both edges.
+                     The phone counterpart to the desktop rotator.
    LIQUID_GLASS      The CSBC about card becomes a frosted glass panel
                      with a gradient rim and a glow that trails the
                      cursor. Touch/reduced-motion keep the static rim.
@@ -61,6 +65,7 @@ export const EFFECTS = {
    HERO_GLOW: true,
    COIN_CURTAIN: true,
    HERO_ROTATOR: true,
+   HERO_MARQUEE: true,
    LIQUID_GLASS: true,
    TIMELINE_GLOW: true,
 };
