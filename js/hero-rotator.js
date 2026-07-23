@@ -26,9 +26,21 @@ const ROTATOR_HOLD_MS = 3000;
 const ROTATOR_TURN_MS = 300;
 const ROTATOR_STOPS = 4;
 const ROTATOR_CROSSFADE = true; // blend adjacent frames for sub-frame smoothness
-// The shape acts as a window onto this image. Spaces must be URL-encoded.
-const ROTATOR_MASK_IMAGE = "assets/image%20to%20mask.jpg";
+// The shape acts as a window onto these images. Spaces must be URL-encoded.
+// The list is cycled: each turn reveals the next image. Add more here to
+// get more variety — with a single entry nothing appears to change.
+const ROTATOR_MASK_IMAGES = [
+  "assets/images to mask/1.jpg",
+  "assets/images to mask/3.jpg",
+  "assets/images to mask/4.jpg",
+  "assets/images to mask/5.jpg",
+];
 const ROTATOR_MASK_SHADING = 0.55; // 0 = flat image, 1 = full shape shading for depth
+// Slow drift of the photo inside its cover-crop. Only the axis that has
+// crop overflow can move, so the pan can never expose an edge.
+const ROTATOR_PAN = true;
+const ROTATOR_PAN_AMPLITUDE = 0.85; // 0..1 fraction of the available overflow used
+const ROTATOR_PAN_PERIOD_MS = 56000; // ms for one full back-and-forth drift
 
 export function initHeroRotator() {
   if (!EFFECTS.HERO_ROTATOR) return;
@@ -53,18 +65,35 @@ export function initHeroRotator() {
   shapeCanvas.height = H;
   const sctx = shapeCanvas.getContext("2d");
 
-  const maskImg = new Image();
-  maskImg.decoding = "async";
-  let maskReady = false;
-  maskImg.onload = () => { maskReady = true; };
-  maskImg.src = ROTATOR_MASK_IMAGE;
+  const masks = ROTATOR_MASK_IMAGES.map((s) => {
+    const im = new Image();
+    im.decoding = "async";
+    im.src = s;
+    return im;
+  });
+  let maskIdx = 0;
+  let prevMaskIdx = 0;
+  let maskFade = 1; // 0 -> 1 while the incoming photo fades in over a turn
+  const ready = (m) => m && m.complete && m.naturalWidth > 0;
+  // Repaint the photo through the shape already on shapeCanvas once the
+  // visible mask finishes loading (it may land after its shape frame).
+  masks.forEach((im, i) => {
+    im.addEventListener("load", () => { if (i === maskIdx || i === prevMaskIdx) composite(); });
+  });
 
-  // cover-fit: fill WxH, preserve aspect, crop the overflow
+  // cover-fit: fill WxH, preserve aspect, crop the overflow. When panning,
+  // shift within the cropped overflow on a slow sine so it stays in bounds.
   function drawCover(c, img) {
     const ir = img.width / img.height, cr = W / H;
     let dw, dh;
     if (ir > cr) { dh = H; dw = H * ir; } else { dw = W; dh = W / ir; }
-    c.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    let ox = (W - dw) / 2, oy = (H - dh) / 2;
+    if (ROTATOR_PAN && !reducedMotion()) {
+      const ph = (performance.now() / ROTATOR_PAN_PERIOD_MS) * Math.PI * 2;
+      ox += Math.sin(ph) * ((dw - W) / 2) * ROTATOR_PAN_AMPLITUDE; // 0 unless horizontal overflow
+      oy += Math.cos(ph) * ((dh - H) / 2) * ROTATOR_PAN_AMPLITUDE; // 0 unless vertical overflow
+    }
+    c.drawImage(img, ox, oy, dw, dh);
   }
 
   // Composite the current shape (already on shapeCanvas) as a window onto
@@ -74,11 +103,17 @@ export function initHeroRotator() {
     ctx.clearRect(0, 0, W, H);
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
-    if (!maskReady) {
+    const cur = masks[maskIdx], prev = masks[prevMaskIdx];
+    const curOk = ready(cur), prevOk = ready(prev);
+    if (!curOk && !prevOk) {
       ctx.drawImage(shapeCanvas, 0, 0);
       return;
     }
-    drawCover(ctx, maskImg);                    // photo fills the frame
+    // Crossfade the outgoing photo (full) under the incoming one (maskFade).
+    // Both share the same pan offset, so only the image content dissolves.
+    if (prevOk && maskFade < 1) { ctx.globalAlpha = 1; drawCover(ctx, prev); }
+    if (curOk) { ctx.globalAlpha = prevOk ? maskFade : 1; drawCover(ctx, cur); }
+    ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = "destination-in";
     ctx.drawImage(shapeCanvas, 0, 0);           // clip photo to the shape's alpha
     if (ROTATOR_MASK_SHADING > 0) {
@@ -122,8 +157,6 @@ export function initHeroRotator() {
   const first = new Image();
   first.onload = () => { frames[0] = first; draw(0); };
   first.src = src(0);
-  // repaint once the photo arrives, in case it lands after frame 0
-  maskImg.addEventListener("load", () => draw(0));
 
   // Reduced motion: first frame only, no timer, no further loads.
   if (reducedMotion()) return;
@@ -161,6 +194,11 @@ export function initHeroRotator() {
   }
 
   function beginTurn(now) {
+    // Cycle to the next photo as the turn starts; it crossfades in over the
+    // turn (see maskFade in tick) rather than snapping.
+    prevMaskIdx = maskIdx;
+    maskIdx = (maskIdx + 1) % masks.length;
+    maskFade = 0;
     fromIdx = stopIndex(stop);
     const toIdx = stopIndex((stop + 1) % ROTATOR_STOPS);
     // shortest forward path, wrapping at the 360°/0° seam
@@ -171,13 +209,18 @@ export function initHeroRotator() {
 
   function tick(now) {
     if (phase === "hold") {
-      drawOnce(stopIndex(stop));
+      // With pan on, the crop shifts every frame, so repaint unconditionally
+      // instead of skipping redundant same-index draws.
+      if (ROTATOR_PAN) draw(stopIndex(stop));
+      else drawOnce(stopIndex(stop));
       if (now - phaseStart >= ROTATOR_HOLD_MS) beginTurn(now);
     } else {
       // Linear progress — no easing. Crossfade between the two nearest
       // frames each tick so motion is smooth despite the low frame count.
       const t = clamp((now - phaseStart) / ROTATOR_TURN_MS, 0, 1);
+      maskFade = t; // photo crossfade tracks the turn's progress
       if (t >= 1) {
+        maskFade = 1;
         stop = (stop + 1) % ROTATOR_STOPS;
         phase = "hold";
         phaseStart = now;
