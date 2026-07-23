@@ -27,6 +27,7 @@ import { initSpotlightCards } from "./spotlight-cards.js";
 import { initSweepBorders } from "./sweep-borders.js";
 import { initSpeakerTilt } from "./speaker-tilt.js";
 import { initScrambleText } from "./scramble-text.js";
+import { initLiquidGlass } from "./liquid-glass.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   initScrollStart();
@@ -47,4 +48,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initSweepBorders();
   initSpeakerTilt();
   initScrambleText();
+  initLiquidGlass();
 });
