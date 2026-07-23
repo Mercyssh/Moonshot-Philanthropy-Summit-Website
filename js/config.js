@@ -46,16 +46,16 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
                      cursor. Touch/reduced-motion keep the static rim.
    ============================================================ */
 export const EFFECTS = {
-  MAGNETIC_BUTTONS: true,
-  SPOTLIGHT_CARDS: false,
-  SWEEP_BORDERS: false,
-  SPEAKER_TILT: true,
-  SCRAMBLE_TEXT: true,
-  AMBIENT_GLOW: false,
-  CURSOR_SPECKS: true,
-  GRADIENT_SHIFT: false,
-  HERO_GLOW: true,
-  COIN_CURTAIN: true,
-  HERO_ROTATOR: true,
-  LIQUID_GLASS: true,
+   MAGNETIC_BUTTONS: true,
+   SPOTLIGHT_CARDS: false,
+   SWEEP_BORDERS: false,
+   SPEAKER_TILT: true,
+   SCRAMBLE_TEXT: true,
+   AMBIENT_GLOW: false,
+   CURSOR_SPECKS: true,
+   GRADIENT_SHIFT: false,
+   HERO_GLOW: true,
+   COIN_CURTAIN: true,
+   HERO_ROTATOR: true,
+   LIQUID_GLASS: true,
 };
