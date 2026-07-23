@@ -44,6 +44,10 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
    LIQUID_GLASS      The CSBC about card becomes a frosted glass panel
                      with a gradient rim and a glow that trails the
                      cursor. Touch/reduced-motion keep the static rim.
+   TIMELINE_GLOW     Mobile only. As the agenda timeline scrolls, a
+                     masked glow + border highlight tracks the card
+                     nearest the viewport centre, lerping smoothly
+                     between cards and settling on the last one.
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
@@ -58,4 +62,5 @@ export const EFFECTS = {
    COIN_CURTAIN: true,
    HERO_ROTATOR: true,
    LIQUID_GLASS: true,
+   TIMELINE_GLOW: true,
 };
