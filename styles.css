@@ -844,7 +844,9 @@ a {
 }
 
 @media (max-width: 939px) {
-  .hero-rotator { display: none; }
+  .hero-rotator {
+    display: none;
+  }
 }
 
 .hero__content {
@@ -2069,6 +2071,36 @@ a {
   50% {
     transform: perspective(760px) rotateX(1.4deg) rotateY(2.6deg);
   }
+}
+
+/* ---- LIQUID_GLASS -------------------------------------------------
+   The CSBC card becomes a frosted glass panel: a translucent gradient
+   fill with a backdrop blur, and a gradient border. `border-image`
+   would give the gradient border in one line but ignores
+   `border-radius` and squares off the corners, so instead the border
+   is a ::before ring — padding sets its thickness, the two-layer
+   mask keeps only that ring visible, and `border-radius: inherit`
+   keeps it concentric with the card's rounded corners. */
+.fx-liquidglass .about-card--org {
+  position: relative;
+  border-color: transparent;
+  background: linear-gradient(140deg, rgba(223, 88, 48, 0.16) 0%, rgba(174, 30, 80, 0.14) 52%, rgba(81, 28, 73, 0.14) 100%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+}
+
+.fx-liquidglass .about-card--org::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: linear-gradient(140deg, var(--bright) 0%, var(--mid) 50%, var(--dark) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
 }
 
 /* ---- SCRAMBLE_TEXT ------------------------------------------------
