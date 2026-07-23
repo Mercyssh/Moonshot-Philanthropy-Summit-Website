@@ -46,22 +46,13 @@ export function initHeroRotator() {
   if (!EFFECTS.HERO_ROTATOR) return;
   const canvas = document.getElementById("heroRotator");
   if (!canvas) return;
-  // Shown two ways: as the desktop stage (>=940px) and, on phones
-  // (<=700px), stacked in flow below the hero copy. The 701-939px band
-  // shows it nowhere, so skip the ~700KB of frames and the rAF loop
-  // there rather than load them unseen.
-  const onDesktop = window.matchMedia("(min-width: 940px)").matches;
-  const onMobile = window.matchMedia("(max-width: 700px)").matches;
-  if (!onDesktop && !onMobile) return;
+  // .hero__stage is display:none below 940px — skip the ~700KB of
+  // frames and the rAF loop entirely rather than load them unseen.
+  // Phones get the HERO_MARQUEE ribbon instead.
+  if (window.matchMedia("(max-width: 939px)").matches) return;
 
   document.documentElement.classList.add("fx-hero-rotator");
   const ctx = canvas.getContext("2d");
-
-  // On phones the ribbon is laid on its side so it reads as a full-width
-  // horizontal band. Only the SHAPE (the mask) is rotated, not the photo
-  // drawn through it — so the images stay upright. 90° on a square buffer
-  // maps the frame onto itself with no clipping.
-  const shapeAngle = onMobile ? Math.PI / 2 : 0;
 
   const src = (i) => `assets/hero-animation/${String(i + 1).padStart(4, "0")}.webp`;
   const frames = new Array(ROTATOR_FRAME_COUNT);
@@ -135,28 +126,12 @@ export function initHeroRotator() {
     ctx.globalCompositeOperation = "source-over";
   }
 
-  // Paint one shape frame onto shapeCanvas, honouring shapeAngle. Kept in
-  // one place so both draw() and blend() rotate the mask identically.
-  function drawShape(img, alpha) {
-    sctx.globalAlpha = alpha;
-    if (shapeAngle) {
-      sctx.save();
-      sctx.translate(W / 2, H / 2);
-      sctx.rotate(shapeAngle);
-      sctx.translate(-W / 2, -H / 2);
-      sctx.drawImage(img, 0, 0, W, H);
-      sctx.restore();
-    } else {
-      sctx.drawImage(img, 0, 0, W, H);
-    }
-    sctx.globalAlpha = 1;
-  }
-
   function draw(index) {
     const img = frames[index];
     if (!img || !img.complete) return;
     sctx.clearRect(0, 0, W, H);
-    drawShape(img, 1);
+    sctx.globalAlpha = 1;
+    sctx.drawImage(img, 0, 0, W, H);
     composite();
   }
 
@@ -168,8 +143,13 @@ export function initHeroRotator() {
     const a = frames[indexA], b = frames[indexB];
     if (!a || !a.complete) return;
     sctx.clearRect(0, 0, W, H);
-    drawShape(a, 1);
-    if (frac > 0 && b && b.complete) drawShape(b, frac);
+    sctx.globalAlpha = 1;
+    sctx.drawImage(a, 0, 0, W, H);
+    if (frac > 0 && b && b.complete) {
+      sctx.globalAlpha = frac;
+      sctx.drawImage(b, 0, 0, W, H);
+      sctx.globalAlpha = 1;
+    }
     composite();
   }
 
