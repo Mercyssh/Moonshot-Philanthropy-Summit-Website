@@ -1524,7 +1524,7 @@ a {
 @media (max-width: 700px) {
   .js-reveal .speaker-card[data-reveal] {
     transform: perspective(1100px) rotateY(82deg);
-    transform-origin: left center;
+    transform-origin: center center;
   }
 
   /* Matching transform-function list for the resting state, so the
