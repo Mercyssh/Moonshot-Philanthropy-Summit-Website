@@ -4,7 +4,7 @@
    Explicit +05:30 offset so the target is the event's local start
    time in Mumbai regardless of where the visitor is.
    ============================================================ */
-const EVENT_START = new Date("2026-08-26T11:00:00+05:30");
+const EVENT_START = new Date("2026-10-06T16:00:00+05:30");
 
 export function initCountdown() {
   const root = document.getElementById("heroCountdown");

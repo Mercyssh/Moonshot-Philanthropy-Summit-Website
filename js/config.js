@@ -52,6 +52,9 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
                      masked glow + border highlight tracks the card
                      nearest the viewport centre, lerping smoothly
                      between cards and settling on the last one.
+   QUOTE_WAVES       Two brand-gradient sine waves drift in opposite
+                     phase behind the pull-quote. Reduced motion draws
+                     them once, static.
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
@@ -68,4 +71,5 @@ export const EFFECTS = {
    HERO_MARQUEE: true,
    LIQUID_GLASS: true,
    TIMELINE_GLOW: true,
+   QUOTE_WAVES: true,
 };

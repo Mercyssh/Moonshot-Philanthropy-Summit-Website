@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Moonshot Philanthropy Summit — CSBC, Ashoka University</title>
+  <title>The Moonshot Philanthropy Summit · Mumbai · October 6 2026</title>
   <meta name="description"
-    content="Behavioral Science x Artificial Intelligence = Impact @ Scale. The Moonshot Philanthropy Summit by the Centre for Social and Behaviour Change, Ashoka University.">
+    content="An invite-only evening for India's boldest minds in CSR, Philanthropy and Social Impact. How moonshot thinking, amplified by behavioural science and AI, can solve India's most pressing challenges. IFBE, Mumbai. 6 October 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -33,6 +33,12 @@
       <path d="M16.4 5.2a3 3 0 0 1 0 5.8" />
       <path d="M17.6 14.2a3.5 3.5 0 0 1 2.6 3.4V19" />
     </symbol>
+    <symbol id="icon-why" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.6" />
+      <circle cx="12" cy="12" r="3.4" />
+      <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3" />
+    </symbol>
     <symbol id="icon-agenda" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
       stroke-linecap="round" stroke-linejoin="round">
       <rect x="3.4" y="5" width="17.2" height="15.4" rx="2.6" />
@@ -51,6 +57,26 @@
         d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z" />
       <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10" />
     </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
+      <path d="M16 2.5v4M8 2.5v4M3 9.5h18" />
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.2v5.1l3.4 2" />
+    </symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10.5c0 5.5-8 11.5-8 11.5s-8-6-8-11.5a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10.3" r="2.8" />
+    </symbol>
+    <symbol id="icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.83 0L2.5 12.5V2.5h10l8.1 8.07a2 2 0 0 1 0 2.83Z" />
+      <path d="M7.3 7.3h.01" />
+    </symbol>
   </svg>
 
   <!-- NAV -->
@@ -60,12 +86,15 @@
         <span class="brand-logo" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
       </a>
       <nav class="nav__links">
-        <a href="#speakers"><svg class="icon" aria-hidden="true">
-            <use href="#icon-speakers" />
-          </svg>Speakers</a>
+        <a href="#why"><svg class="icon" aria-hidden="true">
+            <use href="#icon-why" />
+          </svg>Why</a>
         <a href="#agenda"><svg class="icon" aria-hidden="true">
             <use href="#icon-agenda" />
           </svg>Agenda</a>
+        <a href="#speakers"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</a>
         <a href="#about"><svg class="icon" aria-hidden="true">
             <use href="#icon-about" />
           </svg>About</a>
@@ -80,14 +109,22 @@
       </button>
     </div>
   </header>
+  <!-- Attribution strip attached under the nav; slides away once scrolled
+       (tied to .nav.is-scrolled via the general-sibling selector in CSS). -->
+  <div class="topline" id="topline">
+    <p class="topline__text">An initiative by Ashoka University's Centre for Social and Behaviour Change</p>
+  </div>
   <div class="nav__mobile" id="navMobile">
     <div class="nav__mobile-inner">
-      <a href="#speakers"><svg class="icon" aria-hidden="true">
-          <use href="#icon-speakers" />
-        </svg>Speakers</a>
+      <a href="#why"><svg class="icon" aria-hidden="true">
+          <use href="#icon-why" />
+        </svg>Why</a>
       <a href="#agenda"><svg class="icon" aria-hidden="true">
           <use href="#icon-agenda" />
         </svg>Agenda</a>
+      <a href="#speakers"><svg class="icon" aria-hidden="true">
+          <use href="#icon-speakers" />
+        </svg>Speakers</a>
       <a href="#about"><svg class="icon" aria-hidden="true">
           <use href="#icon-about" />
         </svg>About</a>
@@ -130,14 +167,12 @@
 
       <div class="hero__inner">
         <div class="hero__content">
-          <!-- <p class="eyebrow eyebrow--light">CSBC × Ashoka University present</p> -->
-
           <h1 class="hero__title sr-only">The Moonshot Philanthropy Summit</h1>
           <img class="hero__logo" src="assets/Logo Vertical (White).svg" alt="The Moonshot Philanthropy Summit"
             width="319" height="264">
 
-          <p class="hero__tagline">Behavioral Science <span class="x">×</span> Artificial Intelligence <span
-              class="eq">=</span> Impact @ Scale</p>
+          <p class="hero__tagline">Exploring how <em>Moonshot Thinking</em> <span class="x">×</span> <em>Behavioural
+              Science</em> <span class="x">×</span> <em>AI</em><br>leads to Transformation at Scale</p>
 
           <!-- Phone-only image ribbon (HERO_MARQUEE). Empty and hidden on
                desktop; filled and animated as a 3D cylinder by
@@ -146,16 +181,16 @@
 
           <div class="hero__event">
             <p class="hero__event-date">
-              <span class="hero__event-day">26</span>
+              <span class="hero__event-day">06</span>
               <span class="hero__event-month">
-                <span class="hero__event-monthname">August</span>
+                <span class="hero__event-monthname">October</span>
                 <small>2026</small>
               </span>
             </p>
             <span class="hero__event-rule" aria-hidden="true"></span>
             <p class="hero__event-place">
-              <span class="hero__event-venue">IFBE Centre, Mumbai</span>
-              <span class="hero__event-time">11:00 – 15:00 IST</span>
+              <span class="hero__event-venue">IFBE, Ballard Estate, Mumbai</span>
+              <span class="hero__event-time">16:00 – 19:00 IST</span>
             </p>
           </div>
 
@@ -173,6 +208,9 @@
             <a href="#invite" class="btn btn--primary">Request an Invite</a>
             <a href="#agenda" class="btn btn--ghost">View the agenda</a>
           </div>
+
+          <p class="hero__support">If you're a CSR Head, managing a family office's philanthropy or leading an NGO —
+            apply to be one of the 50 selected minds to engage in this conversation.</p>
         </div>
 
         <!-- Right half, deliberately empty: reserves the grid column so
@@ -191,36 +229,89 @@
       <div class="coin-curtain__coins" id="coinField"></div>
     </div>
 
-    <!-- ============ SPEAKERS ============ -->
-    <section class="section" id="speakers">
+    <!-- ============ WHY ATTEND ============ -->
+    <section class="section" id="why">
       <div class="container">
         <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-speakers" />
-          </svg>Mission Crew</p>
-        <h2 class="section__title">Speakers &amp; Facilitators</h2>
-        <p class="section__lede">A working group of behavioural scientists, technologists and philanthropy leaders
-          convening to turn evidence into scaled impact. Lineup is updated on a rolling basis as sessions are confirmed.
-        </p>
+            <use href="#icon-why" />
+          </svg>Why Attend</p>
+        <h2 class="section__title section__title--wide">What would it take to build the solutions our future needs?</h2>
+        <div class="why__copy">
+          <p>India's most critical challenges — from climate change to financial inclusion to preventive
+            healthcare — have not stalled for lack of funding or intent. They have stalled because incremental
+            approaches produce incremental results. The Moonshot Philanthropy Summit is built around a single
+            conviction: that a moonshot approach, one defined by scale, radical innovation and a willingness to
+            experiment, is what will move these challenges beyond incremental progress and toward genuine,
+            future-ready transformation.</p>
+          <p>The summit will also explore how behavioural science, amplified by AI, can help bold solutions be
+            implemented at scale across India's complex and remarkably diverse population. And it intends to seed
+            something the sector has never had: a new set of metrics and perspectives for CSR/Philanthropy
+            decisions, and frameworks that allow moonshot projects to take off in the first place. This is the
+            need of the hour, as the world and our country enter a new era in which uncertainty, AI, accelerated
+            climate change and rising inequality together reshape our very ways of life.</p>
+        </div>
 
-        <div class="speakers-grid" id="speakersGrid"><!-- added by code in script.js --></div>
+        <div class="pillars">
+          <article class="pillar">
+            <h3 class="pillar__title">Think in Moonshots</h3>
+            <p class="pillar__desc">Scale, radical innovation and a willingness to experiment. The problems are
+              multi-layered; the solutions must be too.</p>
+          </article>
+          <article class="pillar">
+            <h3 class="pillar__title">Scale Through Science</h3>
+            <p class="pillar__desc">Behavioural science and AI make ambitious ideas scalable across India's diverse
+              languages, cultures and lived realities.</p>
+          </article>
+          <article class="pillar">
+            <h3 class="pillar__title">Fund What Is Possible</h3>
+            <p class="pillar__desc">New metrics and new frameworks for impact investment, built to reward ambition
+              rather than only compliance.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PULL-QUOTE ============ -->
+    <section class="pullquote" aria-label="Pull quote">
+      <!-- two phased waves, drawn + animated in quote-waves.js -->
+      <canvas class="pullquote__waves" id="quoteWaves" aria-hidden="true"></canvas>
+      <div class="container">
+        <blockquote class="pullquote__text">The reason breakthrough innovation is rare in India's development
+          sector is not a lack of funding. <span class="pullquote__accent grad-text">It is a lack of funding structures
+            that reward bold thinking.</span></blockquote>
       </div>
     </section>
 
     <!-- ============ AGENDA ============ -->
-    <section class="section section--tint" id="agenda">
+    <section class="section" id="agenda">
       <div class="container">
         <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
             <use href="#icon-agenda" />
-          </svg>Flight Plan</p>
-        <h2 class="section__title">Why this Summit exists</h2>
+          </svg>Agenda</p>
+        <h2 class="section__title">A call to think bigger, bet bolder</h2>
         <p class="section__lede">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. The Moonshot Philanthropy Summit brings
-          together behavioural science and applied AI to ask one question: what does it take to move
-          social impact interventions from promising pilots to population-level scale? Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris.
+          Two hours, six movements. The evening unfolds as a single narrative, exploring why bold interventions
+          matter, the evidence that they work, how AI can help scale them, how we should fund and measure them,
+          and what the next decade could look like if we get it right.
         </p>
 
         <div class="agenda-list" id="agendaList"><!-- injected by script.js --></div>
+        <p class="agenda-foot"><span>7:00 PM onwards · Drinks &amp; Conversations</span></p>
+      </div>
+    </section>
+
+    <!-- ============ SPEAKERS ============ -->
+    <section class="section section--tint" id="speakers">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</p>
+        <h2 class="section__title">Speakers &amp; Facilitators</h2>
+        <p class="section__lede">The people shaping the evening — scientists, builders, funders and storytellers,
+          each chosen because they have already made the kind of bet this summit argues for. The line-up is being
+          finalised and will be updated on a rolling basis.</p>
+
+        <div class="speakers-grid" id="speakersGrid"><!-- added by code in script.js --></div>
       </div>
     </section>
 
@@ -235,28 +326,21 @@
         <div class="about-grid">
           <div class="about-card">
             <h3>About the Summit</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Curated for funders, founders and policymakers, the Summit is a
-              closed-room working session rather than a broadcast conference — small enough for candid
-              debate, focused enough to leave with a shared playbook.</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-              dolore eu fugiat nulla pariatur.</p>
-          </div>
-          <div class="about-card">
-            <h3>Organising Committee</h3>
-            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-              anim id est laborum. The Summit is convened by a joint committee from CSBC and the Ashoka
-              University Centre for Impact and Policy, with advisory input from a rotating council of
-              practitioners.</p>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium, totam rem aperiam.</p>
+            <p>The Moonshot Philanthropy Summit is convened by Ashoka University's Centre for Social and Behaviour
+              Change to ask a bigger question of Indian philanthropy: what would it take to build the solutions our
+              future needs? Over one curated evening in Mumbai, it brings funders, founders, scientists and
+              policymakers into a single conversation about moonshot interventions, the science and technology that
+              can scale them, and the investment frameworks that can fund them.</p>
+            <p>This is not a traditional conference. It is a working room: live case narratives, real-time
+              brainstorming and a shared ambition to move India's philanthropic capital from incremental giving to
+              catalytic investment.</p>
           </div>
           <div class="about-card about-card--org">
             <h3>Centre for Social and Behaviour Change</h3>
-            <p>CSBC, Ashoka University is dedicated to embedding behavioural science into the design and
-              delivery of social programmes across health, finance, governance and climate — partnering with
-              governments, NGOs and the private sector to test what actually changes behaviour at scale.</p>
+            <p>The Centre for Social and Behaviour Change at Ashoka University works at the frontier of behavioural
+              science and its application to India's most pressing development challenges. Its teams combine
+              rigorous research, evidence-based behavioural design and emerging AI tools to build interventions that
+              change outcomes at population scale — across health, nutrition, financial inclusion and beyond.</p>
             <div class="org-logos">
               <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
                 alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
@@ -283,13 +367,36 @@
           <p class="eyebrow eyebrow--light">Request an Invite</p>
           <h2 class="section__title section__title--light"><svg class="icon icon--inline" aria-hidden="true">
               <use href="#icon-envelope" />
-            </svg>Reserve your seat</h2>
-          <p class="section__lede section__lede--light">Seats are limited to keep the room working. Share your
-            details below and the organising committee will follow up with a confirmation and the full agenda.</p>
+            </svg>Reserve your seat at the table</h2>
+          <p class="section__lede section__lede--light">The summit is invite-only and curated. Around the table: CSR
+            heads of India's largest corporations, ultra-HNI philanthropists, family office leaders, foundation heads
+            and a small number of policymakers, scientists and builders — a room of decision-makers, builders and
+            collaborators, united by the ability to turn ideas into action.</p>
           <ul class="invite__facts">
-            <li><strong>Date</strong><span>26th August, 11:00 – 15:00</span></li>
-            <li><strong>Venue</strong><span>IFBE Centre, Mumbai</span></li>
-            <li><strong>Format</strong><span>In-person, invite only</span></li>
+            <li>
+              <span class="invite__fact-label"><svg class="icon" aria-hidden="true">
+                  <use href="#icon-calendar" />
+                </svg><strong>Date</strong></span>
+              <span>Tuesday, 6 October 2026</span>
+            </li>
+            <li>
+              <span class="invite__fact-label"><svg class="icon" aria-hidden="true">
+                  <use href="#icon-clock" />
+                </svg><strong>Time</strong></span>
+              <span>4:00 – 7:00 PM, drinks after</span>
+            </li>
+            <li>
+              <span class="invite__fact-label"><svg class="icon" aria-hidden="true">
+                  <use href="#icon-pin" />
+                </svg><strong>Venue</strong></span>
+              <span>IFBE, Ballard Estate, Mumbai</span>
+            </li>
+            <li>
+              <span class="invite__fact-label"><svg class="icon" aria-hidden="true">
+                  <use href="#icon-tag" />
+                </svg><strong>Format</strong></span>
+              <span>Invite-only · No delegate fee</span>
+            </li>
           </ul>
         </div>
 
@@ -320,17 +427,26 @@
               </div>
             </div>
             <div class="field">
-              <label for="message">Anything you'd like the committee to know? <span
-                  class="optional">(optional)</span></label>
-              <textarea id="message" name="message" rows="3"></textarea>
+              <label for="interest">Which session or speaker are you most keen to engage with, and why?</label>
+              <textarea id="interest" name="interest" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="linkedin">LinkedIn profile <span class="optional">(optional)</span></label>
+              <input type="url" id="linkedin" name="linkedin" inputmode="url"
+                placeholder="https://linkedin.com/in/…" autocomplete="url">
+            </div>
+            <div class="field field--check">
+              <label class="check">
+                <input type="checkbox" id="consent" name="consent" required>
+                <span>I agree to be contacted by the summit's organising team about my request and event
+                  logistics.</span>
+              </label>
             </div>
 
             <button type="submit" class="btn btn--primary btn--block" id="inviteSubmit">
-              <span class="btn__label">Request an Invite</span>
+              <span class="btn__label">Request My Invite</span>
             </button>
             <p class="invite__status" id="inviteStatus" role="status" aria-live="polite"></p>
-            <p class="invite__fineprint">By submitting, you agree to be contacted by the CSBC team regarding this event.
-            </p>
           </div><!-- /.invite__fields -->
 
           <!-- Swapped in for the fields once the request goes through -->
@@ -341,8 +457,9 @@
                 <path d="M15 27.5 22.5 35 37 20.5" />
               </svg>
             </span>
-            <p class="invite__success-title">Form Submitted</p>
-            <p class="invite__success-text">We'll be in touch by email.</p>
+            <p class="invite__success-title">Thank you for your interest</p>
+            <p class="invite__success-text">Your request has been shared with our curation team, who will review it and
+              get back to you shortly.</p>
           </div>
         </form>
       </div>
@@ -353,7 +470,7 @@
       <div class="container footer__inner">
         <div class="footer__brand">
           <span class="brand-logo brand-logo--footer" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
-          <p class="footer__tagline">Behavioral Science × Artificial Intelligence = Impact @ Scale</p>
+          <p class="footer__tagline">Moonshot Thinking × Behavioural Science × AI = Transformation at Scale</p>
         </div>
         <div class="footer__powered">
           <span class="eyebrow">Powered by</span>

@@ -11,7 +11,9 @@
    ============================================================ */
 import { initScrollStart } from "./scroll-start.js";
 import { renderSpeakers } from "./speakers.js";
-import { renderAgenda } from "./agenda.js";
+import { renderAgenda, initAgendaRail } from "./agenda.js";
+import { initPillarSteps } from "./pillars.js";
+import { initQuoteWaves } from "./quote-waves.js";
 import { initNav } from "./nav.js";
 import { initCountdown } from "./countdown.js";
 import { initHeroStars } from "./hero-stars.js";
@@ -53,4 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrambleText();
   initLiquidGlass();
   initTimelineGlow();
+  initAgendaRail();
+  initPillarSteps();
+  initQuoteWaves();
 });

@@ -22,12 +22,20 @@ export function initInviteForm() {
       phone: form.phone.value.trim(),
       organization: form.organization.value.trim(),
       role: form.role.value.trim(),
-      message: form.message.value.trim(),
+      interest: form.interest.value.trim(),
+      linkedin: form.linkedin.value.trim(),
+      consent: form.consent.checked,
       submittedAt: new Date().toISOString(),
     };
 
     if (!data.fullName || !data.email || !data.phone) {
       status.textContent = "Please fill in your name, email and phone number.";
+      status.classList.add("is-error");
+      return;
+    }
+
+    if (!data.consent) {
+      status.textContent = "Please agree to be contacted so we can follow up on your request.";
       status.classList.add("is-error");
       return;
     }
@@ -71,7 +79,7 @@ export function initInviteForm() {
       status.classList.add("is-error");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.querySelector(".btn__label").textContent = "Request an Invite";
+      submitBtn.querySelector(".btn__label").textContent = "Request My Invite";
     }
   });
 }

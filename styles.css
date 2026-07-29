@@ -206,6 +206,12 @@ a {
   color: #fff;
 }
 
+/* Some titles are full questions/sentences rather than 2–3 words, so
+   they need more room than the default 16ch measure. */
+.section__title--wide {
+  max-width: 26ch;
+}
+
 .section__lede {
   font-size: 17px;
   color: var(--muted);
@@ -350,13 +356,14 @@ a {
   height: auto;
 }
 
+/* the +72px clears the topline attribution strip below the nav */
 .corner-motif--tl {
-  top: calc(var(--nav-h) + 32px);
+  top: calc(var(--nav-h) + 72px);
   left: clamp(18px, 3.6vw, 46px);
 }
 
 .corner-motif--tr {
-  top: calc(var(--nav-h) + 32px);
+  top: calc(var(--nav-h) + 72px);
   right: clamp(18px, 3.6vw, 46px);
 }
 
@@ -687,6 +694,53 @@ a {
 }
 
 /* ============================================================
+   TOPLINE — attribution strip attached under the nav
+
+   Fixed just below the nav and styled to match it. It slides up behind
+   the nav and fades the moment the page is scrolled, driven off the
+   nav's own .is-scrolled class via a general-sibling selector.
+   ============================================================ */
+.topline {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: 48;
+  background: rgba(251, 249, 246, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  transition: transform 0.32s ease, opacity 0.32s ease, visibility 0.32s;
+}
+
+.topline__text {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 7px var(--gutter);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  line-height: 1.4;
+}
+
+.nav.is-scrolled~.topline {
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (max-width: 600px) {
+  .topline__text {
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    padding: 6px var(--gutter);
+  }
+}
+
+/* ============================================================
    HERO
    ============================================================ */
 .hero {
@@ -927,6 +981,10 @@ a {
   animation-delay: 0.82s;
 }
 
+.hero__content>.hero__support {
+  animation-delay: 0.94s;
+}
+
 .hero__arc {
   animation: heroArcIn 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
@@ -949,10 +1007,28 @@ a {
   margin: 0 0 20px 0px;
 }
 
+.hero__tagline em {
+  font-style: italic;
+  color: #fff;
+}
+
 .hero__tagline .x,
 .hero__tagline .eq {
+  font-style: normal;
   color: rgba(255, 255, 255, 0.55);
   padding: 0 2px;
+}
+
+/* One-line qualifier below the CTA — who the room is for. The thin rule
+   on the left edge marks it as an aside to the main call to action. */
+.hero__support {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 44ch;
+  margin: 22px 0 0;
+  padding-left: 16px;
+  border-left: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 /* ---- event name plate: date + venue, the two facts that matter --- */
@@ -1026,10 +1102,6 @@ a {
   line-height: var(--evt-lh);
   letter-spacing: 0.16em;
   color: rgba(255, 255, 255, 0.7);
-}
-
-.hero__event-time {
-  letter-spacing: 0.02em;
 }
 
 .hero__event-rule {
@@ -1259,6 +1331,11 @@ a {
     justify-content: center;
   }
 
+  /* Centred as a block, but its text stays left so the left rule reads. */
+  .hero__support {
+    text-align: left;
+  }
+
   /* No cursor to follow — drop the hero glow entirely on phones. */
   .hero__glow {
     display: none;
@@ -1455,6 +1532,213 @@ a {
 }
 
 /* ============================================================
+   WHY ATTEND
+   ============================================================ */
+/* Two-column body copy on wide screens, collapsing to one below. */
+/* Full container width so the two text columns line up with the total
+   span of the three pillar cards below. */
+.why__copy {
+  columns: 2;
+  column-gap: 24px;
+  /* extra bottom room so the "1" above the first card clears the copy */
+  margin: 0 0 72px;
+}
+
+.why__copy p {
+  font-size: 16px;
+  color: var(--muted);
+  margin: 0;
+  /* keep a paragraph from splitting across the two columns */
+  break-inside: avoid;
+}
+
+.why__copy p+p {
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .why__copy {
+    columns: 1;
+    margin-bottom: 40px;
+  }
+}
+
+/* Three pillar cards — the summit's argument in brief. */
+/* Staircase: each card steps down from the one before it. align-items:
+   start keeps the offsets intact rather than stretching all three to a
+   common height. */
+.pillars {
+  counter-reset: pillar;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.pillar:nth-child(2) {
+  margin-top: 64px;
+}
+
+.pillar:nth-child(3) {
+  margin-top: 128px;
+}
+
+@media (max-width: 760px) {
+  .pillars {
+    grid-template-columns: 1fr;
+  }
+
+  /* stacked single column — drop the staircase offsets and its steps */
+  .pillar:nth-child(2),
+  .pillar:nth-child(3) {
+    margin-top: 0;
+  }
+
+  .pillar::before {
+    display: none;
+  }
+}
+
+.pillar {
+  position: relative;
+  counter-increment: pillar;
+  background: #fff;
+  border: 1px solid var(--line);
+  /* a brand-coloured accent along the top edge marks these as the pillars */
+  border-top: 3px solid var(--mid);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* The "step" each card stands on — same width as the card, dropping to a
+   common floor so the three steps decrease in height (tallest under the
+   highest card). --step-h is set per card by initPillarSteps(). */
+.pillar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 10px);
+  height: var(--step-h, 40px);
+  border-radius: var(--radius);
+  background: rgba(27, 18, 32, 0.05);
+}
+
+/* the column number, sitting clearly above each card and stepping down
+   with it (its box height is 1em, so -1em lifts it fully clear). */
+.pillar::after {
+  content: counter(pillar);
+  position: absolute;
+  top: calc(-1em - 10px);
+  left: 2px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(42px, 5.2vw, 58px);
+  line-height: 1;
+  color: rgba(27, 18, 32, 0.16);
+  pointer-events: none;
+}
+
+.pillar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px -20px rgba(81, 28, 73, 0.4);
+}
+
+.pillar__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  margin: 0 0 12px;
+}
+
+.pillar__desc {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================================
+   PULL-QUOTE
+   A tinted band between Why Attend and the agenda.
+   ============================================================ */
+.pullquote {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paper-2);
+  padding: 64px 0;
+}
+
+/* Two subtle flowing waves behind the quote, drawn in quote-waves.js. */
+.pullquote__waves {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  opacity: 0.16;
+}
+
+.pullquote .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Full-width, balanced lines, flanked by a gradient quote mark on each
+   side. The marks are inline pseudo-elements so they hug the text at any
+   line count rather than hanging in a fixed margin. */
+.pullquote__text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(21px, 3.2vw, 32px);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* The accent sentence sits on its own line, below the lead — a single
+   line on wide screens, wrapping only where it would otherwise overflow. */
+.pullquote__accent {
+  display: block;
+  margin-top: 0.16em;
+}
+
+.pullquote__text::before,
+.pullquote__accent::after {
+  font-size: 1.3em;
+  line-height: 0;
+  vertical-align: -0.34em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pullquote__text::before {
+  content: "\201C";
+  margin-right: 0.08em;
+}
+
+.pullquote__accent::after {
+  content: "\201D";
+  margin-left: 0.06em;
+}
+
+@media (max-width: 620px) {
+  .pullquote {
+    padding: 48px 0;
+  }
+}
+
+/* ============================================================
    SPEAKERS
    ============================================================ */
 /* Explicit column counts rather than auto-fill: with 6 speakers the
@@ -1513,6 +1797,15 @@ a {
   line-height: 1.45;
 }
 
+/* the one-line role each speaker plays in the evening */
+.speaker-card__summit {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--mid);
+  margin: 8px 0 0;
+  line-height: 1.4;
+}
+
 /* On phones each card reveals by swinging in from edge-on to flat,
    hinged on its left edge. This reuses the scroll-reveal machinery:
    the JS still tags the card with data-reveal / is-visible, we just
@@ -1550,12 +1843,14 @@ a {
   padding-left: var(--rail-gap);
 }
 
+/* top / bottom are set by initAgendaRail() so the rail starts at the
+   first node and ends at the last; the fallbacks apply before JS runs. */
 .agenda-list::before {
   content: "";
   position: absolute;
   left: var(--rail-x);
-  top: 12px;
-  bottom: 12px;
+  top: var(--rail-top, 12px);
+  bottom: var(--rail-bottom, 12px);
   width: 2px;
   border-radius: 2px;
   background: linear-gradient(180deg, var(--bright), var(--mid) 45%, var(--dark));
@@ -1579,7 +1874,7 @@ a {
   border-radius: 50%;
   background: #fff;
   border: 3px solid var(--mid);
-  box-shadow: 0 0 0 4px var(--paper-2);
+  box-shadow: 0 0 0 4px var(--paper);
 }
 
 .agenda-item {
@@ -1601,13 +1896,16 @@ a {
   box-shadow: 0 14px 28px -16px rgba(81, 28, 73, 0.35);
 }
 
-.agenda-item__time {
-  font-size: 13px;
-  font-weight: 600;
+/* the session's format, sitting in the left column where the time was */
+.agenda-item__tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--mid);
-  white-space: nowrap;
+  line-height: 1.35;
   margin: 0;
-  padding-top: 3px;
+  padding-top: 4px;
 }
 
 .agenda-item__title {
@@ -1624,6 +1922,51 @@ a {
   max-width: 70ch;
 }
 
+/* speaker role(s) for the session — the "With …" line under the copy */
+.agenda-item__speakers {
+  font-size: 13px;
+  color: var(--ink);
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+
+.agenda-item__speakers span {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--muted);
+  margin-right: 6px;
+}
+
+/* closing line under the timeline: the label sits at the left, then a
+   rule fills the remaining width to the right in the same colour. */
+.agenda-foot {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 26px 0 0;
+  padding-left: 40px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--mid);
+}
+
+.agenda-foot::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+@media (max-width: 620px) {
+  .agenda-foot {
+    padding-left: 26px;
+  }
+}
+
 @media (max-width: 620px) {
   .agenda-list {
     --rail-gap: 26px;
@@ -1635,9 +1978,9 @@ a {
     padding: 20px 22px;
   }
 
-  .agenda-item__time {
+  .agenda-item__tag {
     padding-top: 0;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .agenda-item::before {
@@ -1720,9 +2063,10 @@ a {
 /* ============================================================
    ABOUT
    ============================================================ */
+/* Two stacked blocks now: the summit overview, then the CSBC panel. */
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
 }
 
@@ -1817,15 +2161,35 @@ a {
 
 .invite__facts li {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   color: #fff;
   font-size: 14.5px;
   gap: 16px;
 }
 
+/* icon + label group on the left of each fact row */
+.invite__fact-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+}
+
+.invite__facts .icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: rgba(255, 255, 255, 0.65);
+}
+
 .invite__facts strong {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.invite__facts li>span:last-child {
+  text-align: right;
 }
 
 .invite__form {
@@ -1885,6 +2249,36 @@ a {
   box-shadow: 0 0 0 3px rgba(174, 30, 80, 0.15);
 }
 
+/* consent row — a checkbox and its wrapping label, laid out inline.
+   Extra bottom margin sets it apart from the submit button below. */
+.field--check {
+  margin-top: 6px;
+  margin-bottom: 24px;
+}
+
+.field .check {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.field .check input {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  margin-top: 1px;
+  border-radius: 5px;
+  accent-color: var(--mid);
+  cursor: pointer;
+}
+
 .invite__status {
   min-height: 20px;
   font-size: 14px;
@@ -1898,12 +2292,6 @@ a {
 
 .invite__status.is-error {
   color: #c62f3a;
-}
-
-.invite__fineprint {
-  font-size: 12px;
-  color: var(--muted);
-  margin: 10px 0 0;
 }
 
 /* ---- submitted state ---------------------------------------- */
