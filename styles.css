@@ -9,13 +9,10 @@
   --line: #E7DFE2;
 
   /* Brand ramp — matches the gradient baked into the Summit wordmark.
-     Written in HSL rather than hex so GRADIENT_SHIFT can rotate the whole
-     ramp from one variable. At --hue-shift: 0 these resolve to exactly
-     the original #DF5830 / #AE1E50 / #511C49. */
-  --hue-shift: 0deg;
-  --bright: hsl(calc(13.7deg + var(--hue-shift)) 73.2% 53.1%);
-  --mid: hsl(calc(339.2deg + var(--hue-shift)) 70.6% 40%);
-  --dark: hsl(calc(309deg + var(--hue-shift)) 48.6% 21.4%);
+     Equivalent to the original #DF5830 / #AE1E50 / #511C49. */
+  --bright: hsl(13.7deg 73.2% 53.1%);
+  --mid: hsl(339.2deg 70.6% 40%);
+  --dark: hsl(309deg 48.6% 21.4%);
 
   --grad: linear-gradient(45deg, var(--bright) 0%, var(--mid) 48%, var(--dark) 100%);
   --grad-soft: linear-gradient(45deg, rgba(223, 88, 48, 0.09) 0%, rgba(174, 30, 80, 0.07) 48%, rgba(81, 28, 73, 0.07) 100%);
@@ -1117,11 +1114,15 @@ a {
   .hero__event {
     flex-direction: column;
     gap: 14px;
-    width: 100%;
+    /* shrink to the widest of the date / venue blocks so the divider,
+       which stretches to this box, can be exactly that width */
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
   }
 
   .hero__event-rule {
-    width: 100%;
+    width: auto;
     height: 1px;
     min-height: 0;
     align-self: stretch;
@@ -2511,18 +2512,6 @@ a {
    transitioned/animated; without it they still work, they just jump
    instead of easing.
    ============================================================ */
-@property --spot-a {
-  syntax: "<number>";
-  initial-value: 0;
-  inherits: false;
-}
-
-@property --sweep-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 /* ---- MAGNETIC_BUTTONS --------------------------------------------
    The transform itself lives on `.btn` (it composes the drift with the
    hover lift). Nothing more is needed here beyond a slightly snappier
@@ -2530,122 +2519,6 @@ a {
 .fx-magnetic .btn {
   transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
-}
-
-/* ---- AMBIENT_GLOW -------------------------------------------------
-   A single light that follows the cursor across the whole page rather
-   than lighting each card separately.
-
-   The trick is `background-attachment: fixed`: it anchors the gradient
-   to the viewport instead of to each element, so every surface samples
-   the same light at the same screen position. The result reads as one
-   continuous sheet passing under the sections and the cards alike,
-   which per-element glows cannot do.
-
-   Fine pointers only — it is cursor-driven, and `background-attachment:
-   fixed` is unreliable on mobile Safari. */
-.fx-ambient .section,
-.fx-ambient .footer,
-.fx-ambient .hero__arc {
-  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.17),
-      rgba(223, 88, 48, 0.10) 38%,
-      transparent 72%);
-  background-attachment: fixed;
-}
-
-/* .hero__arc is an opaque --paper curve sitting over the hero's foot.
-   Without its own copy of the glow the light simply vanished behind it
-   at the hero/speakers boundary. Painting the same viewport-anchored
-   gradient onto it lets the light carry straight across the seam. */
-.fx-ambient .hero__arc {
-  background-color: var(--paper);
-}
-
-/* the raised surfaces get a lighter dose so they still read as raised */
-.fx-ambient .agenda-item,
-.fx-ambient .about-card,
-.fx-ambient .invite__form {
-  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.12),
-      rgba(223, 88, 48, 0.07) 38%,
-      transparent 72%);
-  background-attachment: fixed;
-}
-
-/* this card already carries the brand wash — layer, don't replace */
-.fx-ambient .about-card--org {
-  background-image: radial-gradient(700px circle at var(--glow-x, 50vw) var(--glow-y, 40vh),
-      rgba(174, 30, 80, 0.12),
-      rgba(223, 88, 48, 0.07) 38%,
-      transparent 72%),
-    var(--grad-soft);
-  background-attachment: fixed, scroll;
-}
-
-/* ---- SPOTLIGHT_CARDS ---------------------------------------------
-   Painted as a background-image, not a pseudo-element: ::before on
-   .agenda-item is the timeline dot and clipping a pseudo to the
-   rounded corners would need overflow:hidden, which would cut it off. */
-.fx-spotlight .agenda-item,
-.fx-spotlight .about-card {
-  background-image: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(174, 30, 80, calc(0.14 * var(--spot-a, 0))) 0%,
-      rgba(223, 88, 48, calc(0.07 * var(--spot-a, 0))) 34%,
-      transparent 62%);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, --spot-a 0.3s ease;
-}
-
-/* this card already carries the soft brand wash — layer, don't replace */
-.fx-spotlight .about-card--org {
-  background-image: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(174, 30, 80, calc(0.14 * var(--spot-a, 0))) 0%,
-      rgba(223, 88, 48, calc(0.07 * var(--spot-a, 0))) 34%,
-      transparent 62%),
-    var(--grad-soft);
-}
-
-/* ---- SWEEP_BORDERS ------------------------------------------------
-   A conic gradient rotated behind a two-layer mask that hides
-   everything except a 1.5px ring, so the streak rides the edge. */
-.fx-sweep .agenda-item,
-.fx-sweep .about-card {
-  position: relative;
-}
-
-.fx-sweep .agenda-item::after,
-.fx-sweep .about-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: inherit;
-  padding: 1.5px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: conic-gradient(from var(--sweep-angle),
-      transparent 0turn 0.58turn,
-      rgba(255, 255, 255, 0.9) 0.74turn,
-      var(--bright) 0.8turn,
-      rgba(255, 255, 255, 0.9) 0.86turn,
-      transparent 0.95turn 1turn);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-}
-
-.fx-sweep .agenda-item:hover::after,
-.fx-sweep .about-card:hover::after {
-  opacity: 1;
-  animation: sweepTravel 1.5s linear infinite;
-}
-
-@keyframes sweepTravel {
-  to {
-    --sweep-angle: 360deg;
-  }
 }
 
 /* ---- SPEAKER_TILT -------------------------------------------------

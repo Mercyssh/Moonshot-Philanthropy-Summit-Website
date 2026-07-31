@@ -15,22 +15,12 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
    MAGNETIC_BUTTONS  Buttons drift toward the cursor, snap back on
                      leave. Desktop pointers only.
-   SPOTLIGHT_CARDS   Soft radial glow tracks the cursor across the
-                     agenda and about cards. On touch devices the
-                     glow follows scroll position instead.
-   SWEEP_BORDERS     A light streak travels around the card edge on
-                     hover (agenda + about cards).
    SPEAKER_TILT      Speaker photos rotate slightly toward the
                      cursor. On touch devices they sway gently.
    SCRAMBLE_TEXT     Headings resolve out of random glyphs the first
                      time each one comes into view.
-   AMBIENT_GLOW      One soft light follows the cursor across the whole
-                     page — sections and cards alike — instead of
-                     lighting each card on its own. Desktop only.
    CURSOR_SPECKS     The hero specks scatter away from the cursor. On
                      touch devices they drift with scroll velocity.
-   GRADIENT_SHIFT    The brand ramp rotates hue slightly as you scroll
-                     from the hero down to the invite section.
    HERO_GLOW         A soft pool of light follows the cursor across the
                      hero's gradient, with easing. Touch devices and
                      reduced-motion get a slow automatic drift instead.
@@ -58,13 +48,9 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
-   SPOTLIGHT_CARDS: false,
-   SWEEP_BORDERS: false,
    SPEAKER_TILT: true,
    SCRAMBLE_TEXT: true,
-   AMBIENT_GLOW: false,
    CURSOR_SPECKS: true,
-   GRADIENT_SHIFT: false,
    HERO_GLOW: true,
    COIN_CURTAIN: true,
    HERO_ROTATOR: true,
