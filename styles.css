@@ -160,7 +160,7 @@ a {
 
 @media (max-width: 480px) {
   .powered-lockup {
-    height: 31px;
+    height: 38px;
   }
 
   .powered-lockup--lg {
@@ -670,7 +670,7 @@ a {
 }
 
 .nav__mobile-partners img {
-  height: 34px;
+  height: 42px;
   width: auto;
 }
 
