@@ -149,22 +149,22 @@ a {
 /* Ashoka × CSBC lockup. Two variants of the same artwork: the dark one
    on light surfaces, the white one direct on the gradient hero. */
 .powered-lockup {
-  height: 45px;
+  height: 54px;
   width: auto;
   display: block;
 }
 
 .powered-lockup--lg {
-  height: 44px;
+  height: 53px;
 }
 
 @media (max-width: 480px) {
   .powered-lockup {
-    height: 26px;
+    height: 31px;
   }
 
   .powered-lockup--lg {
-    height: 32px;
+    height: 38px;
   }
 }
 
@@ -519,7 +519,7 @@ a {
 
 .nav__partners img {
   display: none;
-  height: 24px;
+  height: 38px;
   width: auto;
 }
 
@@ -533,7 +533,7 @@ a {
 
 @media (min-width: 1180px) {
   .nav__partners img {
-    height: 30px;
+    height: 46px;
   }
 }
 
@@ -670,7 +670,7 @@ a {
 }
 
 .nav__mobile-partners img {
-  height: 28px;
+  height: 34px;
   width: auto;
 }
 
