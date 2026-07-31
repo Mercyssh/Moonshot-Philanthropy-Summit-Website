@@ -12,13 +12,15 @@ import { reducedMotion } from "./utils.js";
    Reduced motion: the two waves are drawn once, static.
    ---- tuning ----------------------------------------------------
    WAVE_AMP        peak height of each wave, capped to a share of the band
-   WAVE_FREQ       number of full undulations across the width
    WAVE_WIDTH      stroke thickness in CSS px
+   WAVE_FREQ_A/B   per-wave undulation count across the width (kept distinct
+                   so the two lines can never coincide into a parallel pair)
    WAVE_SPEED_A/B  per-wave phase advance per millisecond (drift speed)
    WAVE_PHASE_A/B  per-wave starting phase offset (radians)
    ============================================================ */
-const WAVE_FREQ = 1.4;
 const WAVE_WIDTH = 2;
+const WAVE_FREQ_A = 1.4;
+const WAVE_FREQ_B = 1.7;
 const WAVE_SPEED_A = 0.0006;
 const WAVE_SPEED_B = 0.00024;
 const WAVE_PHASE_A = 0;
@@ -54,10 +56,10 @@ export function initQuoteWaves() {
   }
 
   // One wave, drawn past both edges so its moving endpoints never show.
-  function wave(phase, yBase, amp) {
+  function wave(phase, yBase, amp, freq) {
     ctx.beginPath();
     for (let x = -40; x <= w + 40; x += 6) {
-      const y = yBase + amp * Math.sin((x / w) * WAVE_FREQ * Math.PI * 2 + phase);
+      const y = yBase + amp * Math.sin((x / w) * freq * Math.PI * 2 + phase);
       x === -40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     ctx.stroke();
@@ -70,8 +72,8 @@ export function initQuoteWaves() {
     const amp = Math.min(h * 0.16, 40);
     // two lines, each drifting at its own speed from its own phase offset,
     // so they weave past each other instead of moving in lockstep
-    wave(WAVE_PHASE_A + t * WAVE_SPEED_A, h * 0.42, amp);
-    wave(WAVE_PHASE_B + t * WAVE_SPEED_B, h * 0.58, amp);
+    wave(WAVE_PHASE_A + t * WAVE_SPEED_A, h * 0.42, amp, WAVE_FREQ_A);
+    wave(WAVE_PHASE_B + t * WAVE_SPEED_B, h * 0.58, amp, WAVE_FREQ_B);
   }
 
   resize();
