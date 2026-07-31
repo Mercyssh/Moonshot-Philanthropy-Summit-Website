@@ -1112,22 +1112,24 @@ a {
 }
 
 @media (max-width: 560px) {
+  /* Stack date over venue with a horizontal divider between them, rather
+     than the desktop side-by-side split with a vertical rule. */
   .hero__event {
-    flex-direction: row;
+    flex-direction: column;
     gap: 14px;
   }
 
   .hero__event-rule {
-    width: 1px;
-    height: 30px;
+    width: 46px;
+    height: 1px;
     min-height: 0;
     align-self: center;
     flex: none;
   }
 
   .hero__event-place {
-    text-align: left;
-    align-items: flex-start;
+    text-align: center;
+    align-items: center;
   }
 }
 
@@ -1321,6 +1323,13 @@ a {
    is centred and the desktop rotator is dropped in favour of the
    HERO_MARQUEE cylinder, which sits inline within the centred copy. */
 @media (max-width: 700px) {
+  /* The topline attribution strip wraps to two lines on phones, so the
+     hero needs more top clearance than the desktop +56px or the logo
+     crowds it. */
+  .hero {
+    padding-top: calc(var(--nav-h) + 96px);
+  }
+
   .hero__content {
     align-items: center;
     text-align: center;
@@ -1331,9 +1340,22 @@ a {
     justify-content: center;
   }
 
-  /* Centred as a block, but its text stays left so the left rule reads. */
+  /* Phones lead with "View the agenda"; the primary invite CTA follows. */
+  .hero__cta .btn--ghost {
+    order: -1;
+  }
+
+  /* Drop the left rule on phones; an inline asterisk marks the aside
+     instead (see ::before below). */
   .hero__support {
     text-align: left;
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .hero__support::before {
+    content: "*";
+    margin-right: 0.35em;
   }
 
   /* No cursor to follow — drop the hero glow entirely on phones. */
@@ -1359,7 +1381,7 @@ a {
 
 @media (max-width: 700px) {
   .fx-hero-marquee .hero-marquee {
-    --marquee-height: 120px;
+    --marquee-height: 148px;
     --marquee-gap: 14px;
     --marquee-speed: 32s;
     --marquee-tint: 0.5;
@@ -1597,6 +1619,17 @@ a {
 
   .pillar::before {
     display: none;
+  }
+
+  /* Move the number off the top of the card and inline it into the
+     title instead: "1. Think in Moonshots". */
+  .pillar::after {
+    display: none;
+  }
+
+  .pillar__title::before {
+    content: counter(pillar) ". ";
+    color: var(--mid);
   }
 }
 
