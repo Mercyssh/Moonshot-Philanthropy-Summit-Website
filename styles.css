@@ -1704,8 +1704,8 @@ a {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: var(--paper-2);
-  padding: 64px 0;
+  background: var(--paper);
+  padding: 112px 0 64px;
 }
 
 /* Two subtle flowing waves behind the quote, drawn in quote-waves.js. */
@@ -1769,7 +1769,7 @@ a {
 
 @media (max-width: 620px) {
   .pullquote {
-    padding: 48px 0;
+    padding: 80px 0 48px;
   }
 }
 
