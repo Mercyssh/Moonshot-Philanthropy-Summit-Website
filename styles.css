@@ -1117,13 +1117,14 @@ a {
   .hero__event {
     flex-direction: column;
     gap: 14px;
+    width: 100%;
   }
 
   .hero__event-rule {
-    width: 46px;
+    width: 100%;
     height: 1px;
     min-height: 0;
-    align-self: center;
+    align-self: stretch;
     flex: none;
   }
 
@@ -1389,7 +1390,8 @@ a {
     display: block;
     width: 100%;
     height: var(--marquee-height);
-    margin: 6px 0 24px;
+    /* bottom gap matches .hero__event's 34px margin (date → countdown) */
+    margin: 6px 0 34px;
     /* slot the entrance between the tagline (0.40s) and date (0.54s) */
     animation-delay: 0.47s;
     overflow: hidden;
