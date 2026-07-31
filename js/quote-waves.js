@@ -69,7 +69,9 @@ export function initQuoteWaves() {
     ctx.clearRect(0, 0, w, h);
     ctx.lineWidth = WAVE_WIDTH;
     ctx.strokeStyle = grad();
-    const amp = Math.min(h * 0.16, 40);
+    // Cap by height, an absolute ceiling, and — on narrow screens — a share
+    // of the width, so a tall wrapped quote on mobile doesn't swing too far.
+    const amp = Math.min(h * 0.16, 40, w * 0.06);
     // two lines, each drifting at its own speed from its own phase offset,
     // so they weave past each other instead of moving in lockstep
     wave(WAVE_PHASE_A + t * WAVE_SPEED_A, h * 0.42, amp, WAVE_FREQ_A);
