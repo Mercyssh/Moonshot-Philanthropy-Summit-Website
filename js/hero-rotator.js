@@ -21,11 +21,14 @@ import { reducedMotion, clamp } from "./utils.js";
    ROTATOR_TURN_MS       duration of the eased turn between stops
    ROTATOR_STOPS         resting positions per full 360° cycle
    ------------------------------------------------------------------- */
-const ROTATOR_FRAME_COUNT = 59;
+const ROTATOR_FRAME_COUNT = 95;
 const ROTATOR_HOLD_MS = 3000;
-const ROTATOR_TURN_MS = 300;
+// A turn steps through ~FRAME_COUNT/STOPS frames (~24 here). Keep this
+// long enough that each gets at least one paint at 60fps
+// (frames-per-turn / 60 ≈ 400ms) or the loop skips frames. 450ms adds
+// headroom for timing jitter.
+const ROTATOR_TURN_MS = 450;
 const ROTATOR_STOPS = 4;
-const ROTATOR_CROSSFADE = true; // blend adjacent frames for sub-frame smoothness
 // The shape acts as a window onto these images. Spaces must be URL-encoded.
 // The list is cycled: each turn reveals the next image. Add more here to
 // get more variety — with a single entry nothing appears to change.
@@ -135,24 +138,6 @@ export function initHeroRotator() {
     composite();
   }
 
-  // Crossfade two adjacent frames onto the shape canvas: base at full,
-  // next layered at `frac`. In the overlapping shape region this resolves
-  // to a true crossfade; the thin non-overlap sliver ghosts, which reads
-  // as motion blur and helps the low frame count feel smoother.
-  function blend(indexA, indexB, frac) {
-    const a = frames[indexA], b = frames[indexB];
-    if (!a || !a.complete) return;
-    sctx.clearRect(0, 0, W, H);
-    sctx.globalAlpha = 1;
-    sctx.drawImage(a, 0, 0, W, H);
-    if (frac > 0 && b && b.complete) {
-      sctx.globalAlpha = frac;
-      sctx.drawImage(b, 0, 0, W, H);
-      sctx.globalAlpha = 1;
-    }
-    composite();
-  }
-
   // Frame 0 loads eagerly so the hero isn't blank; the rest load in
   // the background, well ahead of when the loop first needs them.
   const first = new Image();
@@ -165,13 +150,21 @@ export function initHeroRotator() {
   function loadRest() {
     for (let i = 1; i < ROTATOR_FRAME_COUNT; i++) {
       const img = new Image();
-      img.decoding = "async";
       img.src = src(i);
       frames[i] = img;
+      // Decode up front, off the main thread. `decoding="async"` is only a
+      // hint — an undecoded image still decodes *synchronously* on its first
+      // drawImage, and that stall mid-turn is what makes the rotation
+      // occasionally skip frames. decode() guarantees the bitmap is ready so
+      // every drawImage during a turn is cheap.
+      if (img.decode) img.decode().catch(() => {});
     }
   }
-  if ("requestIdleCallback" in window) requestIdleCallback(loadRest, { timeout: 2000 });
-  else setTimeout(loadRest, 300);
+  // Start decoding well before the first turn (at HOLD_MS) so all frames are
+  // ready by then. A short idle timeout keeps it off the critical first paint
+  // but still gives ~2.5s of runway to decode the sequence.
+  if ("requestIdleCallback" in window) requestIdleCallback(loadRest, { timeout: 400 });
+  else setTimeout(loadRest, 200);
 
   // Evenly spaced resting frames regardless of whether FRAME_COUNT
   // divides cleanly by STOPS — rounding to the nearest frame is
@@ -216,8 +209,9 @@ export function initHeroRotator() {
       else drawOnce(stopIndex(stop));
       if (now - phaseStart >= ROTATOR_HOLD_MS) beginTurn(now);
     } else {
-      // Linear progress — no easing. Crossfade between the two nearest
-      // frames each tick so motion is smooth despite the low frame count.
+      // Linear progress — no easing. Step straight to the frame at this
+      // progress; the higher frame count keeps the motion smooth without
+      // blending adjacent frames.
       const t = clamp((now - phaseStart) / ROTATOR_TURN_MS, 0, 1);
       maskFade = t; // photo crossfade tracks the turn's progress
       if (t >= 1) {
@@ -225,15 +219,11 @@ export function initHeroRotator() {
         stop = (stop + 1) % ROTATOR_STOPS;
         phase = "hold";
         phaseStart = now;
-        drawn = -1; // force a repaint after blending bypassed drawOnce
+        drawn = -1; // force a repaint on the next hold
         drawOnce(stopIndex(stop));
       } else {
-        const pos = t * span;
-        const base = Math.floor(pos);
-        const idxA = (fromIdx + base) % ROTATOR_FRAME_COUNT;
-        const idxB = (fromIdx + base + 1) % ROTATOR_FRAME_COUNT;
-        if (ROTATOR_CROSSFADE) blend(idxA, idxB, pos - base);
-        else draw(idxA);
+        const idx = (fromIdx + Math.round(t * span)) % ROTATOR_FRAME_COUNT;
+        draw(idx);
       }
     }
     raf = requestAnimationFrame(tick);
