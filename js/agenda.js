@@ -8,26 +8,26 @@
 export const AGENDA = [
   {
     tag: "Opening Keynote",
-    title: "How behavioural science and AI can solve complex problems",
+    title: "How Behavioural Science and AI Can Solve Complex Problems",
     desc: "Why India's hardest challenges have plateaued, and what becomes possible when moonshot thinking converges with behavioural science and AI. The intellectual foundation for everything that follows.",
     speakers: "Director, CSBC, Ashoka University",
   },
   {
     tag: "Live Case Narrative",
     title: "Intervention to Impact: A Real Life Story",
-    desc: "What a bold intervention actually changes on the ground — told first by the person whose life it changed, then decoded by the director who designed it. Moonshot impact is not a theory; it reshapes real lives.",
+    desc: "What a bold intervention actually changes on the ground – told first by the person whose life it changed, then decoded by the director who designed it. Moonshot impact is not a theory; it reshapes real lives.",
     speakers: "Programme Beneficiary · Project Director, CSBC",
   },
   {
     tag: "Live Brainstorming Session",
     title: "Why AI is an Amplifier",
-    desc: "A builder, an implementer and a technology thinker workshop in real time: what does it take for AI to carry bold interventions across India's complexity of language, infrastructure, trust and culture? Not a rehearsed panel — a working session.",
+    desc: "A builder, an implementer and a technology thinker workshop in real time: what does it take for AI to carry bold interventions across India's complexity of language, infrastructure, trust and culture? Not a rehearsed panel – a working session.",
     speakers: "Founder, AI Start-up · Head, Leading NGO · Opinion Leader on Technology",
   },
   {
     tag: "Panel",
     title: "Reimagining Metrics",
-    desc: "If moonshots need a new funding structure, they need a new measure of success. A storyteller, a CSR insider and a venture capitalist on metrics that capture transformation rather than only output — and portfolios that satisfy the board while backing the bold.",
+    desc: "If moonshots need a new funding structure, they need a new measure of success. A storyteller, a CSR insider and a venture capitalist on metrics that capture transformation rather than only output – and portfolios that satisfy the board while backing the bold.",
     speakers: "Leader, Media & Creative Enterprise · CSR Committee Leader · Venture Capitalist",
   },
   {

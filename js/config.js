@@ -52,7 +52,7 @@ export const EFFECTS = {
    SCRAMBLE_TEXT: true,
    CURSOR_SPECKS: true,
    HERO_GLOW: true,
-   COIN_CURTAIN: true,
+   COIN_CURTAIN: false,
    HERO_ROTATOR: true,
    HERO_MARQUEE: true,
    LIQUID_GLASS: true,

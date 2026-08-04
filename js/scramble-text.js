@@ -4,7 +4,7 @@ import { reducedMotion } from "./utils.js";
 /* ============================================================
    EFFECT: SCRAMBLE_TEXT
    ============================================================ */
-const SCRAMBLE_SELECTOR = ".hero__tagline, .section__title";
+const SCRAMBLE_SELECTOR = ".section__title";
 
 export function initScrambleText() {
   if (!EFFECTS.SCRAMBLE_TEXT || reducedMotion()) return;
@@ -21,8 +21,8 @@ export function initScrambleText() {
     el.dataset.scrambled = "1";
 
     // Walk text nodes rather than swapping innerHTML, so inline children
-    // survive: the styled × and = in the tagline, and the envelope icon
-    // in "Reserve your seat" would both be destroyed by a text swap.
+    // survive: the envelope icon in "Reserve Your Seat" would be
+    // destroyed by a text swap.
     const parts = [];
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {

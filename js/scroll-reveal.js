@@ -19,7 +19,6 @@ const REVEAL_SELECTOR = [
   ".invite__form",
   ".footer__brand",
   ".footer__powered",
-  ".invite .corner-motif",
 ].join(",");
 
 function revealDirection(rect) {
