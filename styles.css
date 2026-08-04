@@ -2527,6 +2527,62 @@ a {
   font-variant-ligatures: none;
 }
 
+/* ---- FLOATING_CTA -------------------------------------------------
+   Fixed pill that mirrors the nav's Request-Invite action. Hidden by
+   default (faded, nudged down, non-interactive); .is-visible is added
+   by floating-cta.js only when the hero is past and the invite section
+   is off screen. Sits below the nav (50) and mobile drawer. */
+.fx-floating-cta .floating-cta {
+  position: fixed;
+  right: clamp(16px, 4vw, 32px);
+  bottom: clamp(16px, 4vw, 32px);
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  text-decoration: none;
+  background: var(--grad);
+  box-shadow: 0 14px 34px -10px rgba(174, 30, 80, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.fx-floating-cta .floating-cta .icon {
+  width: 18px;
+  height: 18px;
+  color: #fff;
+}
+
+.fx-floating-cta .floating-cta.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.fx-floating-cta .floating-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -10px rgba(174, 30, 80, 0.66);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-floating-cta .floating-cta {
+    transition: opacity 0.2s linear, visibility 0.2s;
+    transform: none;
+  }
+  .fx-floating-cta .floating-cta.is-visible,
+  .fx-floating-cta .floating-cta:hover {
+    transform: none;
+  }
+}
+
 /* focus visibility */
 a:focus-visible,
 button:focus-visible,

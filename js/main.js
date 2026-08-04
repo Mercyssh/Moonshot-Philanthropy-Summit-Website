@@ -28,6 +28,7 @@ import { initSpeakerTilt } from "./speaker-tilt.js";
 import { initScrambleText } from "./scramble-text.js";
 import { initLiquidGlass } from "./liquid-glass.js";
 import { initTimelineGlow } from "./timeline-glow.js";
+import { initFloatingCta } from "./floating-cta.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   initScrollStart();
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrambleText();
   initLiquidGlass();
   initTimelineGlow();
+  initFloatingCta();
   initAgendaRail();
   initPillarSteps();
   initQuoteWaves();

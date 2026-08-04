@@ -86,15 +86,15 @@
         <span class="brand-logo" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
       </a>
       <nav class="nav__links">
-        <a href="#why"><svg class="icon" aria-hidden="true">
-            <use href="#icon-why" />
-          </svg>Why Attend</a>
-        <a href="#agenda"><svg class="icon" aria-hidden="true">
-            <use href="#icon-agenda" />
-          </svg>Agenda</a>
         <a href="#speakers"><svg class="icon" aria-hidden="true">
             <use href="#icon-speakers" />
           </svg>Speakers</a>
+        <a href="#agenda"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Agenda</a>
+        <a href="#why"><svg class="icon" aria-hidden="true">
+            <use href="#icon-why" />
+          </svg>Why Attend</a>
         <a href="#about"><svg class="icon" aria-hidden="true">
             <use href="#icon-about" />
           </svg>About</a>
@@ -116,15 +116,15 @@
   </div>
   <div class="nav__mobile" id="navMobile">
     <div class="nav__mobile-inner">
-      <a href="#why"><svg class="icon" aria-hidden="true">
-          <use href="#icon-why" />
-        </svg>Why Attend</a>
-      <a href="#agenda"><svg class="icon" aria-hidden="true">
-          <use href="#icon-agenda" />
-        </svg>Agenda</a>
       <a href="#speakers"><svg class="icon" aria-hidden="true">
           <use href="#icon-speakers" />
         </svg>Speakers</a>
+      <a href="#agenda"><svg class="icon" aria-hidden="true">
+          <use href="#icon-agenda" />
+        </svg>Agenda</a>
+      <a href="#why"><svg class="icon" aria-hidden="true">
+          <use href="#icon-why" />
+        </svg>Why Attend</a>
       <a href="#about"><svg class="icon" aria-hidden="true">
           <use href="#icon-about" />
         </svg>About</a>
@@ -230,6 +230,39 @@
       </div>
     </section>
 
+    <!-- ============ SPEAKERS ============ -->
+    <section class="section" id="speakers">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</p>
+        <h2 class="section__title">Speakers &amp; Facilitators</h2>
+        <p class="section__lede">The people shaping the evening – scientists, builders, funders and storytellers,
+          each chosen because they have already made the kind of bet this summit argues for. The line-up is being
+          finalised and will be updated on a rolling basis.</p>
+
+        <div class="speakers-grid" id="speakersGrid"><!-- added by code in speakers.js --></div>
+      </div>
+    </section>
+
+    <!-- ============ AGENDA ============ -->
+    <section class="section section--tint" id="agenda">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Agenda</p>
+        <h2 class="section__title">A Call to Think Bigger, Bet Bolder</h2>
+        <p class="section__lede">
+          Two hours, six movements. The evening unfolds as a single narrative, exploring why bold interventions
+          matter, the evidence that they work, how AI can help scale them, how we should fund and measure them,
+          and what the next decade could look like if we get it right.
+        </p>
+
+        <div class="agenda-list" id="agendaList"><!-- injected by agenda.js --></div>
+        <p class="agenda-foot"><span>7:00 PM onwards · Drinks &amp; Conversations</span></p>
+      </div>
+    </section>
+
     <!-- ============ WHY ATTEND ============ -->
     <section class="section" id="why">
       <div class="container">
@@ -268,75 +301,6 @@
             <p class="pillar__desc">New metrics and new frameworks for impact investment, built to reward ambition
               rather than only compliance.</p>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ AGENDA ============ -->
-    <section class="section section--tint" id="agenda">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-agenda" />
-          </svg>Agenda</p>
-        <h2 class="section__title">A Call to Think Bigger, Bet Bolder</h2>
-        <p class="section__lede">
-          Two hours, six movements. The evening unfolds as a single narrative, exploring why bold interventions
-          matter, the evidence that they work, how AI can help scale them, how we should fund and measure them,
-          and what the next decade could look like if we get it right.
-        </p>
-
-        <div class="agenda-list" id="agendaList"><!-- injected by agenda.js --></div>
-        <p class="agenda-foot"><span>7:00 PM onwards · Drinks &amp; Conversations</span></p>
-      </div>
-    </section>
-
-    <!-- ============ SPEAKERS ============ -->
-    <section class="section" id="speakers">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-speakers" />
-          </svg>Speakers</p>
-        <h2 class="section__title">Speakers &amp; Facilitators</h2>
-        <p class="section__lede">The people shaping the evening – scientists, builders, funders and storytellers,
-          each chosen because they have already made the kind of bet this summit argues for. The line-up is being
-          finalised and will be updated on a rolling basis.</p>
-
-        <div class="speakers-grid" id="speakersGrid"><!-- added by code in speakers.js --></div>
-      </div>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="section section--tint" id="about">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-about" />
-          </svg>About</p>
-        <h2 class="section__title">The Summit &amp; the People Behind It</h2>
-
-        <div class="about-grid">
-          <div class="about-card">
-            <h3>About the Summit</h3>
-            <p>The Moonshot Philanthropy Summit is convened by Ashoka University's Centre for Social and Behaviour
-              Change to ask a bigger question of Indian philanthropy: what would it take to build the solutions our
-              future needs? Over one curated evening in Mumbai, it brings funders, founders, scientists and
-              policymakers into a single conversation about moonshot interventions, the science and technology that
-              can scale them, and the investment frameworks that can fund them.</p>
-            <p>This is not a traditional conference. It is a working room: live case narratives, real-time
-              brainstorming and a shared ambition to move India's philanthropic capital from incremental giving to
-              catalytic investment.</p>
-          </div>
-          <div class="about-card about-card--org">
-            <h3>Centre for Social and Behaviour Change</h3>
-            <p>The Centre for Social and Behaviour Change at Ashoka University works at the frontier of behavioural
-              science and its application to India's most pressing development challenges. Its teams combine
-              rigorous research, evidence-based behavioural design and emerging AI tools to build interventions that
-              change outcomes at population scale – across health, nutrition, financial inclusion and beyond.</p>
-            <div class="org-logos">
-              <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
-                alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
-                loading="lazy">
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -448,6 +412,42 @@
       </div>
     </section>
 
+    <!-- ============ ABOUT ============ -->
+    <section class="section section--tint" id="about">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-about" />
+          </svg>About</p>
+        <h2 class="section__title">The Summit &amp; the People Behind It</h2>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>About the Summit</h3>
+            <p>The Moonshot Philanthropy Summit is convened by Ashoka University's Centre for Social and Behaviour
+              Change to ask a bigger question of Indian philanthropy: what would it take to build the solutions our
+              future needs? Over one curated evening in Mumbai, it brings funders, founders, scientists and
+              policymakers into a single conversation about moonshot interventions, the science and technology that
+              can scale them, and the investment frameworks that can fund them.</p>
+            <p>This is not a traditional conference. It is a working room: live case narratives, real-time
+              brainstorming and a shared ambition to move India's philanthropic capital from incremental giving to
+              catalytic investment.</p>
+          </div>
+          <div class="about-card about-card--org">
+            <h3>Centre for Social and Behaviour Change</h3>
+            <p>The Centre for Social and Behaviour Change at Ashoka University works at the frontier of behavioural
+              science and its application to India's most pressing development challenges. Its teams combine
+              rigorous research, evidence-based behavioural design and emerging AI tools to build interventions that
+              change outcomes at population scale – across health, nutrition, financial inclusion and beyond.</p>
+            <div class="org-logos">
+              <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
+                alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
+                loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ FOOTER ============ -->
     <footer class="footer">
       <div class="container footer__inner">
@@ -468,6 +468,16 @@
     </footer>
 
   </main>
+
+  <!-- Floating Request-an-Invite CTA (FLOATING_CTA). Hidden until the hero
+       scrolls away; toggled by js/floating-cta.js, styled under
+       .fx-floating-cta. -->
+  <a href="#invite" class="floating-cta" id="floatingCta" aria-hidden="true" tabindex="-1">
+    <svg class="icon" aria-hidden="true">
+      <use href="#icon-envelope" />
+    </svg>
+    <span>Request an Invite</span>
+  </a>
 
   <script type="module" src="js/main.js"></script>
 </body>

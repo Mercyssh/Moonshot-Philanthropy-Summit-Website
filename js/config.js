@@ -45,6 +45,9 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
    QUOTE_WAVES       Two brand-gradient sine waves drift in opposite
                      phase behind the pull-quote. Reduced motion draws
                      them once, static.
+   FLOATING_CTA      A fixed "Request an Invite" pill that fades in once
+                     the hero scrolls away and hides again while the
+                     invite section itself is on screen.
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
@@ -58,4 +61,5 @@ export const EFFECTS = {
    LIQUID_GLASS: true,
    TIMELINE_GLOW: true,
    QUOTE_WAVES: true,
+   FLOATING_CTA: true,
 };
