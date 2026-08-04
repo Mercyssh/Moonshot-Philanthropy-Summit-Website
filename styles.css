@@ -1702,13 +1702,13 @@ a {
    auto-fill track resolved to 4 columns and left a ragged half-row. */
 .speakers-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
 }
 
 @media (min-width: 600px) {
   .speakers-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 }
 
