@@ -499,7 +499,7 @@ a {
 /* Solid gradient pill, set apart from the plain text links.
    Selector must out-specify `.nav__links a`, which sets a solid colour. */
 .nav__links a.nav__cta {
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
   background: var(--grad);
   padding: 9px 20px;
@@ -913,22 +913,13 @@ a {
   margin: 6px 0 28px;
 }
 
-/* Tagline directly under the logo — the summit's one-line thesis. */
+/* Tagline directly under the logo — the summit's one-line thesis.
+   Uniform treatment across the whole line: no emphasised or recoloured
+   parts. */
 .hero__tagline {
   color: rgba(255, 255, 255, 0.85);
   font-size: clamp(15px, 2vw, 18px);
   margin: 0 0 20px;
-}
-
-.hero__tagline em {
-  font-style: normal;
-  color: #fff;
-}
-
-.hero__tagline .x {
-  font-style: normal;
-  color: rgba(255, 255, 255, 0.55);
-  padding: 0 2px;
 }
 
 /* Qualifier above the CTA — who the room is for. Set as body copy,
@@ -2320,24 +2311,14 @@ a {
   height: 46px;
 }
 
-/* Same wording as the hero tagline, tuned for the light footer. */
+/* Same wording as the hero tagline, tuned for the light footer.
+   Uniform treatment — no emphasised or recoloured parts. */
 .footer__tagline {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
   max-width: 44ch;
-}
-
-.footer__tagline em {
-  font-style: normal;
-  color: var(--ink);
-}
-
-.footer__tagline .x {
-  font-style: normal;
-  color: var(--mid);
-  padding: 0 2px;
 }
 
 .org-logos--footer {
