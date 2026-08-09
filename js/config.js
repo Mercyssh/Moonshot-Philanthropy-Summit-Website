@@ -51,7 +51,7 @@ export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
-   SPEAKER_TILT: true,
+   SPEAKER_TILT: false,
    SCRAMBLE_TEXT: true,
    CURSOR_SPECKS: true,
    HERO_GLOW: true,

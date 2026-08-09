@@ -1684,11 +1684,6 @@ a {
 
 .speaker-card {
   text-align: center;
-  transition: transform 0.25s ease;
-}
-
-.speaker-card:hover {
-  transform: translateY(-6px);
 }
 
 /* The photo arrives with its frame already baked in — no masking here. */
@@ -1696,11 +1691,6 @@ a {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-  transition: filter 0.25s ease;
-}
-
-.speaker-card:hover .speaker-card__photo {
-  filter: drop-shadow(0 16px 26px rgba(174, 30, 80, 0.24));
 }
 
 .speaker-card__name {
