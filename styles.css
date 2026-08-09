@@ -39,7 +39,7 @@
   --nav-h: 88px;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   :root {
     --nav-h: 104px;
   }
@@ -434,7 +434,7 @@ a {
   mask-image: url("assets/Logo Star (White).svg");
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .nav__brand .brand-logo {
     height: 56px;
   }
@@ -464,8 +464,8 @@ a {
 }
 
 /* larger once the desktop link row appears; the mid height keeps it
-   clear of the links in the tighter 860–1180 band */
-@media (min-width: 860px) {
+   clear of the links in the tighter 1024–1180 band */
+@media (min-width: 1024px) {
   .nav__partners img {
     height: 44px;
   }
@@ -520,7 +520,7 @@ a {
   box-shadow: 0 14px 28px -12px rgba(174, 30, 80, 0.7);
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .nav__links {
     display: flex;
   }
@@ -543,7 +543,7 @@ a {
   border-radius: 2px;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .nav__burger {
     display: none;
   }
@@ -608,7 +608,7 @@ a {
   justify-content: center;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .nav__mobile {
     display: none;
   }
