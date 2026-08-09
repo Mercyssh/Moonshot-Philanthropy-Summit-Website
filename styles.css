@@ -481,8 +481,10 @@ a {
   display: none;
   align-items: center;
   flex: 0 0 auto;
-  gap: 32px;
-  font-size: 16.5px;
+  /* Fluid so the row tightens as it nears the 1024px switch (where the
+     overlap was) and relaxes to full size by ~1180px. */
+  gap: clamp(18px, 2.7vw, 32px);
+  font-size: clamp(14px, 1.4vw, 16.5px);
   font-weight: 600;
 }
 
