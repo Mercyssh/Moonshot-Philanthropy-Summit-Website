@@ -455,6 +455,12 @@ a {
   display: block;
   height: 28px;
   width: auto;
+  /* The flex-shrinking parent (.nav__partners, flex: 1 1 0) collapses its
+     width as the viewport narrows. Without these two the global
+     `img { max-width: 100% }` would then cap the logo to that shrunken
+     width while the fixed height held, distorting the lockup. */
+  max-width: none;
+  flex-shrink: 0;
 }
 
 /* larger once the desktop link row appears; the mid height keeps it
