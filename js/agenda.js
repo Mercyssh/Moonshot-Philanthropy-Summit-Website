@@ -89,7 +89,6 @@ export function renderAgenda() {
       <div class="agenda-item__body">
         <p class="agenda-item__title">${a.title}</p>
         <p class="agenda-item__desc">${a.desc}</p>
-        ${a.speakers ? `<p class="agenda-item__speakers"><span>With</span> ${a.speakers}</p>` : ""}
       </div>
     </div>`
   ).join("");

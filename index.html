@@ -164,6 +164,9 @@
           <img class="hero__logo" src="assets/Logo Vertical (White).svg" alt="The Moonshot Philanthropy Summit"
             width="319" height="264">
 
+          <p class="hero__tagline">Exploring how <em>Moonshot Thinking</em> <span class="x">×</span> <em>Behavioural
+              Science</em> <span class="x">×</span> <em>AI</em><br>leads to Transformation at Scale</p>
+
           <!-- Phone-only image ribbon (HERO_MARQUEE). Empty and hidden on
                desktop; filled and animated as a 3D cylinder by
                hero-marquee.js. Sits between the logo and the date. -->
@@ -184,7 +187,11 @@
             </p>
           </div>
 
-          <!-- populated and unhidden by countdown.js; absent entirely without JS -->
+          <p class="hero__support">If you're a CSR Head, managing a family office's philanthropy or leading an NGO,
+            apply to be one of the 50 selected minds to engage in this conversation.</p>
+
+          <!-- Countdown disabled: initCountdown() is no longer called in main.js,
+               so this stays hidden. Markup retained to switch it back on later. -->
           <div class="hero__countdown" id="heroCountdown" hidden>
             <div class="cd__unit"><span class="cd__num" data-cd="days">0</span><span class="cd__label">Days</span></div>
             <div class="cd__unit"><span class="cd__num" data-cd="hours">0</span><span class="cd__label">Hrs</span></div>
@@ -196,11 +203,7 @@
 
           <div class="hero__cta">
             <a href="#invite" class="btn btn--primary">Request an Invite</a>
-            <a href="#agenda" class="btn btn--ghost">View the agenda</a>
           </div>
-
-          <p class="hero__support">If you're a CSR Head, managing a family office's philanthropy or leading an NGO,
-            apply to be one of the 50 selected minds to engage in this conversation.</p>
         </div>
 
         <!-- Right half, deliberately empty: reserves the grid column so
@@ -237,9 +240,9 @@
             <use href="#icon-speakers" />
           </svg>Speakers</p>
         <h2 class="section__title">Speakers &amp; Facilitators</h2>
-        <p class="section__lede">The people shaping the evening – scientists, builders, funders and storytellers,
-          each chosen because they have already made the kind of bet this summit argues for. The line-up is being
-          finalised and will be updated on a rolling basis.</p>
+        <p class="section__lede">Technologists, founders, funders and storytellers, in one room for the first time,
+          building a thesis for India's development sector in the age of AI. The question on the table: how do you make
+          a moonshot bet, and how do you know it is working?</p>
 
         <div class="speakers-grid" id="speakersGrid"><!-- added by code in speakers.js --></div>
       </div>
@@ -305,6 +308,42 @@
       </div>
     </section>
 
+    <!-- ============ ABOUT ============ -->
+    <section class="section section--tint" id="about">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-about" />
+          </svg>About</p>
+        <h2 class="section__title">The Summit &amp; the People Behind It</h2>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>About the Summit</h3>
+            <p>The Moonshot Philanthropy Summit is convened by Ashoka University's Centre for Social and Behaviour
+              Change to ask a bigger question of Indian philanthropy: what would it take to build the solutions our
+              future needs? Over one curated evening in Mumbai, it brings funders, founders, scientists and
+              policymakers into a single conversation about moonshot interventions, the science and technology that
+              can scale them, and the investment frameworks that can fund them.</p>
+            <p>This is not a traditional conference. It is a working room: live case narratives, real-time
+              brainstorming and a shared ambition to move India's philanthropic capital from incremental giving to
+              catalytic investment.</p>
+          </div>
+          <div class="about-card about-card--org">
+            <h3>Centre for Social and Behaviour Change</h3>
+            <p>The Centre for Social and Behaviour Change at Ashoka University works at the frontier of behavioural
+              science and its application to India's most pressing development challenges. Its teams combine
+              rigorous research, evidence-based behavioural design and emerging AI tools to build interventions that
+              change outcomes at population scale – across health, nutrition, financial inclusion and beyond.</p>
+            <div class="org-logos">
+              <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
+                alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
+                loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ INVITE FORM ============ -->
     <section class="invite" id="invite">
       <div class="invite__arc" aria-hidden="true"></div>
@@ -316,9 +355,8 @@
               <use href="#icon-envelope" />
             </svg>Reserve Your Seat at the Table</h2>
           <p class="section__lede section__lede--light">The summit is invite-only and curated. Around the table: CSR
-            heads of India's largest corporations, ultra-HNI philanthropists, family office leaders, foundation heads
-            and a small number of policymakers, scientists and builders – a room of decision-makers, builders and
-            collaborators, united by the ability to turn ideas into action.</p>
+            heads of India's largest corporations, family office leaders, foundation heads and young policymakers,
+            scientists and builders.</p>
           <ul class="invite__facts">
             <li>
               <span class="invite__fact-label"><svg class="icon" aria-hidden="true">
@@ -379,8 +417,8 @@
             </div>
             <div class="field">
               <label for="linkedin">LinkedIn profile <span class="optional">(optional)</span></label>
-              <input type="url" id="linkedin" name="linkedin" inputmode="url"
-                placeholder="https://linkedin.com/in/…" autocomplete="url">
+              <input type="url" id="linkedin" name="linkedin" inputmode="url" placeholder="https://linkedin.com/in/…"
+                autocomplete="url">
             </div>
             <div class="field field--check">
               <label class="check">
@@ -412,47 +450,13 @@
       </div>
     </section>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="section section--tint" id="about">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-about" />
-          </svg>About</p>
-        <h2 class="section__title">The Summit &amp; the People Behind It</h2>
-
-        <div class="about-grid">
-          <div class="about-card">
-            <h3>About the Summit</h3>
-            <p>The Moonshot Philanthropy Summit is convened by Ashoka University's Centre for Social and Behaviour
-              Change to ask a bigger question of Indian philanthropy: what would it take to build the solutions our
-              future needs? Over one curated evening in Mumbai, it brings funders, founders, scientists and
-              policymakers into a single conversation about moonshot interventions, the science and technology that
-              can scale them, and the investment frameworks that can fund them.</p>
-            <p>This is not a traditional conference. It is a working room: live case narratives, real-time
-              brainstorming and a shared ambition to move India's philanthropic capital from incremental giving to
-              catalytic investment.</p>
-          </div>
-          <div class="about-card about-card--org">
-            <h3>Centre for Social and Behaviour Change</h3>
-            <p>The Centre for Social and Behaviour Change at Ashoka University works at the frontier of behavioural
-              science and its application to India's most pressing development challenges. Its teams combine
-              rigorous research, evidence-based behavioural design and emerging AI tools to build interventions that
-              change outcomes at population scale – across health, nutrition, financial inclusion and beyond.</p>
-            <div class="org-logos">
-              <img class="powered-lockup powered-lockup--lg" src="assets/powered by logos.png"
-                alt="Ashoka University · Centre for Social and Behaviour Change" width="2025" height="332"
-                loading="lazy">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ FOOTER ============ -->
     <footer class="footer">
       <div class="container footer__inner">
         <div class="footer__brand">
           <span class="brand-logo brand-logo--footer" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
+          <p class="footer__tagline">Exploring how <em>Moonshot Thinking</em> <span class="x">×</span> <em>Behavioural
+              Science</em> <span class="x">×</span> <em>AI</em> leads to Transformation at Scale</p>
         </div>
         <div class="footer__powered">
           <span class="eyebrow">Powered by</span>

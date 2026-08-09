@@ -452,16 +452,16 @@ a {
 }
 
 .nav__partners img {
-  display: none;
-  height: 44px;
+  display: block;
+  height: 28px;
   width: auto;
 }
 
-/* shown as soon as the desktop link row appears; the smaller height
-   keeps it clear of the links in the tighter 860–1180 band */
+/* larger once the desktop link row appears; the mid height keeps it
+   clear of the links in the tighter 860–1180 band */
 @media (min-width: 860px) {
   .nav__partners img {
-    display: block;
+    height: 44px;
   }
 }
 
@@ -496,38 +496,22 @@ a {
   color: var(--mid);
 }
 
-/* Highlighted text rather than a button — gradient fill on the glyphs.
+/* Solid gradient pill, set apart from the plain text links.
    Selector must out-specify `.nav__links a`, which sets a solid colour. */
 .nav__links a.nav__cta {
   font-weight: 700;
+  color: #fff;
   background: var(--grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  position: relative;
+  padding: 9px 20px;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px -12px rgba(174, 30, 80, 0.6);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.nav__cta::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--grad);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.24s ease;
-}
-
-.nav__cta:hover::after {
-  transform: scaleX(1);
-}
-
-/* the gradient-clipped text must keep its fill on hover */
 .nav__links a.nav__cta:hover {
-  color: transparent;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px -12px rgba(174, 30, 80, 0.7);
 }
 
 @media (min-width: 860px) {
@@ -839,10 +823,10 @@ a {
   z-index: 1;
   max-width: 620px;
   margin: 0;
-  text-align: left;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 /* ---- first-load entrance -------------------------------------
@@ -896,20 +880,21 @@ a {
   animation-delay: 0.20s;
 }
 
+.hero__content>.hero__tagline {
+  animation-delay: 0.40s;
+}
+
 .hero__content>.hero__event {
   animation-delay: 0.54s;
 }
 
-.hero__content>.hero__countdown {
+/* support now sits above the CTA, so it rises just before it */
+.hero__content>.hero__support {
   animation-delay: 0.68s;
 }
 
 .hero__content>.hero__cta {
   animation-delay: 0.82s;
-}
-
-.hero__content>.hero__support {
-  animation-delay: 0.94s;
 }
 
 .hero__arc {
@@ -928,16 +913,33 @@ a {
   margin: 6px 0 28px;
 }
 
-/* One-line qualifier below the CTA — who the room is for. The thin rule
-   on the left edge marks it as an aside to the main call to action. */
+/* Tagline directly under the logo — the summit's one-line thesis. */
+.hero__tagline {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(15px, 2vw, 18px);
+  margin: 0 0 20px;
+}
+
+.hero__tagline em {
+  font-style: normal;
+  color: #fff;
+}
+
+.hero__tagline .x {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0 2px;
+}
+
+/* Qualifier above the CTA — who the room is for. Set as body copy,
+   matching .section__lede (17px / body line-height) rather than a small
+   aside, only lightened to white for the dark hero. */
 .hero__support {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 14px;
-  line-height: 1.55;
-  max-width: 44ch;
-  margin: 22px 0 0;
-  padding-left: 16px;
-  border-left: 2px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 0 30px;
 }
 
 /* ---- event name plate: date + venue, the two facts that matter --- */
@@ -1214,19 +1216,9 @@ a {
 .hero__cta {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 14px;
   margin-bottom: 0;
-}
-
-.hero .btn--ghost {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #fff;
-}
-
-.hero .btn--ghost:hover {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .hero .btn--primary {
@@ -1245,34 +1237,6 @@ a {
      crowds it. */
   .hero {
     padding-top: calc(var(--nav-h) + 96px);
-  }
-
-  .hero__content {
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero__countdown,
-  .hero__cta {
-    justify-content: center;
-  }
-
-  /* Phones lead with "View the agenda"; the primary invite CTA follows. */
-  .hero__cta .btn--ghost {
-    order: -1;
-  }
-
-  /* Drop the left rule on phones; an inline asterisk marks the aside
-     instead (see ::before below). */
-  .hero__support {
-    text-align: left;
-    padding-left: 0;
-    border-left: none;
-  }
-
-  .hero__support::before {
-    content: "*";
-    margin-right: 0.35em;
   }
 
   /* No cursor to follow — drop the hero glow entirely on phones. */
@@ -2354,6 +2318,26 @@ a {
 
 .footer__brand .brand-logo {
   height: 46px;
+}
+
+/* Same wording as the hero tagline, tuned for the light footer. */
+.footer__tagline {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 44ch;
+}
+
+.footer__tagline em {
+  font-style: normal;
+  color: var(--ink);
+}
+
+.footer__tagline .x {
+  font-style: normal;
+  color: var(--mid);
+  padding: 0 2px;
 }
 
 .org-logos--footer {

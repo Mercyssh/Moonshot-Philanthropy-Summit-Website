@@ -35,7 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSpeakers();
   renderAgenda();
   initNav();
-  initCountdown();
+  // Countdown disabled — leaves #heroCountdown hidden. Re-enable by restoring this call.
+  // initCountdown();
   initHeroStars();
   initScrollReveal();
   initInviteForm();
