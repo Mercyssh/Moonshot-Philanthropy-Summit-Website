@@ -2116,6 +2116,16 @@ a {
   gap: 7px;
 }
 
+/* Honeypot — pulled off-screen for people, still in the DOM for bots.
+   Not display:none/visibility:hidden, which sophisticated bots ignore. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

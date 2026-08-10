@@ -16,6 +16,16 @@ export function initInviteForm() {
     status.textContent = "";
     status.className = "invite__status";
 
+    // Honeypot: a hidden field no human sees. If it's filled, it's a bot —
+    // swap in the success panel so the bot thinks it won, but send nothing.
+    if (form.website.value) {
+      form.reset();
+      fields.hidden = true;
+      success.hidden = false;
+      success.focus();
+      return;
+    }
+
     const data = {
       fullName: form.fullName.value.trim(),
       email: form.email.value.trim(),

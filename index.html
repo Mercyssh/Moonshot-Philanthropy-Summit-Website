@@ -388,6 +388,13 @@
 
         <form class="invite__form" id="inviteForm" novalidate>
           <div class="invite__fields" id="inviteFields">
+            <!-- Honeypot: hidden from people, tempting to bots. Real users
+                 never see or tab to it, so any value here means spam. Kept
+                 off-screen rather than display:none, which some bots skip. -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <div class="field">
               <label for="fullName">Full name</label>
               <input type="text" id="fullName" name="fullName" autocomplete="name" required>

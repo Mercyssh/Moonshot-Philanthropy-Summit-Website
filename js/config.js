@@ -3,7 +3,7 @@
    Paste your Google Apps Script Web App URL here once deployed.
    See README.md → "Connecting the form to Google Sheets".
    ============================================================ */
-export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+export const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbycO9Cg_1tbt8m1VTN1818KsYPvpQJytB7GAEwQlFSP9pNzAkGoXJSif8E7aFrQjmJy/exec";
 
 /* ============================================================
    HERO IMAGES — single source of truth

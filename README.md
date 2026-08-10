@@ -47,25 +47,46 @@ submissions.
 
 **1. Create the sheet**
 - Make a new Google Sheet, e.g. "Moonshot Summit — Invite Requests".
-- Add a header row: `Timestamp | Full Name | Email | Phone | Organization | Role | Message`
+- Add a header row:
+  `Timestamp | Full Name | Email | Phone | Organization | Role | Interest | LinkedIn | Consent`
 
 **2. Add the script**
 - In the sheet, go to **Extensions → Apps Script**.
-- Delete any starter code and paste this in:
+- Delete any starter code and paste this in. It records every field the form
+  sends, and rejects obvious spam (missing required fields, or a filled
+  honeypot) before writing a row:
 
 ```js
 function doPost(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   const data = JSON.parse(e.postData.contents);
 
+  // Server-side safety check: drop anything that doesn't look like a real
+  // submission. Direct POSTs to this URL bypass the page's own checks, so
+  // this is the backstop. `website` is the honeypot — humans never fill it.
+  const looksLikeSpam =
+    data.website ||
+    !data.fullName ||
+    !data.email ||
+    !data.phone ||
+    !data.consent;
+
+  if (looksLikeSpam) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "ignored" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   sheet.appendRow([
-    new Date(),
+    data.submittedAt ? new Date(data.submittedAt) : new Date(),
     data.fullName || "",
     data.email || "",
     data.phone || "",
     data.organization || "",
     data.role || "",
-    data.message || "",
+    data.interest || "",
+    data.linkedin || "",
+    data.consent ? "Yes" : "No",
   ]);
 
   return ContentService
@@ -83,11 +104,11 @@ function doPost(e) {
   `https://script.google.com/macros/s/XXXXXXXX/exec`).
 
 **4. Wire it into the site**
-- Open `script.js`.
-- Paste the URL as the value of `GOOGLE_SHEETS_ENDPOINT` at the very top of the file:
+- Open `js/config.js`.
+- Paste the URL as the value of `GOOGLE_SHEETS_ENDPOINT` at the top of the file:
 
 ```js
-const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/XXXXXXXX/exec";
+export const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/XXXXXXXX/exec";
 ```
 
 That's it — submissions will now land as new rows in your sheet in real time.
