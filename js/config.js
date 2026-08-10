@@ -6,6 +6,21 @@
 export const GOOGLE_SHEETS_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 /* ============================================================
+   HERO IMAGES — single source of truth
+
+   The pool of summit photos shared by both hero treatments: the
+   desktop turntable (HERO_ROTATOR) and the mobile ribbon
+   (HERO_MARQUEE). Add or remove entries here only — both modules
+   import this list, so they can never fall out of sync. Any count
+   works; each treatment cycles the list on its own.
+   ============================================================ */
+export const HERO_IMAGES = [
+   "assets/images to mask/1.jpg",
+   "assets/images to mask/2.jpg",
+   "assets/images to mask/3.jpg",
+];
+
+/* ============================================================
    INTERACTION EFFECTS — ON/OFF SWITCHES
 
    Flip any of these to false to remove that effect completely.

@@ -1,4 +1,4 @@
-import { EFFECTS } from "./config.js";
+import { EFFECTS, HERO_IMAGES } from "./config.js";
 import { reducedMotion, clamp } from "./utils.js";
 
 /* ============================================================
@@ -29,14 +29,10 @@ const ROTATOR_HOLD_MS = 3000;
 // headroom for timing jitter.
 const ROTATOR_TURN_MS = 450;
 const ROTATOR_STOPS = 4;
-// The shape acts as a window onto these images. Spaces must be URL-encoded.
-// The list is cycled: each turn reveals the next image. Add more here to
-// get more variety — with a single entry nothing appears to change.
-const ROTATOR_MASK_IMAGES = [
-  "assets/images to mask/1.jpg",
-  "assets/images to mask/2.jpg",
-  "assets/images to mask/3.jpg",
-];
+// The shape acts as a window onto the shared HERO_IMAGES pool (config.js).
+// The list is cycled: each turn reveals the next image. Add or remove entries
+// there — with a single entry nothing appears to change.
+const ROTATOR_MASK_IMAGES = HERO_IMAGES;
 const ROTATOR_MASK_SHADING = 0.55; // 0 = flat image, 1 = full shape shading for depth
 // Slow drift of the photo inside its cover-crop. Only the axis that has
 // crop overflow can move, so the pan can never expose an edge.

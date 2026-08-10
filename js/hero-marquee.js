@@ -1,4 +1,4 @@
-import { EFFECTS } from "./config.js";
+import { EFFECTS, HERO_IMAGES } from "./config.js";
 
 /* ============================================================
    EFFECT: HERO_MARQUEE  (mobile only)
@@ -9,12 +9,6 @@ import { EFFECTS } from "./config.js";
    seam. Everything visual (size, speed, tint) lives in the CSS under
    .fx-hero-marquee — size is just the container height.
    ============================================================ */
-const MARQUEE_IMAGES = [
-  "assets/images to mask/1.jpg",
-  "assets/images to mask/2.jpg",
-  "assets/images to mask/3.jpg",
-];
-
 export function initHeroMarquee() {
   if (!EFFECTS.HERO_MARQUEE) return;
   // Purely a phone treatment; desktop keeps the rotator.
@@ -23,7 +17,7 @@ export function initHeroMarquee() {
   const host = document.getElementById("heroMarquee");
   if (!host) return;
 
-  const items = MARQUEE_IMAGES.map(
+  const items = HERO_IMAGES.map(
     (src) =>
       `<div class="hero-marquee__item"><img src="${src}" alt="" loading="lazy" decoding="async"></div>`
   ).join("");
