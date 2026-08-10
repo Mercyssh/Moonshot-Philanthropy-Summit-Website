@@ -12,7 +12,7 @@ export const SPEAKERS = [
   { name: "Ninad Karpe", role: "Partner, 100xVC & Founder, Karpe Diem Ventures", summit: "The moonshot investment thesis", photo: "assets/speakers/Ninad Karpe.png" },
   { name: "Aayush Ailawadi", role: "Opinion Leader on AI & Tech", summit: "The paradigm shift, and its guardrails", photo: "assets/speakers/Aayush Ailawadi.png" },
   { name: "Vanshika Goenka", role: "CEO at Christy and Director at Welspun Group", summit: "Compliance and courage, together", photo: "assets/speakers/Vanshika Goenka.png" },
-  { name: "Geetika Dadlani", role: "Associate Director, Dasra", summit: "The philanthropist’s point of view", photo: "assets/speakers/Geetika Dadlani.png" },
+  { name: "Geetika Dadlani", role: "Head of Giving Pi and Associate Director, Dasra", summit: "The philanthropist’s point of view", photo: "assets/speakers/Geetika Dadlani.png" },
   { name: "Devavrat Kakade", role: "Executive Director, JPMorganChase", summit: "Socialising moonshot interventions at scale", photo: "assets/speakers/Devavrat Kakade.png" },
   { name: "To be announced", role: "Venture Capitalist", summit: "The builder's view of AI for impact" },
   { name: "To be announced", role: "Vision Lab Keynote", summit: "The future we can build" },
