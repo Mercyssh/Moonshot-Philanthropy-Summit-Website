@@ -34,9 +34,8 @@ const ROTATOR_STOPS = 4;
 // get more variety — with a single entry nothing appears to change.
 const ROTATOR_MASK_IMAGES = [
   "assets/images to mask/1.jpg",
+  "assets/images to mask/2.jpg",
   "assets/images to mask/3.jpg",
-  "assets/images to mask/4.jpg",
-  "assets/images to mask/5.jpg",
 ];
 const ROTATOR_MASK_SHADING = 0.55; // 0 = flat image, 1 = full shape shading for depth
 // Slow drift of the photo inside its cover-crop. Only the axis that has

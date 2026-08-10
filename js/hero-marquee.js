@@ -13,8 +13,6 @@ const MARQUEE_IMAGES = [
   "assets/images to mask/1.jpg",
   "assets/images to mask/2.jpg",
   "assets/images to mask/3.jpg",
-  "assets/images to mask/4.jpg",
-  "assets/images to mask/5.jpg",
 ];
 
 export function initHeroMarquee() {
