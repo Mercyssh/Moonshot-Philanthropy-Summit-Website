@@ -8,12 +8,12 @@
    speaker is locked in.
    ============================================================ */
 export const SPEAKERS = [
-  { name: "Pavan Mamidi", role: "Director, Ashoka University's Centre for Social and Behaviour Change", summit: "Opens the summit with its central thesis", photo: "assets/speakers/Pavan Mamidi.png" },
-  { name: "Ninad Karpe", role: "Partner, 100xVC", summit: "The moonshot investment thesis", photo: "assets/speakers/Ninad Karpe.png" },
-  { name: "Aayush Ailawadi", role: "Ai and Tech opinion leader", summit: "The paradigm shift, and its guardrails", photo: "assets/speakers/Aayush Ailawadi.png" },
-  { name: "Vanshika Goenka", role: "CEO at Christys and Director at Welspun Group", summit: "Compliance and courage, together", photo: "assets/speakers/Vanshika Goenka.png" },
-  { name: "To be announced", role: "Leader, Media & Creative Enterprise", summit: "Why narrative is a metric" },
-  { name: "To be announced", role: "CSR Committee Leader, Large Corporation", summit: "Compliance and courage, together" },
+  { name: "Dr. Pavan Mamidi", role: "Director, Ashoka University's Centre for Social and Behaviour Change", summit: "Opens the summit with its central thesis", photo: "assets/speakers/Pavan Mamidi.png" },
+  { name: "Ninad Karpe", role: "Partner, 100xVC & Founder, Karpe Diem Ventures", summit: "The moonshot investment thesis", photo: "assets/speakers/Ninad Karpe.png" },
+  { name: "Aayush Ailawadi", role: "Opinion Leader on AI & Tech", summit: "The paradigm shift, and its guardrails", photo: "assets/speakers/Aayush Ailawadi.png" },
+  { name: "Vanshika Goenka", role: "CEO at Christy and Director at Welspun Group", summit: "Compliance and courage, together", photo: "assets/speakers/Vanshika Goenka.png" },
+  { name: "Geetika Dadlani", role: "Associate Director, Dasra", summit: "The philanthropist’s point of view", photo: "assets/speakers/Geetika Dadlani.png" },
+  { name: "Devavrat Kakade", role: "Executive Director, JPMorganChase", summit: "Socialising moonshot interventions at scale", photo: "assets/speakers/Devavrat Kakade.png" },
   { name: "To be announced", role: "Venture Capitalist", summit: "The moonshot investment thesis" },
   { name: "To be announced", role: "Vision Lab Keynote", summit: "The future we can build" },
   { name: "To be announced", role: "Established Founder & Entrepreneur", summit: "The closing call to action" },
