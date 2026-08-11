@@ -32,7 +32,6 @@ export function initInviteForm() {
       phone: form.phone.value.trim(),
       organization: form.organization.value.trim(),
       role: form.role.value.trim(),
-      interest: form.interest.value.trim(),
       linkedin: form.linkedin.value.trim(),
       consent: form.consent.checked,
       submittedAt: new Date().toISOString(),

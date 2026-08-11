@@ -48,7 +48,7 @@ submissions.
 **1. Create the sheet**
 - Make a new Google Sheet, e.g. "Moonshot Summit — Invite Requests".
 - Add a header row:
-  `Timestamp | Full Name | Email | Phone | Organization | Role | Interest | LinkedIn | Consent`
+  `Timestamp | Full Name | Email | Phone | Organization | Role | LinkedIn | Consent`
 
 **2. Add the script**
 - In the sheet, go to **Extensions → Apps Script**.
@@ -84,7 +84,6 @@ function doPost(e) {
     data.phone || "",
     data.organization || "",
     data.role || "",
-    data.interest || "",
     data.linkedin || "",
     data.consent ? "Yes" : "No",
   ]);
