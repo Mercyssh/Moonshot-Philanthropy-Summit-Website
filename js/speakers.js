@@ -14,7 +14,7 @@ export const SPEAKERS = [
   { name: "Vanshika Goenka", role: "CEO at Christy and Director at Welspun Group", summit: "Compliance and courage, together", photo: "assets/speakers/Vanshika Goenka.png" },
   { name: "Geetika Dadlani", role: "Head of Giving Pi and Associate Director, Dasra", summit: "The philanthropist’s point of view", photo: "assets/speakers/Geetika Dadlani.png" },
   { name: "Devavrat Kakade", role: "Executive Director, JPMorganChase", summit: "Socialising moonshot interventions at scale", photo: "assets/speakers/Devavrat Kakade.png" },
-  { name: "To be announced", role: "Venture Capitalist", summit: "The builder's view of AI for impact" },
+  { name: "Nirav Khambhati", role: "Partner, The Blended Finance Company", summit: "The builder's view of AI for impact", photo: "assets/speakers/Nirav Khambhati.png" },
   { name: "To be announced", role: "Vision Lab Keynote", summit: "The future we can build" },
   { name: "To be announced", role: "Established Founder & Entrepreneur", summit: "The closing call to action" },
 ];
