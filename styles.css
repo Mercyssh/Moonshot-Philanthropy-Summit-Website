@@ -2169,6 +2169,24 @@ a {
   box-shadow: 0 0 0 3px rgba(174, 30, 80, 0.15);
 }
 
+/* Invalid field, set by invite-form.js on a failed submit. */
+.field input.is-invalid,
+.field textarea.is-invalid {
+  border-color: #c62f3a;
+}
+
+.field input.is-invalid:focus,
+.field textarea.is-invalid:focus {
+  border-color: #c62f3a;
+  box-shadow: 0 0 0 3px rgba(198, 47, 58, 0.15);
+}
+
+/* Consent checkbox flagged the same way — recolour the control itself. */
+.field .check input.is-invalid {
+  outline: 2px solid #c62f3a;
+  outline-offset: 1px;
+}
+
 /* consent row — a checkbox and its wrapping label, laid out inline.
    Extra bottom margin sets it apart from the submit button below. */
 .field--check {
@@ -2204,6 +2222,9 @@ a {
   font-size: 15px;
   margin: 14px 0 0;
   font-weight: 600;
+  /* Each validation message is on its own line (joined with \n in JS). */
+  white-space: pre-line;
+  line-height: 1.5;
 }
 
 .invite__status.is-success {

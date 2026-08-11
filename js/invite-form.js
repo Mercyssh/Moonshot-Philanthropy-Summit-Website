@@ -11,6 +11,22 @@ export function initInviteForm() {
   const success = document.getElementById("inviteSuccess");
   if (!form) return;
 
+  // Phone accepts only digits and a single leading "+". Filter as they type
+  // (and on paste) so the field can never hold anything else.
+  form.phone.addEventListener("input", () => {
+    form.phone.value = form.phone.value
+      .replace(/[^\d+]/g, "")      // drop everything but digits and +
+      .replace(/(?!^)\+/g, "");     // keep + only in the first position
+  });
+
+  // Once a flagged field is edited, drop its red border so it stops nagging.
+  fields.addEventListener("input", (e) => {
+    e.target.classList.remove("is-invalid");
+  });
+  form.consent.addEventListener("change", () => {
+    form.consent.classList.remove("is-invalid");
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     status.textContent = "";
@@ -37,15 +53,55 @@ export function initInviteForm() {
       submittedAt: new Date().toISOString(),
     };
 
-    if (!data.fullName || !data.email || !data.phone) {
-      status.textContent = "Please fill in your name, email and phone number.";
-      status.classList.add("is-error");
-      return;
+    // Clear any red borders left over from a previous attempt.
+    form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+
+    const missing = [];   // required fields left blank, by label
+    const problems = [];   // format errors, as full sentences
+
+    // Every field except LinkedIn is required. Flag blanks and red-border them.
+    const require = (el, label, val) => {
+      if (val) return true;
+      el.classList.add("is-invalid");
+      missing.push(label);
+      return false;
+    };
+
+    require(form.fullName, "Full name", data.fullName);
+    if (require(form.email, "Email", data.email) &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      form.email.classList.add("is-invalid");
+      problems.push("Please enter a valid email address.");
     }
+    if (require(form.phone, "Phone", data.phone) &&
+        !/^\+?\d{7,15}$/.test(data.phone)) {
+      form.phone.classList.add("is-invalid");
+      problems.push("Please enter a valid phone number (7–15 digits, an optional leading +).");
+    }
+    require(form.organization, "Organisation", data.organization);
+    require(form.role, "Role / Title", data.role);
 
     if (!data.consent) {
-      status.textContent = "Please agree to be contacted so we can follow up on your request.";
+      form.consent.classList.add("is-invalid");
+      problems.push("Please agree to be contacted so we can follow up on your request.");
+    }
+
+    const messages = [];
+    if (missing.length) {
+      messages.push(
+        missing.length === 1
+          ? `${missing[0]} is required.`
+          : `Please fill in: ${missing.join(", ")}.`
+      );
+    }
+    messages.push(...problems);
+
+    if (messages.length) {
+      status.textContent = messages.join("\n");
       status.classList.add("is-error");
+      // Send focus to the first field with a problem for keyboard/AT users.
+      const firstBad = form.querySelector(".is-invalid");
+      if (firstBad) firstBad.focus();
       return;
     }
 
