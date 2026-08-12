@@ -26,6 +26,20 @@
   --font-display: 'Fira Sans', 'Helvetica Neue', sans-serif;
   --font-body: 'Manrope', -apple-system, sans-serif;
 
+  /* Type scale — four hierarchy tiers shared across every section so the
+     section level always outranks the cards nested under it. Tier 1/2 are
+     the section heading + intro; Tier 3/4 are the card heading + body.
+     Cards also drop to weight 600 (vs the section title's 700) so the two
+     levels separate by weight as well as size. */
+  --fs-title: clamp(32px, 4.4vw, 44px);
+  /* Tier 1 — section headings */
+  --fs-lede: 18px;
+  /* Tier 2 — section intro paragraph */
+  --fs-card-title: 17px;
+  /* Tier 3 — card headings */
+  --fs-card-body: 14px;
+  /* Tier 4 — card descriptions */
+
   --radius: 18px;
   --radius-sm: 10px;
   --shadow: 0 20px 50px -20px rgba(81, 28, 73, 0.28);
@@ -202,7 +216,7 @@ a {
 .section__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: var(--fs-title);
   line-height: 1.12;
   letter-spacing: -0.01em;
   margin: 0 0 20px;
@@ -220,7 +234,7 @@ a {
 }
 
 .section__lede {
-  font-size: 17px;
+  font-size: var(--fs-lede);
   color: var(--muted);
   max-width: 640px;
   margin: 0 0 48px;
@@ -1025,6 +1039,7 @@ a {
 }
 
 @media (max-width: 560px) {
+
   /* Stack date over venue with a horizontal divider between them, rather
      than the desktop side-by-side split with a vertical rule. */
   .hero__event {
@@ -1231,6 +1246,7 @@ a {
    is centred and the desktop rotator is dropped in favour of the
    HERO_MARQUEE cylinder, which sits inline within the centred copy. */
 @media (max-width: 700px) {
+
   /* The topline attribution strip wraps to two lines on phones, so the
      hero needs more top clearance than the desktop +56px or the logo
      crowds it. */
@@ -1564,13 +1580,13 @@ a {
 .pillar__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 17px;
   margin: 0 0 12px;
 }
 
 .pillar__desc {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.55;
   margin: 0;
 }
@@ -1696,7 +1712,7 @@ a {
 .speaker-card__name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 17px;
+  font-size: var(--fs-card-title);
   margin: 0 0 4px;
 }
 
@@ -1820,14 +1836,14 @@ a {
 
 .agenda-item__title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: var(--fs-card-title);
   margin: 0 0 6px;
 }
 
 .agenda-item__desc {
   color: var(--muted);
-  font-size: 14.5px;
+  font-size: var(--fs-card-body);
   margin: 0;
   max-width: 70ch;
 }
@@ -1890,7 +1906,6 @@ a {
 
   .agenda-item__tag {
     padding-top: 0;
-    margin-bottom: 10px;
   }
 
   .agenda-item::before {
@@ -1989,13 +2004,14 @@ a {
 
 .about-card h3 {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-weight: 600;
+  font-size: var(--fs-card-title);
   margin: 0 0 14px;
 }
 
 .about-card p {
   color: var(--muted);
-  font-size: 15px;
+  font-size: var(--fs-card-body);
   margin: 0 0 14px;
 }
 
@@ -2571,6 +2587,7 @@ a {
     transition: opacity 0.2s linear, visibility 0.2s;
     transform: none;
   }
+
   .fx-floating-cta .floating-cta.is-visible,
   .fx-floating-cta .floating-cta:hover {
     transform: none;
