@@ -56,6 +56,10 @@
 @media (min-width: 1024px) {
   :root {
     --nav-h: 104px;
+    --fs-card-title: 20px;
+    /* Tier 3 — card headings (desktop) */
+    --fs-card-body: 16px;
+    /* Tier 4 — card descriptions (desktop) */
   }
 }
 
