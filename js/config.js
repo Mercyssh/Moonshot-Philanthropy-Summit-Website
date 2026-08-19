@@ -22,6 +22,7 @@ export const HERO_IMAGES = [
    "assets/images to mask/5.jpg",
    "assets/images to mask/6.jpg",
    "assets/images to mask/7.jpg",
+   "assets/images to mask/8.jpg",
 ];
 
 /* ============================================================
