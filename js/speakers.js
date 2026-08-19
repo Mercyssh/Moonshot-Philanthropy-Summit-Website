@@ -15,8 +15,8 @@ export const SPEAKERS = [
   { name: "Geetika Dadlani", role: "Head of Giving Pi and Associate Director, Dasra", summit: "The philanthropist’s point of view", photo: "assets/speakers/Geetika Dadlani.png" },
   { name: "Devavrat Kakade", role: "Executive Director, JPMorganChase", summit: "Socialising moonshot interventions at scale", photo: "assets/speakers/Devavrat Kakade.png" },
   { name: "Nirav Khambhati", role: "Partner, The Blended Finance Company", summit: "The future we can build", photo: "assets/speakers/Nirav Khambhati.png" },
-  { name: "To be announced", role: "", summit: "" },
-  { name: "To be announced", role: "", summit: "" },
+  { name: "Shweta Agarwal", role: "Board Member - CSR, Sterlite Technologies", summit: "The builder's view of AI for impact", photo: "assets/speakers/Shweta Agarwal.png" },
+  { name: "Bilal Jaleel", role: "Director, WTF Media", summit: "The closing call to action", photo: "assets/speakers/Bilal Jaleel.png" },
 ];
 
 // Photos are supplied already framed, so they render as a plain <img>.
