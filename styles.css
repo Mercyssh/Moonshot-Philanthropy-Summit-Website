@@ -1131,9 +1131,23 @@ a {
     padding-top: calc(var(--nav-h) + 96px);
   }
 
+  /* Body copy drops to the mobile size (tagline, date/time/venue,
+     support line, CTA label all read off --hero-fs). */
+  .hero__content {
+    --hero-fs: 16px;
+  }
+
   /* No cursor to follow — drop the hero glow entirely on phones. */
   .hero__glow {
     display: none;
+  }
+
+  /* The one-line-at-natural-width rule runs the tagline off-screen on a
+     phone. Let it wrap inside the copy column instead. */
+  .hero__tagline {
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
   }
 
   /* No room for button-beside-lines on a phone: drop the max-content
