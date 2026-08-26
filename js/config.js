@@ -8,21 +8,33 @@ export const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycb
 /* ============================================================
    HERO IMAGES — single source of truth
 
-   The pool of summit photos shared by both hero treatments: the
-   desktop turntable (HERO_ROTATOR) and the mobile ribbon
-   (HERO_MARQUEE). Add or remove entries here only — both modules
-   import this list, so they can never fall out of sync. Any count
-   works; each treatment cycles the list on its own.
+   Two device-specific pools of summit photos, one per hero
+   treatment: the desktop turntable (HERO_ROTATOR) pulls from
+   HERO_IMAGES_DESKTOP, the mobile ribbon (HERO_MARQUEE) from
+   HERO_IMAGES_MOBILE. Each treatment only ever runs on its own
+   breakpoint, so it loads just its own set. Add or remove entries
+   in the matching list; any count works, each cycles on its own.
    ============================================================ */
-export const HERO_IMAGES = [
-   "assets/images to mask/1.jpg",
-   "assets/images to mask/2.jpg",
-   "assets/images to mask/3.jpg",
-   "assets/images to mask/4.jpg",
-   "assets/images to mask/5.jpg",
-   "assets/images to mask/6.jpg",
-   "assets/images to mask/7.jpg",
-   "assets/images to mask/8.jpg",
+export const HERO_IMAGES_DESKTOP = [
+   "assets/images to mask/desktop/1.jpg",
+   "assets/images to mask/desktop/2.jpg",
+   "assets/images to mask/desktop/3.jpg",
+   "assets/images to mask/desktop/4.jpg",
+   "assets/images to mask/desktop/5.jpg",
+   "assets/images to mask/desktop/6.jpg",
+   "assets/images to mask/desktop/7.jpg",
+   "assets/images to mask/desktop/8.jpg",
+];
+
+export const HERO_IMAGES_MOBILE = [
+   "assets/images to mask/mobile/1.jpg",
+   "assets/images to mask/mobile/2.jpg",
+   "assets/images to mask/mobile/3.jpg",
+   "assets/images to mask/mobile/4.jpg",
+   "assets/images to mask/mobile/5.jpg",
+   "assets/images to mask/mobile/6.jpg",
+   "assets/images to mask/mobile/7.jpg",
+   "assets/images to mask/mobile/8.jpg",
 ];
 
 /* ============================================================

@@ -1,4 +1,4 @@
-import { EFFECTS, HERO_IMAGES } from "./config.js";
+import { EFFECTS, HERO_IMAGES_MOBILE } from "./config.js";
 import { reducedMotion } from "./utils.js";
 
 /* ============================================================
@@ -23,7 +23,7 @@ export function initHeroMarquee() {
   const host = document.getElementById("heroMarquee");
   if (!host) return;
 
-  const items = HERO_IMAGES.map(
+  const items = HERO_IMAGES_MOBILE.map(
     (src) =>
       `<div class="hero-marquee__item"><img src="${src}" alt="" loading="lazy" decoding="async" draggable="false"></div>`
   ).join("");
