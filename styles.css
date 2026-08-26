@@ -924,13 +924,9 @@ a {
   animation: heroRise 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
-.hero__content>.hero__mark {
+.hero__content>.hero__logo {
   animation: heroLogoIn 0.95s cubic-bezier(0.22, 0.61, 0.36, 1) both;
   animation-delay: 0.18s;
-}
-
-.hero__content>.hero__title {
-  animation-delay: 0.30s;
 }
 
 .hero__content>.hero__tagline {
@@ -960,27 +956,17 @@ a {
 }
 
 /* ---- Group 1: identity ------------------------------------------
-   The mark identifies the host; the title is the focal point. Sized so
-   the mark never rivals it — that was the whole problem with the
-   combined vertical lockup. */
-.hero__mark {
-  width: clamp(64px, 7vw, 88px);
-  height: auto;
-  margin: 0 0 22px;
+   The summit's horizontal lockup (star + wordmark) as one asset. The
+   <h1> keeps the summit name in the document outline; the SVG carries it
+   as alt text. Scales with the copy column, capped at its natural width. */
+.hero__logo {
+  margin: 0 0 var(--hero-item-gap);
 }
 
-/* The single strongest element on the page: one weight, one colour, no
-   effects. Uppercased in CSS so the accessible name and the document
-   outline keep their normal casing. */
-.hero__title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(34px, 5vw, 54px);
-  line-height: 0.98;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  color: #fff;
-  margin: 0 0 var(--hero-item-gap);
+.hero__logo img {
+  display: block;
+  width: min(100%, 463px);
+  height: auto;
 }
 
 /* Belongs to the identity group — it names what the summit is, so it
