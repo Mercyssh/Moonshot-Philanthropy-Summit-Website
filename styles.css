@@ -1082,7 +1082,7 @@ a {
   flex-wrap: wrap;
   gap: 16px var(--act-gap);
   width: max-content;
-  margin-top: 26px;
+  margin-top: 16px;
 }
 
 /* only as tall as the when/where block, hence align-self:stretch on a
@@ -1150,17 +1150,19 @@ a {
     max-width: 100%;
   }
 
-  /* No room for button-beside-lines on a phone: drop the max-content
-     width so the row wraps, and turn the vertical hairline horizontal
-     for the stacked layout. */
+  /* No room for button-beside-lines on a phone: stack the button over the
+     when/where lines as a plain column with an even gap. */
   .hero__action {
     width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
   }
 
+  /* The in-row hairline between the button and the date/time/venue is
+     dropped on phones — the stacked block reads as one unit without it. */
   .hero__action-rule {
-    width: 100%;
-    height: 1px;
-    align-self: auto;
+    display: none;
   }
 }
 
