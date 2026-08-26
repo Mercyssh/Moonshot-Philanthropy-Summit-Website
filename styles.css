@@ -1245,6 +1245,13 @@ a {
   background: var(--paper-2);
 }
 
+/* Agenda follows pull-quote 2, which is now the same tint band; drop the
+   top padding so the two read as one continuous block rather than a double
+   gap. */
+#agenda {
+  padding-top: 0;
+}
+
 /* ------------------------------------------------------------
    SECTION EDGES
 
@@ -1280,7 +1287,7 @@ a {
   columns: 2;
   column-gap: 24px;
   /* extra bottom room so the "1" above the first card clears the copy */
-  margin: 0 0 72px;
+  margin: 0 0 130px;
 }
 
 .why__copy p {
@@ -1500,9 +1507,12 @@ a {
   margin-left: 0.06em;
 }
 
-/* Pull-quote 2 closes a section; give it clearance below the quote so it
-   doesn't butt straight into what follows. Pull-quote 1 needs none. */
+/* Pull-quote 2 closes a section; give it symmetric clearance around the
+   quote and the tint band so it reads as its own block. Pull-quote 1 needs
+   none. */
 .pullquote--tail {
+  background: var(--paper-2);
+  padding-top: clamp(48px, 7vw, 96px);
   padding-bottom: clamp(48px, 7vw, 96px);
 }
 
