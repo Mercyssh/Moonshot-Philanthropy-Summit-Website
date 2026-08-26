@@ -445,7 +445,7 @@ a {
 
 .nav__partners img {
   display: block;
-  height: 28px;
+  height: 38px;
   width: auto;
   /* The flex-shrinking parent (.nav__partners, flex: 1 1 0) collapses its
      width as the viewport narrows. Without these two the global
