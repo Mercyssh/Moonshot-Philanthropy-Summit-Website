@@ -690,11 +690,17 @@ a {
                   pull-quote and footer); higher settles it into
                   atmosphere and lifts contrast under the white type. */
   --hero-veil: 0.12;
+  /* --hero-pad-bottom  Clearance under the action group. Must stay above
+                        .hero__arc's height or the copy lands on the white
+                        curve and disappears — that was the bug here. */
+  --hero-pad-bottom: 200px;
+  /* --hero-arc-h  Height of the decorative white curve at the section
+                   foot. Added to the section's min-height so the copy area
+                   is a full viewport tall *above* the arc, not behind it. */
+  --hero-arc-h: 120px;
 
   position: relative;
-  /* bottom padding must clear .hero__arc (120px) or content lands on
-     the white curve and disappears — that was the bug here. */
-  padding: calc(var(--nav-h) + 96px) var(--gutter) 200px;
+  padding: calc(var(--nav-h) + 96px) var(--gutter) var(--hero-pad-bottom);
   overflow: hidden;
   isolation: isolate;
   /* Veil first (top layer), brand ramp underneath — the gradient itself
@@ -710,7 +716,7 @@ a {
   bottom: -1px;
   transform: translateX(-50%);
   width: 145%;
-  height: 120px;
+  height: var(--hero-arc-h);
   background: var(--paper);
   border-radius: 50% 50% 0 0;
   z-index: 0;
@@ -810,10 +816,43 @@ a {
   align-items: center;
 }
 
+/* ---- Desktop: the landing is exactly one viewport tall ------------
+   .hero__inner takes the leftover height so .hero__content can be a
+   full-height flex column; the auto top margin on the separator then
+   pushes the action group to the foot of it. The tagline keeps its own
+   bottom margin so that when the copy is taller than the viewport (a
+   short laptop window) the auto margin collapses to 0 and the two
+   groups still clear each other. */
 @media (min-width: 940px) {
+  .hero {
+    /* the arc only needs its own height; the desktop landing trades the
+       rest of the old 200px for copy height */
+    --hero-pad-bottom: 140px;
+
+    /* one viewport *plus* the arc, so the copy area clears the white
+       curve entirely instead of sharing the bottom 120px with it */
+    min-height: calc(100vh + var(--hero-arc-h));
+    min-height: calc(100svh + var(--hero-arc-h));
+    display: flex;
+    flex-direction: column;
+  }
+
   .hero__inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 48px;
+    flex: 1;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  /* Centre the copy in its full-height cell so it sits with equal
+     breathing room top and bottom, rather than being pinned to the foot. */
+  .hero__content {
+    justify-content: center;
+  }
+
+  .hero__content>.hero__tagline {
+    margin-bottom: var(--hero-group-gap);
   }
 }
 
@@ -930,16 +969,6 @@ a {
   animation-delay: 0.42s;
 }
 
-/* one separator today; the `~` rule re-times a second one if the copy
-   ever splits into three groups again */
-.hero__content>.hero__sep {
-  animation-delay: 0.54s;
-}
-
-.hero__content>.hero__sep~.hero__sep {
-  animation-delay: 0.78s;
-}
-
 .hero__content>.hero__support {
   animation-delay: 0.66s;
 }
@@ -986,7 +1015,8 @@ a {
    travels with the title rather than sitting off on its own. One line,
    always, at its natural width: it never wraps and is never scaled, so
    it is free to run past the copy column rather than be squeezed by
-   it. Group spacing comes from .hero__sep, not from a margin here. */
+   it. Group spacing comes from the tagline's own bottom margin on
+   desktop, not from a margin here. */
 .hero__tagline {
   color: rgba(255, 255, 255, 0.9);
   font-size: var(--hero-fs);
@@ -1002,14 +1032,6 @@ a {
 /* Hairline between the hero's three groups — identity / logistics /
    action. Full width of the copy column, and it owns the spacing on
    both sides so no group needs its own group-margin. */
-.hero__sep {
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.22);
-  margin: var(--hero-group-gap) 0;
-}
-
 /* ---- Group 3: action --------------------------------------------- */
 /* Who the room is for. The content carries the weight; the type stays
    quiet and unemphasised. */
@@ -1661,14 +1683,18 @@ a {
 
 /* ============================================================
    PULL-QUOTE
-   A tinted band between Why Attend and the agenda.
+   Two identical bands: one between the hero and Why Attend, one
+   between Why Attend and the agenda.
    ============================================================ */
 .pullquote {
   position: relative;
   overflow: hidden;
   isolation: isolate;
   background: var(--paper);
-  padding: 36px 0 24px;
+  /* --pq-pad  vertical breathing room around the quote; the band has no
+               other content, so this is the whole size control */
+  /* --pq-pad: 40px;
+  padding: var(--pq-pad) 0; */
 }
 
 /* Two subtle flowing waves behind the quote, drawn in quote-waves.js. */
@@ -1691,21 +1717,6 @@ a {
 /* Full-width, balanced lines, flanked by a gradient quote mark on each
    side. The marks are inline pseudo-elements so they hug the text at any
    line count rather than hanging in a fixed margin. */
-/* The summit's thesis, moved down out of the hero. It sets up the quote
-   under it, so it is deliberately the quieter of the two: body face,
-   body weight, italic, and roughly half the size. */
-.pullquote__lead {
-  font-family: var(--font-body);
-  font-size: clamp(15px, 1.9vw, 18px);
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.4;
-  color: var(--muted);
-  text-align: center;
-  text-wrap: balance;
-  margin: 0 0 18px;
-}
-
 .pullquote__text {
   font-family: var(--font-display);
   font-weight: 600;
@@ -1719,10 +1730,10 @@ a {
   text-wrap: balance;
 }
 
-/* The accent sentence sits on its own line, below the lead — a single
-   line on wide screens, wrapping only where it would otherwise overflow.
-   It keeps the lead's size and weight so the whole quote is one size with
-   one bold treatment; only the gradient fill sets it apart. */
+/* The accent half of the quote sits on its own line — a single line on
+   wide screens, wrapping only where it would otherwise overflow. It keeps
+   the size and weight of the line above so the whole quote is one size
+   with one bold treatment; only the gradient fill sets it apart. */
 .pullquote__accent {
   display: block;
   margin-top: 0.16em;
@@ -1751,9 +1762,15 @@ a {
   margin-left: 0.06em;
 }
 
+/* Pull-quote 2 closes a section; give it clearance below the quote so it
+   doesn't butt straight into what follows. Pull-quote 1 needs none. */
+.pullquote--tail {
+  padding-bottom: clamp(48px, 7vw, 96px);
+}
+
 @media (max-width: 620px) {
   .pullquote {
-    padding: 28px 0 20px;
+    --pq-pad: 30px;
   }
 }
 

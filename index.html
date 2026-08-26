@@ -87,15 +87,15 @@
         <span class="brand-logo" role="img" aria-label="The Moonshot Philanthropy Summit"></span>
       </a>
       <nav class="nav__links">
-        <a href="#speakers"><svg class="icon" aria-hidden="true">
-            <use href="#icon-speakers" />
-          </svg>Speakers</a>
-        <a href="#agenda"><svg class="icon" aria-hidden="true">
-            <use href="#icon-agenda" />
-          </svg>Agenda</a>
         <a href="#why"><svg class="icon" aria-hidden="true">
             <use href="#icon-why" />
           </svg>Why Attend</a>
+        <a href="#agenda"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Agenda</a>
+        <a href="#speakers"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</a>
         <a href="#about"><svg class="icon" aria-hidden="true">
             <use href="#icon-about" />
           </svg>About</a>
@@ -117,15 +117,15 @@
   </div>
   <div class="nav__mobile" id="navMobile">
     <div class="nav__mobile-inner">
-      <a href="#speakers"><svg class="icon" aria-hidden="true">
-          <use href="#icon-speakers" />
-        </svg>Speakers</a>
-      <a href="#agenda"><svg class="icon" aria-hidden="true">
-          <use href="#icon-agenda" />
-        </svg>Agenda</a>
       <a href="#why"><svg class="icon" aria-hidden="true">
           <use href="#icon-why" />
         </svg>Why Attend</a>
+      <a href="#agenda"><svg class="icon" aria-hidden="true">
+          <use href="#icon-agenda" />
+        </svg>Agenda</a>
+      <a href="#speakers"><svg class="icon" aria-hidden="true">
+          <use href="#icon-speakers" />
+        </svg>Speakers</a>
       <a href="#about"><svg class="icon" aria-hidden="true">
           <use href="#icon-about" />
         </svg>About</a>
@@ -177,8 +177,6 @@
                desktop; filled and animated as a 3D cylinder by
                hero-marquee.js. Sits under the tagline. -->
           <div class="hero-marquee" id="heroMarquee" aria-hidden="true"></div>
-
-          <span class="hero__sep" aria-hidden="true"></span>
 
           <!-- Group 2 — action: who it's for, the button, and the
                when/where lines beside it. -->
@@ -236,57 +234,20 @@
 
     <!-- ============ COIN CURTAIN ============
          A fixed overlay, not a section — it adds no height to the page.
-         The sequence is driven by the hero/speakers seam crossing the
+         The sequence is driven by the hero/pull-quote seam crossing the
          viewport, so it plays during the scroll you were doing anyway.
          Purely decorative, so hidden from assistive tech. -->
     <div class="coin-curtain" id="coinCurtain" aria-hidden="true">
       <div class="coin-curtain__coins" id="coinField"></div>
     </div>
 
-    <!-- ============ PULL-QUOTE ============ -->
+    <!-- ============ PULL-QUOTE 1 ============ -->
     <section class="pullquote" aria-label="Pull quote">
       <!-- two phased waves, drawn + animated in quote-waves.js -->
-      <canvas class="pullquote__waves" id="quoteWaves" aria-hidden="true"></canvas>
+      <canvas class="pullquote__waves" aria-hidden="true"></canvas>
       <div class="container">
-        <p class="pullquote__lead">Behaviour change is the last mile of every great idea.</p>
-        <blockquote class="pullquote__text">This is the moment for India's philanthropic capital to <span
-            class="pullquote__accent grad-text">stop funding programmes and start funding behaviour
-            change.</span></blockquote>
-      </div>
-    </section>
-
-    <!-- ============ SPEAKERS ============ -->
-    <section class="section" id="speakers">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-speakers" />
-          </svg>Speakers</p>
-        <h2 class="section__title">Speakers &amp; Facilitators</h2>
-        <p class="section__lede">Scientists, technologists, founders, funders and storytellers, in one room for the
-          first time, building a thesis for India's development sector in the age of AI. The question on the table: how
-          do you fund moonshot ideas that change behaviour at scale? They bring perspectives from across CSR,
-          philanthropy, government, AI and behavioural science — each a different vantage point on what it takes to move
-          evidence into action, innovation into adoption, and ambition into transformation that lasts.</p>
-
-        <div class="speakers-grid" id="speakersGrid"><!-- added by code in speakers.js --></div>
-      </div>
-    </section>
-
-    <!-- ============ AGENDA ============ -->
-    <section class="section section--tint" id="agenda">
-      <div class="container">
-        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
-            <use href="#icon-agenda" />
-          </svg>Agenda</p>
-        <h2 class="section__title">A Call to Think Bigger, Bet Bolder</h2>
-        <p class="section__lede">
-          Two hours, one throughline: why bold interventions matter, what behavioural science teaches us about
-          change that lasts, how AI helps it travel, how philanthropy should fund and measure it, and what the next
-          decade looks like if we get this right.
-        </p>
-
-        <div class="agenda-list" id="agendaList"><!-- injected by agenda.js --></div>
-        <p class="agenda-foot"><span>7:00 PM onwards · Drinks &amp; Conversations</span></p>
+        <blockquote class="pullquote__text">Behaviour change is <span class="pullquote__accent grad-text">the last mile
+            of every great idea.</span></blockquote>
       </div>
     </section>
 
@@ -326,6 +287,51 @@
             <p class="pillar__desc">Funding models and impact frameworks built to reward behaviour change.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ PULL-QUOTE 2 ============ -->
+    <section class="pullquote pullquote--tail" aria-label="Pull quote">
+      <canvas class="pullquote__waves" aria-hidden="true"></canvas>
+      <div class="container">
+        <blockquote class="pullquote__text">This is the moment for India's philanthropic capital to <span
+            class="pullquote__accent grad-text">stop funding programmes and start funding behaviour
+            change.</span></blockquote>
+      </div>
+    </section>
+
+    <!-- ============ AGENDA ============ -->
+    <section class="section section--tint" id="agenda">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-agenda" />
+          </svg>Agenda</p>
+        <h2 class="section__title">A Call to Think Bigger, Bet Bolder</h2>
+        <p class="section__lede">
+          Two hours, one throughline: why bold interventions matter, what behavioural science teaches us about
+          change that lasts, how AI helps it travel, how philanthropy should fund and measure it, and what the next
+          decade looks like if we get this right.
+        </p>
+
+        <div class="agenda-list" id="agendaList"><!-- injected by agenda.js --></div>
+        <p class="agenda-foot"><span>7:00 PM onwards · Drinks &amp; Conversations</span></p>
+      </div>
+    </section>
+
+    <!-- ============ SPEAKERS ============ -->
+    <section class="section" id="speakers">
+      <div class="container">
+        <p class="eyebrow eyebrow--icon"><svg class="icon" aria-hidden="true">
+            <use href="#icon-speakers" />
+          </svg>Speakers</p>
+        <h2 class="section__title">Speakers &amp; Facilitators</h2>
+        <p class="section__lede">Scientists, technologists, founders, funders and storytellers, in one room for the
+          first time, building a thesis for India's development sector in the age of AI. The question on the table: how
+          do you fund moonshot ideas that change behaviour at scale? They bring perspectives from across CSR,
+          philanthropy, government, AI and behavioural science — each a different vantage point on what it takes to move
+          evidence into action, innovation into adoption, and ambition into transformation that lasts.</p>
+
+        <div class="speakers-grid" id="speakersGrid"><!-- added by code in speakers.js --></div>
       </div>
     </section>
 

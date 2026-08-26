@@ -4,7 +4,7 @@ import { reducedMotion } from "./utils.js";
 /* ============================================================
    EFFECT: QUOTE_WAVES
 
-   Two flowing sine waves behind the pull-quote, drawn on a 2D canvas
+   Two flowing sine waves behind each pull-quote, drawn on a 2D canvas
    and animated in opposite phase so they weave past each other. The
    brand gradient runs along each line; overall subtlety is set by the
    canvas opacity in CSS (.pullquote__waves).
@@ -28,8 +28,11 @@ const WAVE_PHASE_B = Math.PI * 0.85;
 
 export function initQuoteWaves() {
   if (!EFFECTS.QUOTE_WAVES) return;
-  const canvas = document.getElementById("quoteWaves");
-  if (!canvas) return;
+  // one canvas per .pullquote band — each runs its own independent loop
+  document.querySelectorAll(".pullquote__waves").forEach(mount);
+}
+
+function mount(canvas) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 

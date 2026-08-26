@@ -11,7 +11,6 @@ const REVEAL_SELECTOR = [
   ".section__lede",
   ".why__copy",
   ".pillar",
-  ".pullquote__lead",
   ".pullquote__text",
   ".speaker-card",
   ".agenda-item",
