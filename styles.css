@@ -33,8 +33,8 @@
      levels separate by weight as well as size. */
   --fs-title: clamp(32px, 4.4vw, 44px);
   /* Tier 1 — section headings */
-  --fs-lede: 18px;
-  /* Tier 2 — section intro paragraph */
+  --fs-lede: 16px;
+  /* Tier 2 — section intro paragraph (Body Text: 16px mobile → 18px desktop) */
   --fs-card-title: 17px;
   /* Tier 3 — card headings */
   --fs-card-body: 14px;
@@ -56,6 +56,8 @@
 @media (min-width: 1024px) {
   :root {
     --nav-h: 104px;
+    --fs-lede: 18px;
+    /* Tier 2 — section intro paragraph (desktop) */
     --fs-card-title: 20px;
     /* Tier 3 — card headings (desktop) */
     --fs-card-body: 16px;
@@ -960,7 +962,7 @@ a {
    <h1> keeps the summit name in the document outline; the SVG carries it
    as alt text. Scales with the copy column, capped at its natural width. */
 .hero__logo {
-  margin: 0 0 var(--hero-item-gap);
+  margin: 0 0 calc(var(--hero-item-gap) + 16px);
 }
 
 .hero__logo img {
@@ -2364,6 +2366,15 @@ a {
 .fx-floating-cta .floating-cta:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 40px -10px rgba(174, 30, 80, 0.66);
+}
+
+/* Desktop already shows the nav's Request-Invite link (the burger folds
+   out below this same 1024px breakpoint), so the floating pill would only
+   duplicate it — hide it once the full nav is visible. */
+@media (min-width: 1024px) {
+  .fx-floating-cta .floating-cta {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
