@@ -1853,38 +1853,27 @@ a {
 /* Two stacked blocks now: the summit overview, then the CSBC panel. */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
 }
 
-.about-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 32px;
-}
-
-.about-card h3 {
+.about-col h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-card-title);
-  margin: 0 0 14px;
+  font-weight: 700;
+  font-size: var(--fs-title);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
 }
 
-.about-card p {
+.about-col p {
   color: var(--muted);
-  font-size: var(--fs-card-body);
+  font-size: 18px;
   margin: 0 0 14px;
 }
 
-.about-card p:last-child {
+.about-col p:last-child {
   margin-bottom: 0;
-}
-
-.about-card--org {
-  grid-column: 1 / -1;
-  background: var(--grad-soft);
-  border-color: transparent;
 }
 
 .org-logos {
@@ -1896,6 +1885,7 @@ a {
 @media (max-width: 760px) {
   .about-grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
 }
 
@@ -2312,35 +2302,6 @@ a {
 .fx-magnetic .btn {
   transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
-}
-
-/* ---- LIQUID_GLASS -------------------------------------------------
-   The CSBC card becomes a frosted glass panel: a translucent gradient
-   fill with a backdrop blur, and a gradient border. `border-image`
-   would give the gradient border in one line but ignores
-   `border-radius` and squares off the corners, so instead the border
-   is a ::before ring — padding sets its thickness, the two-layer
-   mask keeps only that ring visible, and `border-radius: inherit`
-   keeps it concentric with the card's rounded corners. */
-.fx-liquidglass .about-card--org {
-  position: relative;
-  border-color: transparent;
-  -webkit-backdrop-filter: blur(14px) saturate(1.5);
-  backdrop-filter: blur(14px) saturate(1.5);
-}
-
-.fx-liquidglass .about-card--org::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  pointer-events: none;
-  background: linear-gradient(140deg, var(--bright) 0%, var(--mid) 50%, var(--dark) 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
 }
 
 /* ---- SCRAMBLE_TEXT ------------------------------------------------

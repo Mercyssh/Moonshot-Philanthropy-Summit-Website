@@ -71,7 +71,7 @@ export const EFFECTS = {
    HERO_GLOW: true,
    HERO_ROTATOR: true,
    HERO_MARQUEE: true,
-   LIQUID_GLASS: true,
+   LIQUID_GLASS: false,
    TIMELINE_GLOW: true,
    QUOTE_WAVES: true,
    FLOATING_CTA: true,
