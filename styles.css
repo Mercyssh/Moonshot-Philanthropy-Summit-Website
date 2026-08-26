@@ -822,10 +822,6 @@ a {
   .hero__content {
     justify-content: center;
   }
-
-  .hero__content>.hero__tagline {
-    margin-bottom: var(--hero-group-gap);
-  }
 }
 
 /* Reserved for the hero graphic. Sits above .hero__glow so whatever
@@ -941,6 +937,10 @@ a {
   animation-delay: 0.42s;
 }
 
+.hero__content>.hero__divider {
+  animation-delay: 0.54s;
+}
+
 .hero__content>.hero__support {
   animation-delay: 0.66s;
 }
@@ -999,6 +999,16 @@ a {
   width: max-content;
   max-width: none;
   margin: 0;
+}
+
+/* Horizontal hairline dividing the identity group from the action group.
+   Spans the copy column (align-self:stretch, since the column itself is
+   flex-start-aligned) and owns the group gap on both sides. */
+.hero__divider {
+  align-self: stretch;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: var(--hero-group-gap) 0;
 }
 
 /* Hairline between the hero's three groups — identity / logistics /
