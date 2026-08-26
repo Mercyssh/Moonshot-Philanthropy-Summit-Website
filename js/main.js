@@ -6,8 +6,7 @@
    open its file rather than pulling the whole codebase into memory.
 
    Effect on/off switches and the shared config live in config.js;
-   shared helpers (finePointer, reducedMotion, clamp, seededRandom)
-   in utils.js.
+   shared helpers (finePointer, reducedMotion, clamp) in utils.js.
    ============================================================ */
 import { initScrollStart } from "./scroll-start.js";
 import { renderSpeakers } from "./speakers.js";
@@ -15,16 +14,13 @@ import { renderAgenda, initAgendaRail } from "./agenda.js";
 import { initPillarSteps } from "./pillars.js";
 import { initQuoteWaves } from "./quote-waves.js";
 import { initNav } from "./nav.js";
-import { initCountdown } from "./countdown.js";
 import { initHeroStars } from "./hero-stars.js";
 import { initScrollReveal } from "./scroll-reveal.js";
 import { initInviteForm } from "./invite-form.js";
 import { initMagneticButtons } from "./magnetic-buttons.js";
 import { initHeroGlow } from "./hero-glow.js";
-import { initCoinCurtain } from "./coin-curtain.js";
 import { initHeroRotator } from "./hero-rotator.js";
 import { initHeroMarquee } from "./hero-marquee.js";
-import { initSpeakerTilt } from "./speaker-tilt.js";
 import { initScrambleText } from "./scramble-text.js";
 import { initLiquidGlass } from "./liquid-glass.js";
 import { initTimelineGlow } from "./timeline-glow.js";
@@ -35,17 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSpeakers();
   renderAgenda();
   initNav();
-  // Countdown disabled — leaves #heroCountdown hidden. Re-enable by restoring this call.
-  // initCountdown();
   initHeroStars();
   initScrollReveal();
   initInviteForm();
   initMagneticButtons();
   initHeroGlow();
-  initCoinCurtain();
   initHeroRotator();
   initHeroMarquee();
-  initSpeakerTilt();
   initScrambleText();
   initLiquidGlass();
   initTimelineGlow();

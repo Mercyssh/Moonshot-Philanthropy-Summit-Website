@@ -35,8 +35,6 @@ export const HERO_IMAGES = [
 
    MAGNETIC_BUTTONS  Buttons drift toward the cursor, snap back on
                      leave. Desktop pointers only.
-   SPEAKER_TILT      Speaker photos rotate slightly toward the
-                     cursor. On touch devices they sway gently.
    SCRAMBLE_TEXT     Headings resolve out of random glyphs the first
                      time each one comes into view.
    CURSOR_SPECKS     The hero specks scatter away from the cursor. On
@@ -44,9 +42,6 @@ export const HERO_IMAGES = [
    HERO_GLOW         A soft pool of light follows the cursor across the
                      hero's gradient, with easing. Touch devices and
                      reduced-motion get a slow automatic drift instead.
-   COIN_CURTAIN      3D coins rise across the hero/speakers seam,
-                     wiping the gradient away to the paper surface
-                     beneath. Fewer coins on small screens.
    HERO_ROTATOR      A pre-rendered 360° turntable of the hero shape,
                      stopping at four 90° positions with an eased
                      turn between them. Desktop only (.hero__stage
@@ -71,11 +66,9 @@ export const HERO_IMAGES = [
    ============================================================ */
 export const EFFECTS = {
    MAGNETIC_BUTTONS: true,
-   SPEAKER_TILT: false,
    SCRAMBLE_TEXT: true,
    CURSOR_SPECKS: true,
    HERO_GLOW: true,
-   COIN_CURTAIN: false,
    HERO_ROTATOR: true,
    HERO_MARQUEE: true,
    LIQUID_GLASS: true,

@@ -186,17 +186,6 @@
           <p class="hero__support">If you're a CSR head, managing a family office's philanthropy, or leading an NGO,
             apply to be one of the 50 selected minds in this conversation.</p>
 
-          <!-- Countdown disabled: initCountdown() is no longer called in main.js,
-               so this stays hidden. Markup retained to switch it back on later. -->
-          <div class="hero__countdown" id="heroCountdown" hidden>
-            <div class="cd__unit"><span class="cd__num" data-cd="days">0</span><span class="cd__label">Days</span></div>
-            <div class="cd__unit"><span class="cd__num" data-cd="hours">0</span><span class="cd__label">Hrs</span></div>
-            <div class="cd__unit"><span class="cd__num" data-cd="minutes">0</span><span class="cd__label">Min</span>
-            </div>
-            <div class="cd__unit"><span class="cd__num" data-cd="seconds">0</span><span class="cd__label">Sec</span>
-            </div>
-          </div>
-
           <div class="hero__action">
             <div class="hero__cta">
               <a href="#invite" class="btn btn--primary">Request an Invite</a>
@@ -234,15 +223,6 @@
         <div class="hero__stage" aria-hidden="true"></div>
       </div>
     </section>
-
-    <!-- ============ COIN CURTAIN ============
-         A fixed overlay, not a section — it adds no height to the page.
-         The sequence is driven by the hero/pull-quote seam crossing the
-         viewport, so it plays during the scroll you were doing anyway.
-         Purely decorative, so hidden from assistive tech. -->
-    <div class="coin-curtain" id="coinCurtain" aria-hidden="true">
-      <div class="coin-curtain__coins" id="coinField"></div>
-    </div>
 
     <!-- ============ PULL-QUOTE 1 ============ -->
     <section class="pullquote" aria-label="Pull quote">
