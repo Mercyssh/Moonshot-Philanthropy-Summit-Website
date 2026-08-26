@@ -1026,17 +1026,28 @@ a {
   display: flex;
   flex-direction: column;
   gap: var(--evt-gap);
-  font-size: var(--hero-fs);
+  /* Fixed, one step below the surrounding hero copy — 16px desktop,
+     14px on phones (see the max-width:700px block). Icons are em-sized,
+     so they track it. */
+  font-size: 16px;
   color: #fff;
 }
 
 .hero__event-line {
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
   gap: 0 8px;
   margin: 0;
   line-height: 1.25;
+}
+
+/* Stacks the two parts of a line — date over time, venue over format —
+   to the right of the icon, so the second row aligns under the first
+   rather than under the icon. */
+.hero__event-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* Sized off the line's own font-size so it tracks --hero-fs. `baseline`
@@ -1062,10 +1073,6 @@ a {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.72);
-}
-
-.hero__event-dot {
-  color: rgba(255, 255, 255, 0.45);
 }
 
 /* The button leads and the when/where lines sit beside it, split by a
@@ -1159,6 +1166,10 @@ a {
 
   .hero__support {
     margin-top: var(--hero-group-gap);
+  }
+
+  .hero__event {
+    font-size: 14px;
   }
 
   /* No room for button-beside-lines on a phone: stack the button over the
