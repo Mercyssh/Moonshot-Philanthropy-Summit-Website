@@ -1150,6 +1150,17 @@ a {
     max-width: 100%;
   }
 
+  /* Drop the identity/action divider on phones; the support copy owns the
+     group gap that the divider's margins used to provide, so the marquee
+     and the copy stay a group-step apart with no line between them. */
+  .hero__divider {
+    display: none;
+  }
+
+  .hero__support {
+    margin-top: var(--hero-group-gap);
+  }
+
   /* No room for button-beside-lines on a phone: stack the button over the
      when/where lines as a plain column with an even gap. */
   .hero__action {
@@ -1175,7 +1186,9 @@ a {
    --marquee-height  height of the ribbon; this is the size control.
                      Card widths follow from it via the 3:2 aspect.
    --marquee-gap     space between cards
-   --marquee-speed   loop duration (higher = slower drift)
+   --marquee-speed   auto-drift duration — seconds for one copy to pass
+                     (higher = slower); read by hero-marquee.js, which
+                     owns the scroll so the ribbon can also be dragged
    --marquee-tint    strength of the brand tint over the photos (0..1) */
 .hero-marquee {
   display: none;
@@ -1185,7 +1198,7 @@ a {
   .fx-hero-marquee .hero-marquee {
     --marquee-height: 148px;
     --marquee-gap: 14px;
-    --marquee-speed: 32s;
+    --marquee-speed: 50s;
     --marquee-tint: 0.5;
 
     display: block;
@@ -1197,18 +1210,28 @@ a {
     /* slot the entrance between the tagline (0.42s) and the date (0.62s) */
     animation-delay: 0.52s;
     overflow: hidden;
+    /* horizontal drags swipe the ribbon (handled in JS); vertical drags
+       still scroll the page */
+    touch-action: pan-y;
+    cursor: grab;
     /* dissolve the ribbon ends into the hero gradient */
     -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
     mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   }
 
+  .fx-hero-marquee .hero-marquee.is-dragging {
+    cursor: grabbing;
+  }
+
+  /* The scroll transform is driven by hero-marquee.js (one rAF loop shared
+     by the auto-drift and the drag), so there is no CSS animation here. */
   .fx-hero-marquee .hero-marquee__track {
     display: flex;
     gap: var(--marquee-gap);
     width: max-content;
     height: 100%;
-    animation: heroMarquee var(--marquee-speed) linear infinite;
     will-change: transform;
+    user-select: none;
   }
 
   /* Height drives the card; width follows from the 3:2 aspect. */
@@ -1217,7 +1240,6 @@ a {
     position: relative;
     height: 100%;
     aspect-ratio: 3 / 2;
-    border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
@@ -1226,6 +1248,8 @@ a {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    -webkit-user-drag: none;
+    user-select: none;
   }
 
   /* Brand tint so the photos live inside the gradient rather than
@@ -1240,17 +1264,6 @@ a {
     pointer-events: none;
   }
 }
-
-@keyframes heroMarquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
 
 /* ============================================================
    SECTIONS (shared)
