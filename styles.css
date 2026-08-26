@@ -910,6 +910,10 @@ a {
   animation-delay: 0.40s;
 }
 
+.hero__content>.hero__tagline-accent {
+  animation-delay: 0.47s;
+}
+
 .hero__content>.hero__event {
   animation-delay: 0.54s;
 }
@@ -945,7 +949,21 @@ a {
 .hero__tagline {
   color: rgba(255, 255, 255, 0.85);
   font-size: clamp(15px, 2vw, 18px);
-  margin: 0 0 20px;
+  margin: 0 0 6px;
+}
+
+/* Second tagline line — the accent thesis. The hero sits on the brand
+   gradient, so a gradient fill (.grad-text) would vanish into the
+   background; a warm, high-luminance tint reads across the whole
+   orange→magenta→purple ramp instead. Kept a touch smaller than the
+   tagline so it ranks just below it: logo > tagline > this. */
+.hero__tagline-accent {
+  color: #FFE3CE;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(14px, 1.85vw, 16.5px);
+  letter-spacing: 0.005em;
+  margin: 0 0 22px;
 }
 
 /* Qualifier above the CTA — who the room is for. Set as body copy,

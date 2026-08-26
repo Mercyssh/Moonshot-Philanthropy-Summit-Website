@@ -1,46 +1,34 @@
 /* ============================================================
    AGENDA DATA + RENDER
-   Six "movements", each a session card: a format tag, a title, a
-   two-line descriptor and the speaker role(s). Speakers are role
-   placeholders until the line-up is confirmed — swap them for real
-   names as they lock in.
+   Each session card holds a format tag, a title and a short
+   descriptor. Add or reorder cards here — the timeline rail refits
+   itself automatically.
    ============================================================ */
 export const AGENDA = [
   {
     tag: "Opening Keynote",
-    title: "How Behavioural Science and AI Can Solve Complex Problems",
-    desc: "Why India's hardest challenges have plateaued, and what becomes possible when moonshot thinking converges with behavioural science and AI. The intellectual foundation for everything that follows.",
-    speakers: "Director, CSBC, Ashoka University",
-  },
-  {
-    tag: "Live Case Narrative",
-    title: "Intervention to Impact: A Real Life Story",
-    desc: "What a bold intervention actually changes on the ground – told first by the person whose life it changed, then decoded by the director who designed it. Moonshot impact is not a theory; it reshapes real lives.",
-    speakers: "Programme Beneficiary · Project Director, CSBC",
-  },
-  {
-    tag: "Live Brainstorming Session",
-    title: "Why AI is an Amplifier",
-    desc: "A builder, an implementer and a technology thinker workshop in real time: what does it take for AI to carry bold interventions across India's complexity of language, infrastructure, trust and culture? Not a rehearsed panel – a working session.",
-    speakers: "Founder, AI Start-up · Head, Leading NGO · Opinion Leader on Technology",
-  },
-  {
-    tag: "Panel",
-    title: "Reimagining Metrics",
-    desc: "If moonshots need a new funding structure, they need a new measure of success. A storyteller, a CSR insider and a venture capitalist on metrics that capture transformation rather than only output – and portfolios that satisfy the board while backing the bold.",
-    speakers: "Leader, Media & Creative Enterprise · CSR Committee Leader · Venture Capitalist",
-  },
-  {
-    tag: "Keynote · Vision Lab",
-    title: "The Future We Can Build",
-    desc: "A vivid, specific picture of what five to ten years of moonshot investment could build in India's most critical cause areas. Ambitious, grounded in current research trajectories, and closer than you think.",
-    speakers: "Vision Lab Keynote",
+    title: "The Anatomy of Behaviour Change",
+    desc: "Why India's hardest challenges have plateaued, and what opens up when behavioural science, moonshot thinking and AI meet. The foundation for everything that follows.",
   },
   {
     tag: "Keynote",
-    title: "Closing Keynote",
-    desc: "A founder who has built at scale, on the asymmetric bet: why this is the moment for India's philanthropic capital to move from safe, incremental giving to bold, catalytic investment.",
-    speakers: "Established Founder & Entrepreneur",
+    title: "The Case for Investing in Innovation",
+    desc: "Why this is the moment for India's philanthropic capital to stop funding programmes and start funding behaviour change.",
+  },
+  {
+    tag: "Live Brainstorming Session",
+    title: "Behaviour Meets AI: The Amplifier Effect",
+    desc: "A builder, an implementer and a designer work it out live: what does AI actually need to personalise and scale behavioural interventions across India's tangle of language, infrastructure, trust and culture? No rehearsed panel – a working session, in real time.",
+  },
+  {
+    tag: "Panel",
+    title: "Measuring What Matters",
+    desc: "Moonshots need a new funding structure, which means they need a new measure of success. A behavioural scientist, a CSR insider and a venture capitalist debate how behavioural outcomes can sit alongside outputs, and how a portfolio can satisfy the board while still backing the bold.",
+  },
+  {
+    tag: "Closing Keynote",
+    title: "The Future We Can Create",
+    desc: "A closing keynote address on the future we can create together.",
   },
 ];
 
