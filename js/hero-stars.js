@@ -16,7 +16,7 @@ export function initHeroStars() {
   const field = document.getElementById("heroStars");
   if (!field) return;
 
-  const COUNT = 26;
+  const COUNT = 10;
   const JITTER = 0.15; // random impulse per frame
   const DAMPING = 0.98; // velocity decay
   const SPRING = 0.0008; // pull back toward the anchor point
@@ -37,14 +37,14 @@ export function initHeroStars() {
 
   for (let i = 0; i < COUNT; i++) {
     const el = document.createElement("span");
-    const size = 2 + Math.random() * 3;
+    const size = 1.5 + Math.random() * 2;
     const topPct = Math.random() * 90;
     const leftPct = Math.random() * 100;
     el.style.top = `${topPct}%`;
     el.style.left = `${leftPct}%`;
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
-    el.style.opacity = (0.2 + Math.random() * 0.5).toFixed(2);
+    el.style.opacity = (0.12 + Math.random() * 0.22).toFixed(2);
     frag.appendChild(el);
     // topPct/leftPct are kept so the anchor can be recomputed on resize
     specks.push({ el, topPct, leftPct, ax: 0, ay: 0, dx: 0, dy: 0, vx: 0, vy: 0 });
