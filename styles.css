@@ -1287,13 +1287,6 @@ a {
   background: var(--paper-2);
 }
 
-/* Agenda follows pull-quote 2, which is now the same tint band; drop the
-   top padding so the two read as one continuous block rather than a double
-   gap. */
-#agenda {
-  padding-top: 0;
-}
-
 /* ------------------------------------------------------------
    SECTION EDGES
 
@@ -1547,15 +1540,6 @@ a {
 .pullquote__accent::after {
   content: "\201D";
   margin-left: 0.06em;
-}
-
-/* Pull-quote 2 closes a section; give it symmetric clearance around the
-   quote and the tint band so it reads as its own block. Pull-quote 1 needs
-   none. */
-.pullquote--tail {
-  background: var(--paper-2);
-  padding-top: clamp(48px, 7vw, 96px);
-  padding-bottom: clamp(48px, 7vw, 96px);
 }
 
 @media (max-width: 620px) {
