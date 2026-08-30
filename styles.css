@@ -1552,6 +1552,12 @@ a {
 /* ============================================================
    SPEAKERS
    ============================================================ */
+  
+/* This override is only required if there is no pull-quote at the top of the section */
+#speakers{
+  padding-top: 0px;
+}
+
 /* Explicit column counts rather than auto-fill: with 6 speakers the
    auto-fill track resolved to 4 columns and left a ragged half-row. */
 .speakers-grid {

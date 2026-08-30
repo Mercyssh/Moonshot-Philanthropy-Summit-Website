@@ -12,7 +12,7 @@ export const AGENDA = [
   },
   {
     tag: "Keynote",
-    title: "The Case for Investing in Innovation",
+    title: "The Case for Funding Innovation ",
     desc: "Why this is the moment for India's philanthropic capital to stop funding programmes and start funding behaviour change.",
   },
   {
