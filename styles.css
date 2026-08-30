@@ -1515,8 +1515,9 @@ a {
    the size and weight of the line above so the whole quote is one size
    with one bold treatment; only the gradient fill sets it apart. */
 .pullquote__accent {
-  display: block;
-  margin-top: 0.16em;
+  /* Inline, not block: keeping it inline lets `text-wrap: balance` on the
+     parent balance the black and gradient text together as one run instead
+     of balancing each separately. */
   font-size: inherit;
   font-weight: inherit;
 }
