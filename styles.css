@@ -1502,7 +1502,7 @@ a {
   font-weight: 600;
   /* Higher floor so the quote stays a consistent header size on phones
      rather than collapsing toward body text. */
-  font-size: clamp(24px, 4.4vw, 32px);
+  font-size: var(--fs-title);
   line-height: 1.28;
   letter-spacing: -0.01em;
   margin: 0;
