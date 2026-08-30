@@ -37,7 +37,7 @@
   /* Tier 2 — section intro paragraph (Body Text: 16px mobile → 18px desktop) */
   --fs-card-title: 17px;
   /* Tier 3 — card headings */
-  --fs-card-body: 14px;
+  --fs-card-body: 16px;
   /* Tier 4 — card descriptions */
 
   --radius: 18px;
@@ -60,7 +60,7 @@
     /* Tier 2 — section intro paragraph (desktop) */
     --fs-card-title: 20px;
     /* Tier 3 — card headings (desktop) */
-    --fs-card-body: 16px;
+    --fs-card-body: 18px;
     /* Tier 4 — card descriptions (desktop) */
   }
 }
