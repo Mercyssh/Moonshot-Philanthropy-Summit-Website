@@ -1870,7 +1870,7 @@ a {
 
 .about-col p {
   color: var(--muted);
-  font-size: 18px;
+  font-size: var(--fs-lede);
   margin: 0 0 14px;
 }
 
