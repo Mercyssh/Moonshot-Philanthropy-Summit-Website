@@ -9,7 +9,6 @@
    ============================================================ */
 export const SPEAKERS = [
   { name: "Dr. Pavan Mamidi", role: "Director, Ashoka University's Centre for Social and Behaviour Change", summit: "The anatomy of behaviour change", photo: "assets/speakers/Pavan Mamidi.png" },
-  { name: "Dr. Sharon Barnhardt", role: "Director - Research, Ashoka University's Centre for Social and Behaviour Change", summit: "The science of behaviour change that lasts", photo: "assets/speakers/placeholder.png" },
   { name: "Vanshika Goenka", role: "CEO at Christy & Director at Welspun Corp", summit: "How compliance and courage go together", photo: "assets/speakers/Vanshika Goenka.png" },
   { name: "Dr. Maneesh Mishra", role: "VP and Head - Skills, Naveen Jindal Foundation, Jindal Steel", summit: "The ground reality of scale", photo: "assets/speakers/Maneesh Mishra.png" },
   { name: "Aayush Ailawadi", role: "AI & Tech Opinion Leader", summit: "What it takes for AI to amplify impact", photo: "assets/speakers/Aayush Ailawadi.png" },
@@ -20,6 +19,8 @@ export const SPEAKERS = [
   { name: "Nirav Khambhati", role: "Partner, The Blended Finance Company", summit: "The case for funding innovation", photo: "assets/speakers/Nirav Khambhati.png" },
   { name: "Bilal Jaleel", role: "Director, WTF Media", summit: "How narrative can be an impact metric", photo: "assets/speakers/Bilal Jaleel.png" },
 ];
+
+//{ name: "Dr. Sharon Barnhardt", role: "Director - Research, Ashoka University's Centre for Social and Behaviour Change", summit: "The science of behaviour change that lasts", photo: "assets/speakers/placeholder.png" },
 
 // Photos are supplied already framed, so they render as a plain <img>.
 const SPEAKER_PLACEHOLDER = "assets/speakers/placeholder.png";
